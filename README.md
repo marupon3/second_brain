@@ -8,7 +8,7 @@ Claude Code（Claude Codeエージェント）とObsidianを組み合わせた�
 
 - OS: Windows 11（64bit）
 - Python: 3.11.9（厳密固定。`pyproject.toml`の`requires-python`で指定）
-- パッケージ管理: `uv`（主）、`pip`（フォールバック）
+- パッケージ管理: `uv`（主。仮想環境`venv`内にインストールする）、`pip`（フォールバック）
 - Git
 - Node.js（一部のClaude Code関連ツールで必要な場合のみ）
 - Claude Code（Pro以上のプラン）
@@ -58,6 +58,28 @@ Claude Code（Claude Codeエージェント）とObsidianを組み合わせた�
 ```
 copy .env.example .env
 ```
+
+## 仮想環境（venv）とuvの運用ルール
+
+本プロジェクトでは仮想環境フォルダ名を**`venv`（ドット無し）に固定**する。`.venv`は作成しない。
+
+1. 仮想環境の作成とuvのインストール（uvはグローバルではなく`venv`内に入れる）
+
+   ```powershell
+   python -m venv venv
+   venv\Scripts\activate
+   python -m pip install uv
+   ```
+
+2. `uv sync`等のuvプロジェクトコマンドは既定でプロジェクト直下の`.venv`を対象にし、有効化中の仮想環境を自動では見ない仕様のため、環境変数`UV_PROJECT_ENVIRONMENT`で`venv`を明示的に指定する（`.venv`が誤って新規作成されるのを防ぐ）。
+
+   ```powershell
+   setx UV_PROJECT_ENVIRONMENT "venv"
+   ```
+
+   `setx`はこれ以降に新しく開いたPowerShellから反映される。設定後はウィンドウを開き直し、`echo $env:UV_PROJECT_ENVIRONMENT`で`venv`と表示されることを確認する。
+
+3. `venv`を作り直した場合は、手順1（uvの再インストール）を再度行う。
 
 ## 起動・利用コマンド
 
