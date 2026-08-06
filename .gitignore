@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# 環境変数（実値は絶対にコミットしない）
+.env
+
+# Obsidian（ワークスペース固有の設定は個人環境依存のため除外）
+.obsidian/workspace*
+.obsidian/cache
+
+# OS
+Thumbs.db
+.DS_Store
