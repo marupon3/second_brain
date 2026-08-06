@@ -28,6 +28,7 @@ DIRECTORIES = [
     "obsidian_vault/projects",
     "obsidian_vault/areas",
     "obsidian_vault/resources",
+    "obsidian_vault/private",  # ローカル専用（.gitignoreで除外、リモートには含めない）
     "templates",
     ".claude/skills/daily",
     ".claude/skills/weekly",

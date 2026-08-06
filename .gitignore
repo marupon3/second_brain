@@ -1,5 +1,6 @@
 # Python
 .venv/
+venv/
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -7,6 +8,9 @@ __pycache__/
 
 # 環境変数（実値は絶対にコミットしない）
 .env
+
+# ローカル専用の非公開ノート（パスワード等を含むため、リモートには一切含めない）
+obsidian_vault/private/
 
 # Obsidian（ワークスペース固有の設定は個人環境依存のため除外）
 .obsidian/workspace*

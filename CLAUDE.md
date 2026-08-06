@@ -19,6 +19,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 | `obsidian_vault/daily/` | 人間+AI | 日次ノート（セクション分離: 人間メモ/AI生成/タスク） |
 | `weekly/` | AI | 週次レビュー（`/weekly`で生成） |
 | `obsidian_vault/projects/` `obsidian_vault/areas/` `obsidian_vault/resources/` | 人間+AI | 補助的な整理用フォルダ |
+| `obsidian_vault/private/` | 人間のみ | パスワード等の非公開情報を含むローカル専用ノート。`.gitignore`で除外され、リモートには一切push・同期しない |
 | `templates/` | 人間+AI | Daily Note等の固定テンプレート |
 | `.claude/skills/` | - | カスタムSkills定義 |
 | `scripts/` | - | Python 3.11.9によるセットアップ・環境チェック用ユーティリティ |
@@ -35,6 +36,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 - **`obsidian_vault/raw/`配下のファイルはAIが編集・削除してはならない**。`obsidian_vault/raw/`は人間のみが書き込む不変ソースである。
 - 破壊的操作（ファイルの削除・大規模な書き換え）は、実行前に必ずユーザーに確認を取ること。無断で実行しない。
 - APIキー等の秘密情報をMarkdownファイルやコード中に直接書き込まない（`.env`または環境変数を使うこと）。
+- `obsidian_vault/private/`配下の内容を`wiki/`等のコミット対象ファイルに転記・引用しない（パスワード等の非公開情報が漏洩するため）。
 - `/lint`が検出した問題を無断で自動修正しない（検出・報告のみとする方針、`docs/requirements.md` 6節Q3）。
 
 ## 5. 優先するSkills
