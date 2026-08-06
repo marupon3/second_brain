@@ -100,6 +100,7 @@ second_brain/
 │   ├── raw/                # 不変ソース（人間のみ編集）
 │   ├── daily/               # 日次ノート
 │   ├── projects/ areas/ resources/
+│   ├── private/             # ローカル専用（.gitignoreで除外、リモート非同期）
 │   └── templates/          # 固定テンプレート
 ├── wiki/                    # AI生成知識ベース
 ├── weekly/                  # 週次レビュー
