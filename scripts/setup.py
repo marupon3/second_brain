@@ -15,18 +15,19 @@ import argparse
 import sys
 from pathlib import Path
 
-# docs/basic-design.md 2節（v1.1, weekly/追加済み）に対応。
+# docs/basic-design.md 2節（v1.1, weekly/追加済み。ユーザーが直接情報を追加する
+# raw/daily/projects/areas/resourcesはobsidian_vault/配下に集約）に対応。
 DIRECTORIES = [
-    "raw/articles",
-    "raw/notes",
-    "raw/pdfs",
-    "raw/personal",
+    "obsidian_vault/raw/articles",
+    "obsidian_vault/raw/notes",
+    "obsidian_vault/raw/pdfs",
+    "obsidian_vault/raw/personal",
     "wiki",
-    "daily",
+    "obsidian_vault/daily",
     "weekly",
-    "projects",
-    "areas",
-    "resources",
+    "obsidian_vault/projects",
+    "obsidian_vault/areas",
+    "obsidian_vault/resources",
     "templates",
     ".claude/skills/daily",
     ".claude/skills/weekly",

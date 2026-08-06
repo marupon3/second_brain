@@ -1,7 +1,7 @@
 ---
 title: Obsidian
 updated: 2026-08-06
-source: raw/notes/2026-08-06-obsidian-second-brain-memo.md
+source: obsidian_vault/raw/notes/2026-08-06-obsidian-second-brain-memo.md
 ---
 
 # Obsidian

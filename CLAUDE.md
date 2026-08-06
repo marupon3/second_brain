@@ -10,13 +10,16 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 2. フォルダ構造
 
+`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/projects/areas/resources）をまとめた配下ディレクトリ。Obsidianのvault自体はリポジトリ直下（`second_brain/`）を開くため、`wiki/` `weekly/` `templates/`とあわせて同一Vault内で扱われる。
+
 | フォルダ | 管理者 | 役割 |
 |---|---|---|
-| `raw/` | 人間のみ | 不変の原文・スクラップ。articles/notes/pdfs/personalに分類 |
-| `wiki/` | AI | `raw/`から生成した要約・概念・エンティティページ。index.md/log.mdを含む |
-| `daily/` | 人間+AI | 日次ノート（セクション分離: 人間メモ/AI生成/タスク） |
+| `obsidian_vault/raw/` | 人間のみ | 不変の原文・スクラップ。articles/notes/pdfs/personalに分類 |
+| `wiki/` | AI | `obsidian_vault/raw/`から生成した要約・概念・エンティティページ。index.md/log.mdを含む |
+| `obsidian_vault/daily/` | 人間+AI | 日次ノート（セクション分離: 人間メモ/AI生成/タスク） |
 | `weekly/` | AI | 週次レビュー（`/weekly`で生成） |
-| `projects/` `areas/` `resources/` `templates/` | 人間+AI | 補助的な整理用フォルダ |
+| `obsidian_vault/projects/` `obsidian_vault/areas/` `obsidian_vault/resources/` | 人間+AI | 補助的な整理用フォルダ |
+| `templates/` | 人間+AI | Daily Note等の固定テンプレート |
 | `.claude/skills/` | - | カスタムSkills定義 |
 | `scripts/` | - | Python 3.11.9によるセットアップ・環境チェック用ユーティリティ |
 
@@ -29,7 +32,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 4. 禁止事項
 
-- **`raw/`配下のファイルはAIが編集・削除してはならない**。`raw/`は人間のみが書き込む不変ソースである。
+- **`obsidian_vault/raw/`配下のファイルはAIが編集・削除してはならない**。`obsidian_vault/raw/`は人間のみが書き込む不変ソースである。
 - 破壊的操作（ファイルの削除・大規模な書き換え）は、実行前に必ずユーザーに確認を取ること。無断で実行しない。
 - APIキー等の秘密情報をMarkdownファイルやコード中に直接書き込まない（`.env`または環境変数を使うこと）。
 - `/lint`が検出した問題を無断で自動修正しない（検出・報告のみとする方針、`docs/requirements.md` 6節Q3）。
@@ -38,7 +41,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 初期実装で確定しているSkillsは以下の5つ（`docs/basic-design.md` 3.2節）。
 
-- `/ingest` : `raw/`の新規ファイルを読み、`wiki/`に構造化ページを生成する
+- `/ingest` : `obsidian_vault/raw/`の新規ファイルを読み、`wiki/`に構造化ページを生成する
 - `/daily` : 今日のDaily Noteを生成・更新する
 - `/weekly` : 週次のWeekly Reviewを`weekly/`に生成・更新する
 - `/lint` : リンク切れ・矛盾・孤立ページを検出し報告する

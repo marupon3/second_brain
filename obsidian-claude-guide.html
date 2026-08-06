@@ -390,7 +390,7 @@
         <p class="section-desc">
           このVaultは、<b style="color:var(--ink)">Obsidian</b>（ローカルファーストのノートアプリ）が
           Markdownファイルを表示・編集する画面を担当し、<b style="color:var(--ink)">Claude Code</b> が
-          <code class="inline">raw/</code> の生データを読んで <code class="inline">wiki/</code> に知識を構造化する役割分担で動きます。
+          <code class="inline">obsidian_vault/raw/</code> の生データを読んで <code class="inline">wiki/</code> に知識を構造化する役割分担で動きます。
           サーバーは持たず、すべてローカルのファイルシステム上で完結します。
         </p>
       </div>
@@ -434,14 +434,14 @@
           <div class="step-badge">2</div>
           <div>
             <h3>Vaultのディレクトリ構造を生成する</h3>
-            <p class="step-desc"><code class="inline">raw/</code> <code class="inline">wiki/</code> <code class="inline">daily/</code> などの構造を作ります。既存ファイルは上書きしないので、何度実行しても安全です。</p>
+            <p class="step-desc"><code class="inline">obsidian_vault/raw/</code> <code class="inline">wiki/</code> <code class="inline">obsidian_vault/daily/</code> などの構造を作ります。既存ファイルは上書きしないので、何度実行しても安全です。</p>
             <div class="term">
               <div class="term-bar"><span></span><span></span><span></span></div>
               <div class="term-body"><pre><span class="prompt">PS&gt;</span> python scripts/setup.py
-作成: raw/articles
-作成: raw/notes
+作成: obsidian_vault/raw/articles
+作成: obsidian_vault/raw/notes
 作成: wiki
-作成: daily
+作成: obsidian_vault/daily
 <span class="comment">... (中略) ...</span>
 Vaultディレクトリ構造の生成が完了しました。</pre></div>
             </div>
@@ -463,7 +463,7 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
             <p class="step-desc">Obsidianを起動し、「フォルダをVaultとして開く」からこのディレクトリ（<code class="inline">second_brain</code>）を選択します。</p>
             <div class="callout">
               <span class="tag">POINT</span>
-              <span>Vaultとして開いた時点で <code class="inline">wiki/</code> のwikilinkは自動でリンクとして機能し、標準機能の Graph View でページ同士のつながりを見られます。プラグインの追加設定は不要です。</span>
+              <span>Vaultとして開いた時点で <code class="inline">wiki/</code> のwikilinkは自動でリンクとして機能し、標準機能の Graph View でページ同士のつながりを見られます。プラグインの追加設定は不要です。なお、ユーザーが直接書き込む<code class="inline">raw/</code>や<code class="inline">daily/</code>などは<code class="inline">obsidian_vault/</code>サブフォルダの配下にまとまっています（Vaultのルート自体は<code class="inline">second_brain/</code>のまま）。</span>
             </div>
           </div>
         </div>
@@ -484,10 +484,10 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
           <div class="step-badge">6</div>
           <div>
             <h3>基本のSkillsを試す</h3>
-            <p class="step-desc">まず <code class="inline">raw/notes/</code> にメモを1つ置いてから、Claude Code上で以下を試します。</p>
+            <p class="step-desc">まず <code class="inline">obsidian_vault/raw/notes/</code> にメモを1つ置いてから、Claude Code上で以下を試します。</p>
             <div class="term">
               <div class="term-bar"><span></span><span></span><span></span></div>
-              <div class="term-body"><pre><span class="prompt">&gt;</span> /ingest   <span class="comment"># raw/の新規ファイルを読み、wiki/に構造化ページを生成</span>
+              <div class="term-body"><pre><span class="prompt">&gt;</span> /ingest   <span class="comment"># obsidian_vault/raw/の新規ファイルを読み、wiki/に構造化ページを生成</span>
 <span class="prompt">&gt;</span> /daily    <span class="comment"># 今日のDaily Noteを生成・更新</span>
 <span class="prompt">&gt;</span> /weekly   <span class="comment"># 直近7日分を要約したWeekly Reviewを生成</span>
 <span class="prompt">&gt;</span> /lint     <span class="comment"># リンク切れ・矛盾・孤立ページを検出（自動修正はしない）</span>
@@ -527,7 +527,7 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
         <div class="tip">
           <span class="tip-no">TIP 04</span>
           <h4>raw/ は「投入したら触らない」</h4>
-          <p><code class="inline">raw/</code>配下は不変ソースという前提でAIが要約します。書いた内容を後から編集すると要約との整合が崩れるので、直したい場合は新しいファイルとして追加しましょう。</p>
+          <p><code class="inline">obsidian_vault/raw/</code>配下は不変ソースという前提でAIが要約します。書いた内容を後から編集すると要約との整合が崩れるので、直したい場合は新しいファイルとして追加しましょう。</p>
         </div>
         <div class="tip">
           <span class="tip-no">TIP 05</span>
@@ -589,12 +589,12 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
         <details class="err">
           <summary><span><span class="symptom-badge">整合性</span>raw/ がAIによって編集された疑いがある</span><span class="arrow">▶</span></summary>
           <div class="err-body">
-            <div class="row"><b>原因</b><span><code class="inline">raw/</code>は人間のみが編集する不変ソースという設計だが、想定外の変更が入った可能性。</span></div>
+            <div class="row"><b>原因</b><span><code class="inline">obsidian_vault/raw/</code>は人間のみが編集する不変ソースという設計だが、想定外の変更が入った可能性。</span></div>
             <div class="row"><b>対処</b>
               <ol>
-                <li><code class="inline">git diff -- raw/</code>で変更内容を確認する。</li>
-                <li>意図しない変更なら、コミット前は<code class="inline">git checkout -- raw/&lt;該当ファイル&gt;</code>、コミット後は<code class="inline">git revert</code>で復元する。</li>
-                <li><code class="inline">CLAUDE.md</code>の「禁止事項」に raw/ 編集禁止が明記されているか確認する。</li>
+                <li><code class="inline">git diff -- obsidian_vault/raw/</code>で変更内容を確認する。</li>
+                <li>意図しない変更なら、コミット前は<code class="inline">git checkout -- obsidian_vault/raw/&lt;該当ファイル&gt;</code>、コミット後は<code class="inline">git revert</code>で復元する。</li>
+                <li><code class="inline">CLAUDE.md</code>の「禁止事項」に obsidian_vault/raw/ 編集禁止が明記されているか確認する。</li>
               </ol>
             </div>
           </div>
@@ -645,17 +645,17 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
           </thead>
           <tbody>
             <tr>
-              <td><code class="inline">raw/</code></td>
+              <td><code class="inline">obsidian_vault/raw/</code></td>
               <td><span class="chip human">人間のみ</span></td>
               <td>不変の原文・スクラップ。<code class="inline">articles / notes / pdfs / personal</code>に分類して投入する。</td>
             </tr>
             <tr>
               <td><code class="inline">wiki/</code></td>
               <td><span class="chip ai">AI</span></td>
-              <td><code class="inline">raw/</code>から生成した要約・概念・エンティティページ。<code class="inline">index.md</code> / <code class="inline">log.md</code>を含む。</td>
+              <td><code class="inline">obsidian_vault/raw/</code>から生成した要約・概念・エンティティページ。<code class="inline">index.md</code> / <code class="inline">log.md</code>を含む。</td>
             </tr>
             <tr>
-              <td><code class="inline">daily/</code></td>
+              <td><code class="inline">obsidian_vault/daily/</code></td>
               <td><span class="chip mixed">人間+AI</span></td>
               <td>日次ノート。「人間メモ」「AI生成」「タスク」のセクションで責任範囲を分離。</td>
             </tr>
@@ -665,9 +665,14 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
               <td>週次レビュー。<code class="inline">/weekly</code>実行で生成される。</td>
             </tr>
             <tr>
-              <td><code class="inline">projects/ areas/ resources/ templates/</code></td>
+              <td><code class="inline">obsidian_vault/projects/ obsidian_vault/areas/ obsidian_vault/resources/</code></td>
               <td><span class="chip mixed">人間+AI</span></td>
-              <td>補助的な整理用フォルダ。</td>
+              <td>補助的な整理用フォルダ。ユーザーが新たに情報を追加する対象のため<code class="inline">obsidian_vault/</code>配下。</td>
+            </tr>
+            <tr>
+              <td><code class="inline">templates/</code></td>
+              <td><span class="chip mixed">人間+AI</span></td>
+              <td>Daily Note等の固定テンプレート。ユーザーが直接情報を書き足す対象ではないため<code class="inline">obsidian_vault/</code>には含めない。</td>
             </tr>
           </tbody>
         </table>
@@ -675,7 +680,7 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
 
       <p class="subhead">管理者が守るべき禁止事項</p>
       <ul class="rule-list">
-        <li><code class="inline">raw/</code>配下はAIに編集・削除させない（不変ソースとして扱う）。</li>
+        <li><code class="inline">obsidian_vault/raw/</code>配下はAIに編集・削除させない（不変ソースとして扱う）。</li>
         <li>ファイルの削除・大規模な書き換えなど破壊的操作は、実行前に必ず確認する運用を徹底する。</li>
         <li>APIキー等の秘密情報はMarkdownやコードに直書きせず、<code class="inline">.env</code>または環境変数で管理する。</li>
         <li><code class="inline">/lint</code>が検出した問題を、確認なしに自動修正させない。</li>

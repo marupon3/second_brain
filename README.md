@@ -1,7 +1,7 @@
 # second-brain
 
 Claude Code（Claude Codeエージェント）とObsidianを組み合わせた個人用の「第二の脳（Second Brain）」。
-`raw/`に投入した生データから、AIが`wiki/`に構造化知識を継続的に生成・維持する、ローカル完結型の知識管理システム。
+`obsidian_vault/raw/`に投入した生データから、AIが`wiki/`に構造化知識を継続的に生成・維持する、ローカル完結型の知識管理システム。
 対象利用者は本Vaultを日常的に使う個人（単一ユーザー）。
 
 ## 前提環境
@@ -30,7 +30,7 @@ Claude Code（Claude Codeエージェント）とObsidianを組み合わせた�
    python scripts/setup.py
    ```
 
-   `raw/` `wiki/` `daily/` `weekly/` 等のディレクトリ構造を生成する（既存のファイル・ディレクトリは上書きしない）。カレントディレクトリ以外に生成したい場合は対象ディレクトリを引数で指定する。
+   `obsidian_vault/raw/` `wiki/` `obsidian_vault/daily/` `weekly/` 等のディレクトリ構造を生成する（既存のファイル・ディレクトリは上書きしない）。カレントディレクトリ以外に生成したい場合は対象ディレクトリを引数で指定する。
 
    ```
    python scripts/setup.py C:\path\to\target
@@ -63,7 +63,7 @@ copy .env.example .env
 
 ビルドやテストの手順は無い（Markdownベースの知識ベースであり、ビルド成果物を持たない）。日常利用はClaude Code上でのSkills実行が中心となる。
 
-- `/ingest` : `raw/`の新規ファイルを`wiki/`に構造化
+- `/ingest` : `obsidian_vault/raw/`の新規ファイルを`wiki/`に構造化
 - `/daily` : Daily Noteを生成・更新
 - `/weekly` : Weekly Reviewを生成・更新
 - `/lint` : リンク切れ・矛盾・孤立ページを検出（自動修正は行わない）
@@ -73,14 +73,18 @@ copy .env.example .env
 
 ```
 second_brain/
-├── CLAUDE.md          # AI運用マニュアル
-├── raw/                # 不変ソース（人間のみ編集）
-├── wiki/                # AI生成知識ベース
-├── daily/               # 日次ノート
-├── weekly/              # 週次レビュー
-├── projects/ areas/ resources/ templates/
-├── .claude/skills/       # カスタムSkills定義
-└── scripts/              # 環境チェック・セットアップ用スクリプト
+├── CLAUDE.md              # AI運用マニュアル
+├── obsidian_vault/        # ユーザーが新たに情報を追加するフォルダ
+│   ├── raw/                # 不変ソース（人間のみ編集）
+│   ├── daily/               # 日次ノート
+│   ├── projects/ areas/ resources/
+├── wiki/                    # AI生成知識ベース
+├── weekly/                  # 週次レビュー
+├── templates/                # 固定テンプレート
+├── .claude/skills/            # カスタムSkills定義
+└── scripts/                    # 環境チェック・セットアップ用スクリプト
 ```
+
+Obsidianはこの`second_brain/`フォルダ全体を1つのVaultとして開く。`obsidian_vault/`はその中で「人間が書き込む対象」を一段まとめたサブフォルダという位置づけ。
 
 詳細なディレクトリ設計・Skills仕様は本Vaultの設計元となった基本設計書を参照（本リポジトリには同梱していない）。

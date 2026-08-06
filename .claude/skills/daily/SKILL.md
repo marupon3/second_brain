@@ -1,6 +1,6 @@
 ---
 name: daily
-description: 今日のDaily Noteをdaily/に生成・更新する。人間メモ/AI生成/タスクのセクションに分離し、人間が編集したセクションは上書きしない。ユーザーが/dailyを実行したときに使用する。
+description: 今日のDaily Noteをobsidian_vault/daily/に生成・更新する。人間メモ/AI生成/タスクのセクションに分離し、人間が編集したセクションは上書きしない。ユーザーが/dailyを実行したときに使用する。
 ---
 
 # daily
@@ -15,16 +15,16 @@ description: 今日のDaily Noteをdaily/に生成・更新する。人間メモ
 
 ## Input
 
-- `daily/` 配下の当日ノート（存在する場合）
+- `obsidian_vault/daily/` 配下の当日ノート（存在する場合）
 - `templates/daily-note.md`（新規作成時のテンプレート）
 
 ## Output
 
-- `daily/YYYY-MM-DD.md`
+- `obsidian_vault/daily/YYYY-MM-DD.md`
 
 ## 手順
 
-1. 当日の日付で`daily/YYYY-MM-DD.md`が存在するか確認する。
+1. 当日の日付で`obsidian_vault/daily/YYYY-MM-DD.md`が存在するか確認する。
 2. 存在しない場合は`templates/daily-note.md`を元に新規作成する。
 3. 存在する場合は、更新前に必ず現在の内容を読み込んでから更新する（`docs/requirements.md` 6節Q5）。
 4. 「## 人間メモ」セクションの内容は変更しない。
@@ -34,7 +34,7 @@ description: 今日のDaily Noteをdaily/に生成・更新する。人間メモ
 ## 制約
 
 - 「## 人間メモ」セクションを上書き・削除しない。
-- `raw/`配下のファイルを編集しない。
+- `obsidian_vault/raw/`配下のファイルを編集しない。
 - 出力は日本語で書く。
 - ファイル入出力時はエンコーディングを UTF-8 で明示する。
 - コンソール出力以外で絵文字を使わない。

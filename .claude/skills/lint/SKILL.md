@@ -16,7 +16,7 @@ description: wiki/等のリンク切れ・矛盾・孤立ページを検出し�
 
 ## Input
 
-- `wiki/` `daily/` `weekly/` 配下の全Markdownファイル
+- `wiki/` `obsidian_vault/daily/` `weekly/` 配下の全Markdownファイル
 
 ## Output
 
@@ -33,7 +33,7 @@ description: wiki/等のリンク切れ・矛盾・孤立ページを検出し�
 
 - **検出・報告のみとし、自動修正は行わない**（`docs/requirements.md` 6節Q3。誤修正リスクを避けるため）。
 - 修正はユーザー自身の判断に委ねる（手動修正、またはユーザーがClaudeへ個別に修正を指示する）。
-- `raw/`配下のファイルを編集しない。
+- `obsidian_vault/raw/`配下のファイルを編集しない。
 - 出力は日本語で書く。
 - ファイル入出力時はエンコーディングを UTF-8 で明示する。
 - コンソール出力以外で絵文字を使わない。
