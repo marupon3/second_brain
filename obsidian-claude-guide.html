@@ -670,9 +670,14 @@ Vaultディレクトリ構造の生成が完了しました。</pre></div>
               <td>補助的な整理用フォルダ。ユーザーが新たに情報を追加する対象のため<code class="inline">obsidian_vault/</code>配下。</td>
             </tr>
             <tr>
-              <td><code class="inline">templates/</code></td>
+              <td><code class="inline">obsidian_vault/private/</code></td>
+              <td><span class="chip human">人間のみ</span></td>
+              <td>パスワード等の非公開情報を含むローカル専用ノート。<code class="inline">.gitignore</code>で除外され、リモートには一切push・同期しない。</td>
+            </tr>
+            <tr>
+              <td><code class="inline">obsidian_vault/templates/</code></td>
               <td><span class="chip mixed">人間+AI</span></td>
-              <td>Daily Note等の固定テンプレート。ユーザーが直接情報を書き足す対象ではないため<code class="inline">obsidian_vault/</code>には含めない。</td>
+              <td>Daily Note等の固定テンプレート。</td>
             </tr>
           </tbody>
         </table>
