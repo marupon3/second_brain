@@ -9,4 +9,4 @@ updated: 2026-08-06
 
 ## 履歴
 
-（まだ記録がありません）
+- 2026-08-06: `/ingest` 実行。対象: `raw/notes/2026-08-06-obsidian-second-brain-memo.md`。生成: [[obsidian|Obsidian]]、[[セカンドブレイン]]。
