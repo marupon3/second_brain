@@ -1,0 +1,700 @@
+<style>
+  :root {
+    --bg: #faf8fc;
+    --surface: #ffffff;
+    --surface-alt: #f1edf9;
+    --border: #e3deef;
+    --ink: #221f2e;
+    --ink-soft: #5b5770;
+    --ink-faint: #8b86a3;
+    --accent: #6e56cf;
+    --accent-ink: #4a3b99;
+    --accent-soft: #ece7fb;
+    --rust: #a6572f;
+    --rust-soft: #f6e9e1;
+    --ok: #3f8361;
+    --ok-bg: #e9f4ee;
+    --warn: #b23a2e;
+    --warn-bg: #fbeae7;
+    --term-bg: #211d30;
+    --term-ink: #eae6fb;
+    --term-border: #34304a;
+    --shadow: 0 1px 2px rgba(34,31,46,0.04), 0 8px 24px -12px rgba(34,31,46,0.12);
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #17151f;
+    --surface: #1e1b29;
+    --surface-alt: #262238;
+    --border: #362f4b;
+    --ink: #eeecf8;
+    --ink-soft: #b3adca;
+    --ink-faint: #837d9c;
+    --accent: #a794f0;
+    --accent-ink: #d3c8fa;
+    --accent-soft: #2c2542;
+    --rust: #e39a72;
+    --rust-soft: #3a2a22;
+    --ok: #74cfa1;
+    --ok-bg: #1c3327;
+    --warn: #f0897e;
+    --warn-bg: #3a2224;
+    --term-bg: #14121d;
+    --term-ink: #eae6fb;
+    --term-border: #322c47;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17151f;
+      --surface: #1e1b29;
+      --surface-alt: #262238;
+      --border: #362f4b;
+      --ink: #eeecf8;
+      --ink-soft: #b3adca;
+      --ink-faint: #837d9c;
+      --accent: #a794f0;
+      --accent-ink: #d3c8fa;
+      --accent-soft: #2c2542;
+      --rust: #e39a72;
+      --rust-soft: #3a2a22;
+      --ok: #74cfa1;
+      --ok-bg: #1c3327;
+      --warn: #f0897e;
+      --warn-bg: #3a2224;
+      --term-bg: #14121d;
+      --term-ink: #eae6fb;
+      --term-border: #322c47;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -14px rgba(0,0,0,0.6);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP", "Segoe UI", sans-serif;
+    line-height: 1.8;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", "Roboto Mono", monospace;
+  }
+
+  a { color: var(--accent-ink); text-decoration-color: var(--accent); text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  h1, h2, h3, h4 { text-wrap: balance; font-weight: 800; letter-spacing: -0.01em; margin: 0; }
+
+  /* ---------- header ---------- */
+
+  header.hero {
+    padding: 3.4rem 1.5rem 2.2rem;
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(680px 260px at 12% -10%, var(--accent-soft), transparent 65%),
+      var(--bg);
+  }
+  .hero-inner { max-width: 980px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 0.35em 0.9em;
+    border-radius: 999px;
+    margin-bottom: 1.1rem;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  h1.title { font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.35; }
+  .title .sub-en { display: block; font-size: 0.42em; font-weight: 600; letter-spacing: 0.08em; color: var(--ink-faint); margin-bottom: 0.5rem; }
+  .hero-lede { max-width: 62ch; color: var(--ink-soft); font-size: 1.05rem; margin-top: 1rem; }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.6rem;
+  }
+  .meta-chip {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.4em 0.85em;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .meta-chip b { color: var(--ink); font-weight: 700; }
+
+  /* ---------- layout ---------- */
+
+  .layout {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 2.4rem 1.5rem 5rem;
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 2.8rem;
+    align-items: start;
+  }
+
+  nav.toc {
+    position: sticky;
+    top: 1.5rem;
+    font-size: 0.88rem;
+    border-left: 2px solid var(--border);
+    padding-left: 1.1rem;
+  }
+  nav.toc .toc-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin-bottom: 0.9rem;
+  }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.65rem; }
+  nav.toc a { color: var(--ink-soft); text-decoration: none; display: block; }
+  nav.toc a:hover { color: var(--accent-ink); }
+
+  main { min-width: 0; display: flex; flex-direction: column; gap: 3.4rem; }
+
+  section { scroll-margin-top: 1.5rem; }
+
+  .section-head { margin-bottom: 1.4rem; }
+  .section-head .num { font-family: ui-monospace, "SF Mono", monospace; font-size: 0.8rem; color: var(--accent-ink); font-weight: 700; letter-spacing: 0.08em; display: block; margin-bottom: 0.4rem; }
+  h2 { font-size: 1.5rem; }
+  .section-desc { color: var(--ink-soft); max-width: 68ch; margin-top: 0.6rem; font-size: 0.98rem; }
+
+  /* ---------- steps ---------- */
+
+  .steps { display: flex; flex-direction: column; gap: 1.1rem; }
+
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem 1.6rem;
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 2.4rem minmax(0,1fr);
+    gap: 1rem;
+  }
+  .step-badge {
+    width: 2.4rem; height: 2.4rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1rem;
+    font-family: ui-monospace, monospace;
+  }
+  .step h3 { font-size: 1.08rem; margin-bottom: 0.3rem; }
+  .step .step-desc { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 0.7rem; }
+
+  .term {
+    background: var(--term-bg);
+    border: 1px solid var(--term-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0.6rem 0;
+  }
+  .term-bar {
+    display: flex; gap: 0.4rem;
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--term-border);
+  }
+  .term-bar span { width: 9px; height: 9px; border-radius: 50%; background: #4a4460; }
+  .term-body { padding: 0.85rem 1rem 1rem; font-size: 0.86rem; overflow-x: auto; }
+  .term-body pre { margin: 0; white-space: pre; color: var(--term-ink); font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; }
+  .term-body .prompt { color: var(--rust); }
+  .term-body .ok { color: #7fd6a8; }
+  .term-body .ng { color: #f2938a; }
+  .term-body .comment { color: #8b84ad; }
+
+  .callout {
+    display: flex; gap: 0.7rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-top: 0.7rem;
+  }
+  .callout .tag {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 0.2em 0.6em;
+    border-radius: 6px;
+    height: fit-content;
+  }
+
+  code.inline {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 0.1em 0.4em;
+    border-radius: 5px;
+    font-size: 0.88em;
+    color: var(--accent-ink);
+  }
+
+  /* ---------- tips grid ---------- */
+
+  .tip-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+  .tip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.3rem;
+    box-shadow: var(--shadow);
+  }
+  .tip .tip-no { font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--rust); font-weight: 700; letter-spacing: 0.06em; }
+  .tip h4 { font-size: 1rem; margin: 0.35rem 0 0.4rem; }
+  .tip p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+
+  /* ---------- errors ---------- */
+
+  .err-list { display: flex; flex-direction: column; gap: 1rem; }
+  .err {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--warn);
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    box-shadow: var(--shadow);
+  }
+  .err summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-weight: 700;
+    font-size: 0.98rem;
+  }
+  .err summary::-webkit-details-marker { display: none; }
+  .err summary .arrow { color: var(--ink-faint); transition: transform 0.15s ease; font-size: 0.8rem; flex-shrink: 0; }
+  .err[open] summary .arrow { transform: rotate(90deg); }
+  .err .symptom-badge {
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em;
+    color: var(--warn); background: var(--warn-bg);
+    padding: 0.15em 0.55em; border-radius: 6px; margin-right: 0.6rem;
+  }
+  .err-body { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.92rem; color: var(--ink-soft); }
+  .err-body .row { display: grid; grid-template-columns: 4.6rem minmax(0,1fr); gap: 0.6rem; }
+  .err-body .row b { color: var(--ink); font-weight: 700; font-size: 0.85rem; }
+  .err-body ol { margin: 0; padding-left: 1.2rem; }
+  .err-body ol li + li { margin-top: 0.3rem; }
+
+  /* ---------- admin table ---------- */
+
+  .role-table { width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 0.9rem; min-width: 560px; }
+  thead th {
+    text-align: left; font-size: 0.75rem; letter-spacing: 0.06em; font-weight: 700;
+    color: var(--ink-faint); padding: 0.8rem 1rem; border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+  tbody td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--ink-soft); }
+  tbody tr:last-child td { border-bottom: none; }
+  td code.inline { white-space: nowrap; }
+
+  .chip { display: inline-block; font-size: 0.76rem; font-weight: 700; padding: 0.2em 0.65em; border-radius: 999px; white-space: nowrap; }
+  .chip.human { background: var(--ok-bg); color: var(--ok); }
+  .chip.ai { background: var(--accent-soft); color: var(--accent-ink); }
+  .chip.mixed { background: var(--rust-soft); color: var(--rust); }
+
+  .rule-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.4rem; }
+  .rule-list li { list-style: none; display: flex; gap: 0.7rem; font-size: 0.94rem; color: var(--ink-soft); }
+  .rule-list li::before { content: "―"; color: var(--warn); flex-shrink: 0; }
+
+  .subhead { font-size: 1.05rem; font-weight: 800; margin: 2rem 0 0.8rem; }
+
+  footer {
+    max-width: 980px; margin: 0 auto; padding: 0 1.5rem 3.5rem;
+    color: var(--ink-faint); font-size: 0.82rem; border-top: 1px solid var(--border); padding-top: 1.6rem;
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc {
+      position: static;
+      border-left: none;
+      border-bottom: 1px solid var(--border);
+      padding-left: 0;
+      padding-bottom: 1rem;
+    }
+    nav.toc ol { flex-direction: row; flex-wrap: wrap; gap: 0.5rem 1rem; }
+    .tip-grid { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 2rem minmax(0,1fr); padding: 1.2rem; }
+  }
+</style>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow"><span class="dot"></span>SECOND BRAIN セットアップガイド</span>
+    <h1 class="title"><span class="sub-en">Obsidian × Claude Code</span>連携ガイド</h1>
+    <p class="hero-lede">
+      ローカルのMarkdown知識ベースをObsidianで見て、Claude Codeで育てる。
+      初めての方向けに、実行手順・つまずきやすいポイント・エラー対処・運用ルールをまとめました。
+    </p>
+    <div class="meta-row">
+      <span class="meta-chip">対象OS: <b>Windows 11</b></span>
+      <span class="meta-chip">Python: <b>3.11.9 固定</b></span>
+      <span class="meta-chip">必須ツール: <b>Git / uv / pip</b></span>
+      <span class="meta-chip">アーキテクチャ: <b>サーバーレス・ローカル完結</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-label">目次</div>
+    <ol>
+      <li><a href="#intro">連携の全体像</a></li>
+      <li><a href="#steps">実行手順</a></li>
+      <li><a href="#tips">Tips</a></li>
+      <li><a href="#errors">エラー時の対策</a></li>
+      <li><a href="#admin">管理者の役割と運用</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <div class="section-head">
+        <span class="num">00 / OVERVIEW</span>
+        <h2>連携の全体像</h2>
+        <p class="section-desc">
+          このVaultは、<b style="color:var(--ink)">Obsidian</b>（ローカルファーストのノートアプリ）が
+          Markdownファイルを表示・編集する画面を担当し、<b style="color:var(--ink)">Claude Code</b> が
+          <code class="inline">raw/</code> の生データを読んで <code class="inline">wiki/</code> に知識を構造化する役割分担で動きます。
+          サーバーは持たず、すべてローカルのファイルシステム上で完結します。
+        </p>
+      </div>
+      <div class="callout">
+        <span class="tag">POINT</span>
+        <span>Claude Codeが書いたMarkdownは、そのままObsidianのwikilink（<code class="inline">[[ページ名]]</code>）として認識されます。2つのツールの間に変換や同期作業は必要ありません。</span>
+      </div>
+    </section>
+
+    <section id="steps">
+      <div class="section-head">
+        <span class="num">01 / WALKTHROUGH</span>
+        <h2>実行手順</h2>
+        <p class="section-desc">初回セットアップから、実際にAIがノートを生成するところまでを順番に進めます。</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-badge">1</div>
+          <div>
+            <h3>依存ツールを確認する</h3>
+            <p class="step-desc">Python 3.11.9・Git・uv・pip が揃っているかをチェックします。</p>
+            <div class="term">
+              <div class="term-bar"><span></span><span></span><span></span></div>
+              <div class="term-body"><pre><span class="prompt">PS&gt;</span> python scripts/check_env.py
+<span class="ok">[OK]</span> Python 3.11.9
+<span class="ok">[OK]</span> Git: git version 2.54.0.windows.1
+<span class="ok">[OK]</span> uv: uv 0.12.2
+<span class="ok">[OK]</span> pip: pip 26.2.1
+<span class="ok">[OK]</span> Node.js: v26.6.0
+すべての必須ツールを確認できました。</pre></div>
+            </div>
+            <div class="callout">
+              <span class="tag">要確認</span>
+              <span><code class="inline">[NG]</code> が出た項目は、そのツールをインストール（または対応バージョンに変更）してから再実行してください。<code class="inline">uv</code> が見つからない場合の対処は「エラー時の対策」を参照。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">2</div>
+          <div>
+            <h3>Vaultのディレクトリ構造を生成する</h3>
+            <p class="step-desc"><code class="inline">raw/</code> <code class="inline">wiki/</code> <code class="inline">daily/</code> などの構造を作ります。既存ファイルは上書きしないので、何度実行しても安全です。</p>
+            <div class="term">
+              <div class="term-bar"><span></span><span></span><span></span></div>
+              <div class="term-body"><pre><span class="prompt">PS&gt;</span> python scripts/setup.py
+作成: raw/articles
+作成: raw/notes
+作成: wiki
+作成: daily
+<span class="comment">... (中略) ...</span>
+Vaultディレクトリ構造の生成が完了しました。</pre></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">3</div>
+          <div>
+            <h3>CLAUDE.md を確認・カスタマイズする</h3>
+            <p class="step-desc">Claude Codeがこのフォルダで作業する際に必ず読み込む運用マニュアルです。フォルダの役割・書き方ルール・禁止事項が定義されています。必要であれば自分の運用に合わせて編集してください。</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">4</div>
+          <div>
+            <h3>Obsidianでこのフォルダを開く</h3>
+            <p class="step-desc">Obsidianを起動し、「フォルダをVaultとして開く」からこのディレクトリ（<code class="inline">second_brain</code>）を選択します。</p>
+            <div class="callout">
+              <span class="tag">POINT</span>
+              <span>Vaultとして開いた時点で <code class="inline">wiki/</code> のwikilinkは自動でリンクとして機能し、標準機能の Graph View でページ同士のつながりを見られます。プラグインの追加設定は不要です。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">5</div>
+          <div>
+            <h3>Claude Codeをこのディレクトリで起動する</h3>
+            <div class="term">
+              <div class="term-bar"><span></span><span></span><span></span></div>
+              <div class="term-body"><pre><span class="prompt">PS&gt;</span> cd second_brain
+<span class="prompt">PS&gt;</span> claude</pre></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">6</div>
+          <div>
+            <h3>基本のSkillsを試す</h3>
+            <p class="step-desc">まず <code class="inline">raw/notes/</code> にメモを1つ置いてから、Claude Code上で以下を試します。</p>
+            <div class="term">
+              <div class="term-bar"><span></span><span></span><span></span></div>
+              <div class="term-body"><pre><span class="prompt">&gt;</span> /ingest   <span class="comment"># raw/の新規ファイルを読み、wiki/に構造化ページを生成</span>
+<span class="prompt">&gt;</span> /daily    <span class="comment"># 今日のDaily Noteを生成・更新</span>
+<span class="prompt">&gt;</span> /weekly   <span class="comment"># 直近7日分を要約したWeekly Reviewを生成</span>
+<span class="prompt">&gt;</span> /lint     <span class="comment"># リンク切れ・矛盾・孤立ページを検出（自動修正はしない）</span>
+<span class="prompt">&gt;</span> /query    <span class="comment"># Vault全体を対象に質問応答</span></pre></div>
+            </div>
+            <div class="callout">
+              <span class="tag">POINT</span>
+              <span>ファイルはObsidianの外（Claude Code）から書き換わります。Obsidianは通常ファイルの変更を自動検知して再読み込みしますが、反映されない場合はそのノートを一度閉じて開き直してください。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tips">
+      <div class="section-head">
+        <span class="num">02 / TIPS</span>
+        <h2>使いこなしのTips</h2>
+        <p class="section-desc">日常運用でつまずきにくくするための、小さな習慣です。</p>
+      </div>
+      <div class="tip-grid">
+        <div class="tip">
+          <span class="tip-no">TIP 01</span>
+          <h4>ページ名は日本語のままでよい</h4>
+          <p>wikilink（<code class="inline">[[ページ名]]</code>）は日本語ファイル名にそのまま対応します。無理に英語化する必要はありません。</p>
+        </div>
+        <div class="tip">
+          <span class="tip-no">TIP 02</span>
+          <h4>Graph Viewで抜け漏れに気づく</h4>
+          <p>左側のGraph Viewを定期的に眺めると、他とつながっていない孤立ページが視覚的にわかります。<code class="inline">/lint</code>の結果と合わせて確認すると効果的です。</p>
+        </div>
+        <div class="tip">
+          <span class="tip-no">TIP 03</span>
+          <h4>「人間メモ」欄に書く習慣をつける</h4>
+          <p>Daily Noteの「## 人間メモ」セクションはAIが上書きしない設計です。自分の一次情報は必ずこの欄に書きましょう。</p>
+        </div>
+        <div class="tip">
+          <span class="tip-no">TIP 04</span>
+          <h4>raw/ は「投入したら触らない」</h4>
+          <p><code class="inline">raw/</code>配下は不変ソースという前提でAIが要約します。書いた内容を後から編集すると要約との整合が崩れるので、直したい場合は新しいファイルとして追加しましょう。</p>
+        </div>
+        <div class="tip">
+          <span class="tip-no">TIP 05</span>
+          <h4>こまめにgit commitする</h4>
+          <p>本Vaultはクラウド自動バックアップを前提としません。Daily Note生成後などの節目でコミットしておくと、後から安心して見返せます。</p>
+        </div>
+        <div class="tip">
+          <span class="tip-no">TIP 06</span>
+          <h4>.env はコピーしてから使う</h4>
+          <p>秘密情報は<code class="inline">.env.example</code>を<code class="inline">.env</code>としてコピーしてから書き込みます。<code class="inline">.env</code>自体はgitignore済みでコミットされません。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="errors">
+      <div class="section-head">
+        <span class="num">03 / TROUBLESHOOTING</span>
+        <h2>エラー時の対策</h2>
+        <p class="section-desc">実際に発生しやすい5パターンと、その初動対応です。クリックで詳細を開けます。</p>
+      </div>
+
+      <div class="err-list">
+        <details class="err" open>
+          <summary><span><span class="symptom-badge">SETUP</span>check_env.py が [NG] を出して終了する（終了コード1）</span><span class="arrow">▶</span></summary>
+          <div class="err-body">
+            <div class="row"><b>症状</b><span>実行結果に <code class="inline">[NG]</code> の行が出て、「必須ツールの不足、またはバージョン不一致があります」と表示される。</span></div>
+            <div class="row"><b>よくある例</b><span><code class="inline">uv が見つかりません（PATHに存在しません）</code></span></div>
+            <div class="row"><b>対処</b>
+              <ol>
+                <li>どのツールが<code class="inline">[NG]</code>かを確認する（Git / uv / pip / Python 3.11.9のいずれか）。</li>
+                <li>uvの場合、PowerShellで次のいずれかを実行してインストールする。
+                  <div class="term" style="margin-top:0.5rem;">
+                    <div class="term-bar"><span></span><span></span><span></span></div>
+                    <div class="term-body"><pre><span class="prompt">PS&gt;</span> powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+<span class="comment"># もしくは</span>
+<span class="prompt">PS&gt;</span> pip install uv</pre></div>
+                  </div>
+                </li>
+                <li>インストール後は<b>PowerShellを新しく開き直し</b>（PATH反映のため）、<code class="inline">uv --version</code>で確認する。</li>
+                <li><code class="inline">python scripts/check_env.py</code>を再実行し、すべて<code class="inline">[OK]</code>になることを確認する。</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+
+        <details class="err">
+          <summary><span><span class="symptom-badge">SETUP</span>setup.py が「対象パスがディレクトリではありません」で終了する</span><span class="arrow">▶</span></summary>
+          <div class="err-body">
+            <div class="row"><b>原因</b><span>指定した対象パスが、既に存在する「ファイル」と衝突している。</span></div>
+            <div class="row"><b>対処</b>
+              <ol>
+                <li>指定したパスが本当にディレクトリとして使える場所かを確認する。</li>
+                <li>正しいディレクトリパスを指定し直して再実行する。</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+
+        <details class="err">
+          <summary><span><span class="symptom-badge">整合性</span>raw/ がAIによって編集された疑いがある</span><span class="arrow">▶</span></summary>
+          <div class="err-body">
+            <div class="row"><b>原因</b><span><code class="inline">raw/</code>は人間のみが編集する不変ソースという設計だが、想定外の変更が入った可能性。</span></div>
+            <div class="row"><b>対処</b>
+              <ol>
+                <li><code class="inline">git diff -- raw/</code>で変更内容を確認する。</li>
+                <li>意図しない変更なら、コミット前は<code class="inline">git checkout -- raw/&lt;該当ファイル&gt;</code>、コミット後は<code class="inline">git revert</code>で復元する。</li>
+                <li><code class="inline">CLAUDE.md</code>の「禁止事項」に raw/ 編集禁止が明記されているか確認する。</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+
+        <details class="err">
+          <summary><span><span class="symptom-badge">運用</span>/lint がリンク切れ・矛盾を検出した</span><span class="arrow">▶</span></summary>
+          <div class="err-body">
+            <div class="row"><b>仕様</b><span><code class="inline">/lint</code>は検出・報告のみを行い、誤修正を避けるため自動修正は行いません。</span></div>
+            <div class="row"><b>対処</b>
+              <ol>
+                <li>実行結果のレポート（<code class="inline">wiki/log.md</code>、件数が多い場合は<code class="inline">wiki/lint-report.md</code>）を確認する。</li>
+                <li>手動で修正するか、Claude Codeに個別のページを指定して修正を指示する。</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+
+        <details class="err">
+          <summary><span><span class="symptom-badge">性能</span>応答や処理が明らかに遅い</span><span class="arrow">▶</span></summary>
+          <div class="err-body">
+            <div class="row"><b>目安</b><span>ingest 30〜90秒 / query 10〜30秒 / lint 1〜3分 / daily 10秒以内。これを大きく超える場合が対象。</span></div>
+            <div class="row"><b>原因</b><span>本Vaultはインデックスを持たず、ファイルシステムを直接走査する設計のため、<code class="inline">wiki/</code>のページ数が増えるほど遅くなる。</span></div>
+            <div class="row"><b>対処</b>
+              <ol>
+                <li><code class="inline">wiki/</code>配下のファイル数を確認する。</li>
+                <li>大規模Vaultでは、<code class="inline">/query</code>実行時にフォルダやトピックで範囲を絞って質問する。</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="admin">
+      <div class="section-head">
+        <span class="num">04 / GOVERNANCE</span>
+        <h2>Obsidian管理者の役割と運用</h2>
+        <p class="section-desc">
+          このVaultの「管理者」＝日常的にObsidianを使う本人です。AIが書き換えてよい領域と、人間だけが責任を持つ領域が明確に分かれています。
+        </p>
+      </div>
+
+      <div class="role-table">
+        <table>
+          <thead>
+            <tr><th>フォルダ</th><th>管理者</th><th>役割</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="inline">raw/</code></td>
+              <td><span class="chip human">人間のみ</span></td>
+              <td>不変の原文・スクラップ。<code class="inline">articles / notes / pdfs / personal</code>に分類して投入する。</td>
+            </tr>
+            <tr>
+              <td><code class="inline">wiki/</code></td>
+              <td><span class="chip ai">AI</span></td>
+              <td><code class="inline">raw/</code>から生成した要約・概念・エンティティページ。<code class="inline">index.md</code> / <code class="inline">log.md</code>を含む。</td>
+            </tr>
+            <tr>
+              <td><code class="inline">daily/</code></td>
+              <td><span class="chip mixed">人間+AI</span></td>
+              <td>日次ノート。「人間メモ」「AI生成」「タスク」のセクションで責任範囲を分離。</td>
+            </tr>
+            <tr>
+              <td><code class="inline">weekly/</code></td>
+              <td><span class="chip ai">AI</span></td>
+              <td>週次レビュー。<code class="inline">/weekly</code>実行で生成される。</td>
+            </tr>
+            <tr>
+              <td><code class="inline">projects/ areas/ resources/ templates/</code></td>
+              <td><span class="chip mixed">人間+AI</span></td>
+              <td>補助的な整理用フォルダ。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="subhead">管理者が守るべき禁止事項</p>
+      <ul class="rule-list">
+        <li><code class="inline">raw/</code>配下はAIに編集・削除させない（不変ソースとして扱う）。</li>
+        <li>ファイルの削除・大規模な書き換えなど破壊的操作は、実行前に必ず確認する運用を徹底する。</li>
+        <li>APIキー等の秘密情報はMarkdownやコードに直書きせず、<code class="inline">.env</code>または環境変数で管理する。</li>
+        <li><code class="inline">/lint</code>が検出した問題を、確認なしに自動修正させない。</li>
+      </ul>
+
+      <p class="subhead">バックアップとリストア</p>
+      <p class="section-desc" style="margin-top:0;">
+        クラウド同期への依存は前提としないため、バックアップは以下のいずれかで自分の手で行います。
+      </p>
+      <ul class="rule-list">
+        <li><b style="color:var(--ink)">取得方法：</b>Gitコミット、またはVaultフォルダ全体のコピー。</li>
+        <li><b style="color:var(--ink)">推奨頻度：</b>目安として日次のGitコミット（設計上の必須要件ではなく運用上の推奨）。</li>
+        <li><b style="color:var(--ink)">リストア：</b>Gitの場合は<code class="inline">git clone</code>または対象コミットへの<code class="inline">git checkout</code>。フォルダコピーの場合はバックアップ先を丸ごと復元。</li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<footer>
+  本ガイドは、リポジトリ内の <code class="inline">README.md</code> / <code class="inline">CLAUDE.md</code> / <code class="inline">docs/operation-manual.md</code> /
+  <code class="inline">.claude/skills/*/SKILL.md</code> の記載内容に基づいて作成しています。
+</footer>
