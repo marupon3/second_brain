@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 # docs/basic-design.md 2節（v1.1, weekly/追加済み。ユーザーが直接情報を追加する
-# raw/daily/projects/areas/resourcesはobsidian_vault/配下に集約）に対応。
+# raw/daily/projects/areas/resources/templatesはobsidian_vault/配下に集約）に対応。
 DIRECTORIES = [
     "obsidian_vault/raw/articles",
     "obsidian_vault/raw/notes",
@@ -29,7 +29,7 @@ DIRECTORIES = [
     "obsidian_vault/areas",
     "obsidian_vault/resources",
     "obsidian_vault/private",  # ローカル専用（.gitignoreで除外、リモートには含めない）
-    "templates",
+    "obsidian_vault/templates",
     ".claude/skills/daily",
     ".claude/skills/weekly",
     ".claude/skills/ingest",

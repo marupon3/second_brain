@@ -100,9 +100,9 @@ second_brain/
 │   ├── raw/                # 不変ソース（人間のみ編集）
 │   ├── daily/               # 日次ノート
 │   ├── projects/ areas/ resources/
+│   └── templates/          # 固定テンプレート
 ├── wiki/                    # AI生成知識ベース
 ├── weekly/                  # 週次レビュー
-├── templates/                # 固定テンプレート
 ├── .claude/skills/            # カスタムSkills定義
 └── scripts/                    # 環境チェック・セットアップ用スクリプト
 ```

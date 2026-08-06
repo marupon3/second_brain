@@ -10,7 +10,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 2. フォルダ構造
 
-`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/projects/areas/resources）をまとめた配下ディレクトリ。Obsidianのvault自体はリポジトリ直下（`second_brain/`）を開くため、`wiki/` `weekly/` `templates/`とあわせて同一Vault内で扱われる。
+`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/projects/areas/resources/templates）をまとめた配下ディレクトリ。Obsidianのvault自体はリポジトリ直下（`second_brain/`）を開くため、`wiki/` `weekly/`とあわせて同一Vault内で扱われる。
 
 | フォルダ | 管理者 | 役割 |
 |---|---|---|
@@ -20,7 +20,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 | `weekly/` | AI | 週次レビュー（`/weekly`で生成） |
 | `obsidian_vault/projects/` `obsidian_vault/areas/` `obsidian_vault/resources/` | 人間+AI | 補助的な整理用フォルダ |
 | `obsidian_vault/private/` | 人間のみ | パスワード等の非公開情報を含むローカル専用ノート。`.gitignore`で除外され、リモートには一切push・同期しない |
-| `templates/` | 人間+AI | Daily Note等の固定テンプレート |
+| `obsidian_vault/templates/` | 人間+AI | Daily Note等の固定テンプレート |
 | `.claude/skills/` | - | カスタムSkills定義 |
 | `scripts/` | - | Python 3.11.9によるセットアップ・環境チェック用ユーティリティ |
 

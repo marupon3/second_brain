@@ -16,7 +16,7 @@ description: 今日のDaily Noteをobsidian_vault/daily/に生成・更新する
 ## Input
 
 - `obsidian_vault/daily/` 配下の当日ノート（存在する場合）
-- `templates/daily-note.md`（新規作成時のテンプレート）
+- `obsidian_vault/templates/daily-note.md`（新規作成時のテンプレート）
 
 ## Output
 
@@ -25,7 +25,7 @@ description: 今日のDaily Noteをobsidian_vault/daily/に生成・更新する
 ## 手順
 
 1. 当日の日付で`obsidian_vault/daily/YYYY-MM-DD.md`が存在するか確認する。
-2. 存在しない場合は`templates/daily-note.md`を元に新規作成する。
+2. 存在しない場合は`obsidian_vault/templates/daily-note.md`を元に新規作成する。
 3. 存在する場合は、更新前に必ず現在の内容を読み込んでから更新する（`docs/requirements.md` 6節Q5）。
 4. 「## 人間メモ」セクションの内容は変更しない。
 5. 「## AI生成」セクションと「## タスク」セクション（前日までの未完了タスクの引き継ぎ）を追記・更新する。
