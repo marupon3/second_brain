@@ -18,4 +18,159 @@ updated: 2026-08-06
   - 自動修正は行っていない。`wiki/overview.md`を`wiki/index.md`のトピック一覧に追加するかはユーザー判断とする。
 - 2026-08-06: フォルダ構成を変更。ユーザーが新たに情報を追加する `raw/` `daily/` `projects/` `areas/` `resources/` を `obsidian_vault/` 配下に移動（`wiki/` `weekly/` はリポジトリ直下のまま）。`CLAUDE.md`・各Skill定義・`scripts/setup.py`のパス参照を追随して更新した。
 - 2026-08-06: `templates/` フォルダを `obsidian_vault/templates/` に移動。`README.md`、`CLAUDE.md`、`.claude/skills/daily/SKILL.md` のパス参照を更新した。
+- 2026-08-09: `/ingest` 実行（バッチ1/複数回予定）。`obsidian_vault/raw/`配下の未処理ファイルが約460件確認されたため、ユーザーの指示により小規模フォルダ群から段階的に処理を開始。
+  - 対象・生成: `Android/`3件→[[pediadose|PediaDose]]、`Linux/`2件+`Ubuntu_python/`1件+`Windows/＿Linux xubuntuパーティション.md`→[[linux-tips|Linux / Ubuntu Tips]]、`Windows/`5件→[[windows-tips|Windows Tips]]、`Mac/`1件→[[mac-tips|Mac Tips]]、`高速検索/`1件→[[pgroonga|PGroonga]]、`写真/`2件→[[写真編集ツール]]、`personal/`2件→[[個人手続きメモ]]、`notes/obsidian-second-brain memo 2.md`+`notes/2026-08-07 obsidian-second-brain memo 2.md`（同一内容）→[[second-brain-vault構成|second_brainのディレクトリ構成]]、`notes/Obsidian/無題のファイル.md`→[[obsidian|Obsidian]]に追記。
+  - 重複のためページ生成なし: `notes/obsidian-second-brain memo.md`、`notes/2026-08-06 obsidian-second-brain memo.md`（内容は2026-08-06処理済みの`2026-08-06-obsidian-second-brain-memo.md`と同一、[[obsidian|Obsidian]]・[[セカンドブレイン]]で既にカバー済み）。
+  - 実質的内容なしのためページ生成なし: `notes/claude Code/2026-07-23 Claude Code 開発者説明動画.md`（URLのみ）、`notes/2026-08-06 作成メモ.md`（daily note 2026-08-06のAI生成セクションの断片複製）。
+  - 未処理のまま残存（次回`/ingest`で継続予定）: `articles/`全件（WEBから、WEBから 2、人工知能ブーム、日経ビジネス 等）、`notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`notes/Tips/`（約55件）、`notes/PSQL/`（約35件）、`notes/薬/`（約13件）、`notes/図書館で借りた本/`（12件）、`notes/書籍から/`（5件）、`notes/小児用量アプリ/`（5件）、`pdfs/`（PDF3件・画像多数）、`notes/2024-02-18 文法チェッカー.md`。
+- 2026-08-09: `/ingest` 実行（バッチ2）。`notes/薬/`19件、`notes/小児用量アプリ/`5件、`notes/2024-02-18 文法チェッカー.md`を処理。
+  - 対象・生成: `notes/薬/`のうち実質的内容のある7件（去痰薬、フォシーガ、妊娠禁忌、緑内障治療薬、下剤の効果時間、インスリン製剤一覧、一包化不可）→[[薬剤メモ]]。`notes/小児用量アプリ/`5件（PC→Android転送、PMDAから小児情報取得、新規薬剤追加手順、データ上書き手順、手動成人用量入力）→[[pediadose|PediaDose]]に「server/ツール群」節として追記。`notes/2024-02-18 文法チェッカー.md`→[[pythonフォーマットチェッカー|black文法チェッカー（GUI）]]。
+  - 内容未記入（タイトルのみ）のためページ生成なし: `notes/薬/`のうち帯状疱疹、血小板・アスピリン、糖尿病治療薬のアルゴリズム、透析患者、睡眠薬、便秘薬の作用機序、心不全治療薬、分岐鎖アミノ酸製剤、糖尿病薬、医療用後発医薬品として承認された医薬品について（要確認）、降圧配合剤、GLP-1受容体作動薬（画像のみ）の計12件。[[薬剤メモ]]に一覧として記録済み。
+  - 注記: `notes/薬/`配下はOneNote画像のOCR変換テキストが多く、文字の欠落・誤認識の可能性があるため[[薬剤メモ]]内に要確認の注記を付記した。
+  - 未処理のまま残存（次回`/ingest`で継続予定）: `articles/`全件、`notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`notes/Tips/`（約55件）、`notes/PSQL/`（約35件）、`notes/図書館で借りた本/`（12件）、`notes/書籍から/`（5件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ3）。ユーザーより「残り約400件を分割しながら全件終わるまで進める」との指示を受け、以降連続してバッチ処理を実施（進捗はTaskCreate/TaskUpdateで管理）。`articles/日経ビジネス/`3件、`articles/人工知能ブーム/`12件、`articles/無題のファイル.md`を処理。
+  - 対象・生成: `人工知能ブーム/`のうち実質的内容のある9件（「知識」vs「情報」、AI秘書、その1ネグロポンテ、その3〜5、その7〜9）を要約・構造化し→[[人工知能ブーム再燃の真実(2015年日経ビジネス連載)|人工知能ブーム再燃の真実（2015年 日経ビジネス連載）]]。`日経ビジネス/`3件（タイトルのみ）→[[日経ビジネス記事メモ]]（同名PDFが`pdfs/`にあるため本文はPDF処理バッチで統合予定）。
+  - 内容未記入・空のためページ生成なし: `人工知能ブーム/`のうち「その2」2件、「その6」1件、`articles/無題のファイル.md`（空ファイル）。
+  - 未処理のまま残存: `notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`notes/Tips/`（約55件）、`notes/PSQL/`（約35件）、`notes/図書館で借りた本/`（12件）、`notes/書籍から/`（5件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ4）。`notes/図書館で借りた本/`13件、`notes/書籍から/`5件を処理。
+  - 対象・生成: 技術書の記録12件（GUI画面操作を除く）→[[図書館で借りた本リスト]]。GUI画面操作（PySimpleGUI）→[[PySimpleGUI]]。アドラーおばさん→[[アドラー心理学メモ]]。哲学入門→[[哲学史ノート]]。商人の道・未知の窓・イシューからはじめよ→[[書籍からの学びメモ]]。
+  - 未処理のまま残存: `notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`notes/Tips/`（約55件）、`notes/PSQL/`（約35件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ5）。`notes/PSQL/`26件を処理。
+  - 対象・生成: 実質的内容のある20件（インストール・設定、VBA/Python/KNIME接続、バージョンアップ、パスワードリセット、バックアップ・リストア、DB削除・一覧、0埋め、テーブル結合、CSV一括登録・エクスポート、カラム集約、スキーマ出力、エクスポート/インポート）→[[postgresql|PostgreSQL運用メモ]]。Memento Database→[[各種ツールメモ]]。原文に含まれていた実パスワードは伏字にしてページ化した。
+  - 内容未記入のためページ生成なし: SQL主キー、TCMG(リソースDX)、SQLチートシート、2024-10-25 PostgreSQLバージョンアップ、2025-01-04 SQLチート の5件。
+  - 未処理のまま残存: `notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`notes/Tips/`（約55件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ6、Tipsサブバッチ1/3）。`notes/Tips/`のうち19件を処理。
+  - 対象・生成: AIアプリ開発・プレゼン作成支援・AI便利ツール・コードレビュー/コーディングプロンプト・短文長文比較→[[AI活用Tips]]。SharePoint連携・VBA0埋め・PowerFx・JSチートシート・VSCode設定・Windows11修復→[[開発Tips|開発環境・自動化Tips]]。DuckDuck Mail→[[プライバシーツールメモ|プライバシー保護ツールメモ]]（原文の個人エイリアスアドレスは伏せて概念のみ記録）。
+  - 内容未記入のためページ生成なし: 生成AI後の新職業、perplexity AI、GMail整理、iPhoneメモアプリ、生成AI分野別おすすめ の5件。
+  - 未処理のまま残存: `notes/Tips/`残り約38件、`notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ7、Tipsサブバッチ2/3）。`notes/Tips/`のうち19件を処理。
+  - 対象・生成: PowerApps内部名・kagi翻訳・ut.code・PowerShell全文検索・Copilotアンインストール・kindle・業務フロー図→[[Windows・IT環境Tips]]。Linuxディレクトリ構造→[[linux-tips|Linux / Ubuntu Tips]]に追記。CSSアコーディオン→[[開発Tips|開発環境・自動化Tips]]に追記。イラスト・シルエット素材サイト→[[デザイン素材サイトメモ]]。話が分かりやすい人の頭の中→[[コミュニケーションTips|話が分かりやすい人の頭の中]]。
+  - 内容未記入のためページ生成なし: グループポリシーエディター、粉薬、クラッシャー、CSS、HTMLチートシート、Vimコマンド の6件。
+  - OCR文字化けが激しく再構成不可のためページ生成なし: git.md、_Excelショートカット一覧.md（サイト名・タイトルのみ記録）。
+  - 未処理のまま残存: `notes/Tips/`残り約19件、`notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ8、Tipsサブバッチ3/3・`notes/Tips/`完了）。残り20件を処理し`notes/Tips/`57件すべて処理完了。
+  - 対象・生成: git設定方法・ローカルPUSHコマンド→[[git-Tips|Gitコマンド Tips]]。Google Cloud登録(アカウント情報は伏字)・WinPE起動→[[クラウド・システムTips]]。VBA例文サイト一覧→[[VBAサンプルサイト集]]。SharePointファイル管理・動画・日程調整→[[SharePoint運用Tips]]。1on1質問力→[[質問力メモ|質問力メモ（思考を前進させる10フレーズ）]]。cleanerアプリ(Kudu)→[[PCクリーナーアプリ(Kudu)|PCクリーナーアプリ Kudu]]。iPhone節約→[[iPhone設定Tips|iPhone設定Tips（動作を軽くする）]]（新規）。生成AI画像削除・Unique3D・要件定義入門→[[AI活用Tips]]に追記。Mac backup→[[mac-tips|Mac Tips]]に追記。
+  - Google Cloud登録メモは原文にプロジェクトID・請求先アカウントID・登録メールアドレス等の秘密情報が含まれていたため、手順のみ要約し具体的なアカウント情報は転記していない。
+  - 内容未記入・画像のみ・判読不能のためページ生成なし: Teams Copilot、iPhone設定(画像のみ)、_gitコマンド(画像のみ)、resources_dashboard-guidebook_guidebook_02、_請負社員(文字化けで判読不能)。
+  - `notes/Tips/`は全57件処理完了。未処理のまま残存: `notes/Python/`（約110件）、`notes/生成AI/`（約100件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ9、生成AIサブバッチ1/6）。`notes/生成AI/`のうち16件を処理。
+  - 対象・生成: 最強custom instructions・Constructive critic(重複内容)・GTP master・かわごんプロンプト集・長期記録→[[生成AIプロンプト集]]。CMC Discussion/2/3→[[CMCディスカッションプロンプト]]（新薬開発CMC部門向け複数専門家議論プロンプト、ユーザーの薬剤師としての業務文脈と関連）。勉強メモ(だいち)・Code Interpreter解説・ChatGPT文例集・GPTs一覧→[[生成AIツール・リンク集]]。
+  - 画像/リンクのみのためページ生成なし: GPTプラグイン、X、iCloud、20240125 の4件。
+  - 未処理のまま残存: `notes/生成AI/`残り約80件、`notes/Python/`（約110件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ10、生成AIサブバッチ2/6）。`notes/生成AI/`のうち16件を処理。
+  - 対象・生成: Hugging Face記事・GPTs作成のコツ・GPTs作成ガイド・Hugging faceのChatbot機能→[[GPTs・カスタムAI作成ガイド]]。プロフィール・効率化10選(Proompt Polisher)・プロンプト基本形・カスタム指示内容・Claude Tips($$タグ)・要約Tips・マークダウン形式→[[生成AIプロンプト集]]に追記。20240131(GPTs10選)・書籍・Llama3.1→[[生成AIツール・リンク集]]に追記。生成AI同時利用(複数LLM比較)→[[複数生成AI比較メモ|複数生成AIの同時利用比較メモ]]。
+  - OCR文字化けが激しく再構成不可のためページ生成なし: `2024-04-13 入力用ユーザインターフェイス.md`。
+  - 未処理のまま残存: `notes/生成AI/`残り約64件、`notes/Python/`（約110件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ11、生成AIサブバッチ3/6）。`notes/生成AI/`のうち16件を処理。
+  - 対象・生成: 検索AI Genspark・Perplexityの有能コマンド→[[検索エンジン検索コマンド集|AI検索エンジンの検索コマンド集（Genspark・Perplexity）]]。グラフ可視化→[[Python可視化チートシート]]。順を追って解説・ハルシネーション防止策・プロンプトテンプレート集→[[生成AIプロンプト集]]に追記。Napkin AI・STORM・Vercel(v0)・v0事例・Aider Chat・最新生成AI9月おすすめ・生成AI felo・Copilot Studio・最新AIツール・Firefox ver.130→[[生成AIツール・リンク集]]に追記。
+  - 未処理のまま残存: `notes/生成AI/`残り約48件、`notes/Python/`（約110件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ12、生成AIサブバッチ4/6）。`notes/生成AI/`のうち16件を処理。すべて既存ページへの追記のため`wiki/index.md`への新規リンク追加なし。
+  - 対象・追記先: 変更履歴・論理的回答・読みやすくするプロンプト・文字数調整・ChatGPTの出力形式・動画の文字起こし→[[生成AIプロンプト集]]。Youtube動画を要約(NotebookLM)・生成AI Molmo・生産性向上ツール・GPT-Crawler・Gemini 2.0 Flash・12月のアップデート・国産AIツール・mistral.ai→[[生成AIツール・リンク集]]。リストの同期(Power Automate)→[[SharePoint運用Tips]]に追記。
+  - 重複のためページ化なし: `2024-11-24 perplexityの有能コマンド.md`（[[検索エンジン検索コマンド集]]と同一内容）。
+  - mistral.aiメモに含まれていた登録メールアドレスは個人情報のため転記していない。
+  - 未処理のまま残存: `notes/生成AI/`残り約32件、`notes/Python/`（約110件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ13、生成AIサブバッチ5/6）。`notes/生成AI/`のうち16件を処理。既存ページへの追記のみ。
+  - 対象・追記先: 文章校正プロンプト・Claudeよく考えて・GPT-5プロンプト15選・日本語検定レベル→[[生成AIプロンプト集]]。各社のDeep research比較・OpenAI.fm音声・Gensparkスーパーエージェント・Genspark AI Docs・Nano-Banana-images・Microsoft生成AI活用事例・無料ツール6選・Claude Cowork・Claude Codeベストプラクティス・書いて→[[生成AIツール・リンク集]]。
+  - 重複のためページ化なし: `2025-08-02 論理的問題解決.md`（[[生成AIプロンプト集]]内の論理的回答と同一内容）。
+  - 未処理のまま残存: `notes/生成AI/`残り約16件、`notes/Python/`（約110件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ14、生成AIサブバッチ6/6・`notes/生成AI/`完了）。残り19件を処理し`notes/生成AI/`約96件すべて処理完了。
+  - 対象・生成: Claude codeガイド・Claude Code用Skills・global Skills更新・Claude Codeを他社APIで利用する・CLAUDE.md最適化データ・Claude Code+NotebookLM・公式/逆引きリンク→[[Claude_Code徹底ガイド]]（新規）。Microsoft新記憶アーキテクチャ→[[Microsoft_Memora|Microsoft Memora]]（新規）。Copilot Word編集例・Copilot Studioできること8選・会議調整エージェントGitHub→[[Copilot活用事例]]（新規）。デジタル庁デザインシステム→[[開発Tips]]に追記。gws drive操作→[[クラウド・システムTips]]に追記。生成AI用プロンプト・ChatGPT役割定義プロンプト→[[生成AIプロンプト集]]に追記。youtube要約サイト・Claude Skills(リンクのみ)→[[生成AIツール・リンク集]]に追記。
+  - **重要な注記（セキュリティ）**: `notes/生成AI/2026-03-26 _Google.md`にGoogle CloudのOAuthクライアントID・クライアントシークレット・プロジェクトIDが平文で記載されていた。秘密情報のためwikiには一切転記していないが、`obsidian_vault/raw/`配下の当該ファイル自体が現在git管理下にある可能性があり、ユーザーに直接報告が必要（本ログの外でユーザーに伝達済み）。
+  - `notes/生成AI/`は全件処理完了。未処理のまま残存: `notes/Python/`（約110件）、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ15、Pythonサブバッチ1/6）。`notes/Python/`のうち16件を処理。
+  - 対象・生成: PyCharm/Jupyter/VSCode/Sourcetree/black/Packaging Tools→[[Python開発環境構築|Python開発環境構築メモ]]。形態素解析・英単語頻度・shutil・ChromeDriver自動更新→[[Pythonテキスト処理サンプル|Pythonテキスト処理サンプル集]]。Code Interpreter活用事例・Pythonドキュメントサイト集・PyCharm入門動画→[[Python学習リソース集]]。
+  - 内容が自動送信されたセキュリティ通知メール・意味のないリンク集のためページ生成なし: `2024-01-21 GitHub.md`（GitHubのサインイン通知メール）、`2023-07-16 超速.md`（説明のないGoogleドライブのリンク集）。
+  - 未処理のまま残存: `notes/Python/`残り約94件、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ16、Pythonサブバッチ2/6）。`notes/Python/`のうち16件を処理。
+  - 対象・生成: 絶対パス取得・datetime書式・エスケープシーケンス・命名規則→[[Python基礎文法・命名規則|Python基礎文法・命名規則メモ]]（新規）。PyPDF・PDFテキスト抽出・句点区切り→[[Pythonテキスト処理サンプル]]に追記。C++ Build Tools・パスワード管理(dotenv/keyring)・ポート解放/Flask起動→[[Python開発環境構築]]に追記。Data Science Handbook・東大講義・Python入門トレーニング資料→[[Python学習リソース集]]に追記。MkDocs→[[開発Tips]]に追記。
+  - 内容未記入・画像OCR不良でページ化しなかったもの: `2024-03-02 カスタマイズしたdockerイメージを作る.md`（未記入）、`2024-02-29 java script 日付.md`（画像のみ、リンクは<https://techfeed.io/entries/65dc09931865972ac3ef20e8>）。
+  - 未処理のまま残存: `notes/Python/`残り約78件、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ17、Pythonサブバッチ3/6）。`notes/Python/`のうち16件を処理。
+  - 対象・生成: インポート順序(isort)・フォルダ構造の罫線記号→[[Python基礎文法・命名規則]]に追記。venv仮想環境・Pythonダウンロード・pyinstaller→[[Python開発環境構築]]に追記。json設定ファイル共有・PDF操作ライブラリ比較→[[Pythonテキスト処理サンプル]]に追記。Pythonでできること・Flask統合ポータル構成・顔認識(DeepFace)・Streamlit・京大資料・東工大早見表→[[Pythonツール集・できること]]（新規）。
+  - 内容未記入・画像のみ・OCR不良でページ化しなかったもの: `2024-05-02 PDF表データ自動読み取り.md`（未記入）、`2024-04-12 PyScript.md`（画像のみ）、`2024-04-26 f文字列.md`（画像のみ）、`2024-03-16 Pythonでできること.md`内の「Python100選」画像部分（文字化けが激しく一覧のみ要約に留めた）。
+  - 未処理のまま残存: `notes/Python/`残り約62件、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ18、Pythonサブバッチ4/6）。`notes/Python/`のうち16件を処理。
+  - 対象・生成: IISコマンド・Apacheインストール設定・Apache+FastAPIリバースプロキシ構成→[[Webサーバー運用メモ(IIS・Apache・FastAPI)|Webサーバー運用メモ（IIS・Apache・FastAPI）]]（新規）。pipダウンロード(オフライン)・pipコマンド一覧→[[Python開発環境構築]]に追記。
+  - 内容未記入のためページ生成なし: コードをきれいに書くコツ、FastAPI起動コマンド、日付フォーマット、String型メソッド、コードをきれいに書く、日付フォーマット読み取り、グラフ作成、高解像度、パスを取得、Docker、気象庁API の11件。
+  - 未処理のまま残存: `notes/Python/`残り約46件、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ19、Pythonサブバッチ5/6）。`notes/Python/`のうち16件を処理。
+  - 対象・生成: pythonでできること100選(用途別ライブラリ表)・Python3ライブラリ→[[Pythonライブラリ・フレームワーク一覧|Pythonライブラリ・フレームワーク一覧（用途別）]]（新規）。PythonでExcel自動化(openpyxl)→[[openpyxlでExcel自動化]]（新規）。Python基礎用語→[[Python基礎用語集]]（新規）。AI検索エンジン比較(Felo/Genspark/Perplexity)→[[検索エンジン検索コマンド集]]に追記。Numpyまとめページ→[[Python学習リソース集]]に追記。
+  - 内容未記入のためページ生成なし: 日付と時刻のフォーマット、ライブラリフレームワーク、主要なエラー一覧、音声を文字列に変換、日付けフォーマットを読み取る、ネット画像の自動収集、自動でメール送信、OCR、文章読み上げ、PDFからテキスト抽出 の9件。
+  - 未処理のまま残存: `notes/Python/`残り約30件、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ20、Pythonサブバッチ6a）。`notes/Python/`のうち19件を処理（想定より`notes/Python/`残件数が多かったため6分割から7分割相当に調整）。
+  - 対象・生成: 代替WSGIサーバ(Waitress)・Windowsファイアウォール設定・IIS導入・リバースプロキシ設定・SSL/TLS証明書取得・アクセスログ設定・本番環境改善ロードマップ・LDAP認証スキップ設定→[[Flask本番運用ガイド(Windows・IIS・Waitress)|Flask本番運用ガイド（Windows・IIS・Waitress）]]（新規）。git設定(PyCharm操作/.gitignore)→[[git-Tips]]に追記。Visual Studioインストール・python-ldap download・バージョン指定venv作成・モジュール移行(requirements.txt)・python3.11インストール→[[Python開発環境構築]]に追記。OCR機能向上・Pathlib(2件)→[[Pythonテキスト処理サンプル]]に追記。AIエージェント(browser-use)→[[AI活用Tips]]に追記。Docker解説記事→[[開発Tips]]に追記。
+  - 重複のためページ生成なし: `2025-04-14 pipアップグレード.md`（[[Python開発環境構築]]のpipコマンド一覧と同一内容）。
+  - 未処理のまま残存: `notes/Python/`残り約21件、`articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ21、Pythonサブバッチ6b・`notes/Python/`完了）。残り21件を処理し`notes/Python/`約115件すべて処理完了。
+  - 対象・生成: 暗号化システムセットアップ・暗号作成・復号化・暗号ファイル編集・操作マニュアル→[[env暗号化システム運用|.env暗号化システムの運用（webapp5/koneta）]]（新規。原文に含まれていた実際のAES-256暗号化キーは秘密情報のため一切転記していない）。自然言語処理→[[Python自然言語処理ライブラリ一覧]]（新規）。nginx設定→[[nginx設定(koneta)|Nginx + Flask 本番環境構成（koneta）]]（新規）。EasyOCR→[[Pythonテキスト処理サンプル]]に追記。Mecabとユーザ辞書の設定→[[pgroonga|PGroonga]]に追記。gitから除外→[[git-Tips]]に追記。文法チェッカー(自作)・PEP8対応→[[Python開発環境構築]]に追記。
+  - 内容未記入・画像のみ・OCR不良でページ化しなかったもの: タスクスケジューラーでpythonコードを動かす(未記入)、pdfからテキスト抽出(画像のみ、2件)、git(画像のみ)、標準ライブラリ(画像のみ)、目的別ロードマップ(画像のみ)。
+  - `notes/Python/`は全件処理完了。未処理のまま残存: `articles/WEBから`+`WEBから 2`（約35件）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ22、WEBからサブバッチ1/2）。`articles/WEBから/`のうち14件を処理。`articles/WEBから 2/`は`WEBから/`とファイル名が重複するものが大半のため、内容重複を前提に次バッチでまとめて処理方針を確認しながら進める。
+  - 対象・生成: 大物になるひとの特徴・あなたの可能性・ポータブルスキル・エッセンシャル思考・理想支出→[[ライフハック・自己啓発メモ]]（新規）。服薬指導のエッセンス・健康サポート薬局→[[薬局政策・薬学書籍メモ]]（新規）。Youtube文字起こし・UX心理学コンセプト→[[生成AIツール・リンク集]]に追記。Sunsethue→[[デザイン素材サイトメモ]]に追記。Python講義(千葉大学)→[[Python学習リソース集]]に追記。Amazon裏技の隠しコマンド→[[各種ツールメモ]]に追記。
+  - OCR文字化けが激しく数値の正確な再構成ができないため詳細化を断念: `2024-08-06 補助金.md`（給付金・助成金一覧の画像、要約困難）、`2024-08-08 年金受給率 63歳で受給.md`（年金シミュレーション数値表、判読不能）。
+  - 未処理のまま残存: `articles/WEBから 2/`（約19件、多くが上記と重複）、`pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ23、WEBからサブバッチ2/2・`articles/WEBから`+`WEBから 2`完了）。`articles/WEBから 2/`のうち`WEBから/`と重複しない5件と、`WEBから/`残り8件（大半が内容空）を処理。
+  - 対象・生成: Pocketに保存していたデータ・Webサービス公開前のチェックリスト・新星→[[Pocket救出リンク集]]（新規）。退職給付金→[[ライフハック・自己啓発メモ]]に追記。
+  - 重複のためページ生成なし: `WEBから 2/2024-06-04 20240604.md`（[[各種ツールメモ]]のAmazon裏技と同一リンク）、`WEBから 2/`配下の`補助金`・`大物になるひとの特徴`・`年金受給率`・`退職給付金`以外・`服薬指導のエッセンス`・`あなたの可能性`・`ポータブルスキル`・`健康サポート薬局`・`理想支出`・`AIは「わかる」`・`MIT Tech Review`2件・`【書籍紹介】飛行機写真`・`エッセンシャル思考`・`ノロウイルス`は`WEBから/`側で処理済みと同一内容。
+  - 内容未記入のためページ生成なし: `WEBから/AIは「わかる」が何かは「わからない」...md`、`WEBから/MIT Tech Review_ なぜイーサリアムは...md`、`WEBから/MIT Tech Review_ 大塚製薬の...md`、`WEBから/https___www.lifehacker.jp_...md`、`WEBから/【書籍紹介】人生を変えた夜の飛行機写真.md`（ユーザーが冒頭で検索していた「飛行機の記事」に該当するファイルだが本文は空だった）、`WEBから/ノロウイルス.md`、`WEBから 2/データサイエンス教科書.md`、`WEBから 2/講義.md`。
+  - `articles/WEBから`・`WEBから 2`は全件処理完了。未処理のまま残存: `pdfs/`（PDF3件・画像多数）。
+- 2026-08-09: `/ingest` 実行（バッチ24、`pdfs/`・全バッチ完了）。PDF3件（`ワークマン`・`仮想通貨`・`佐藤オオキ`_日経ビジネス）と画像28件を処理。
+  - PDF: ワークマン・佐藤オオキの2件はテキスト抽出に成功し[[日経ビジネス記事メモ]]に本文を統合。仮想通貨PDF（26MB）はReadツールの20MB上限を超過し今回はテキスト抽出未実施（要約は次回課題として記録）。
+  - **重要な発見**: 画像28件（`Exported image ...`、2026-08-07書き出し）はいずれも、これまでのバッチでOneNote画像のOCR文字化けにより不正確・未記入としていたノートの「鮮明な原本画像」だった。これを一次情報として以下を修正・大幅加筆した。
+    - [[薬剤メモ]]: 帯状疱疹・血小板/アスピリン(経口抗血小板薬)・糖尿病治療薬アルゴリズム・透析患者(経口血糖降下薬)・睡眠薬(処方日数制限)・便秘薬の作用機序(詳細版)・心不全治療薬・分岐鎖アミノ酸製剤・糖尿病薬(高齢者ガイドライン)・GLP-1受容体作動薬・降圧配合剤を新規追加。緑内障治療薬・下剤の効果発現時間・インスリン製剤一覧は不正確だった内容を訂正。アドレナリン受容体の特徴を追加。
+    - [[linux-tips|Linux / Ubuntu Tips]]: Linuxディレクトリ構造の表を鮮明画像に基づき訂正。
+    - [[各種ツールメモ]]: Amazon検索コマンド一覧（`&sort=`等のURLパラメータ）を追加。
+    - [[ライフハック・自己啓発メモ]]: 「補助金」「年金受給率」をOCR不良で断念していたが、鮮明画像により給付金・助成金一覧表と年金繰上げ・繰下げ受給率早見表を正確に追加。「朝のカンタン習慣9選」「仕事がうまくいく人12選」「ありえない幸運を掴む人9選」も新規追加。
+  - `pdfs/`処理完了。**`obsidian_vault/raw/`配下の全ファイルの処理が完了した**（仮想通貨PDFの本文要約のみ次回課題）。
+- 2026-08-09: セキュリティ対応。`obsidian_vault/raw/notes/生成AI/2026-03-26 _Google.md`（Google CloudのOAuthクライアントシークレットを平文で含む）をユーザーの指示により`obsidian_vault/private/2026-03-26 _Google.md`へ移動した。移動前はgit未追跡（`??`）で内容もwikiへ転記されていなかったため、移動によりコミット時の漏洩リスクは解消。`.gitignore`で`obsidian_vault/private/`が除外対象であることを確認済み。
+- 2026-08-09: `/ingest` 再実行。`obsidian_vault/raw/`配下を再走査したところ、`_Google.md`の`private/`移動（468件）以外に新規ファイルの追加はなく、未処理の対象は無かった。前回`pdfs/`バッチで処理未了だった`仮想通貨_日経ビジネス20190930.pdf`（26MB）について、環境に`pdftotext`が導入されていたためテキストレイヤー抽出を再試行したが出力はほぼ0バイトで、スキャン画像のみのPDF（テキストレイヤーなし）と判明。ページ分割・レンダリング用ツール（pdftoppm/mutool/gs/qpdf等）が未導入のため、`Read`ツールの20MB上限内に収める手段がなく今回も本文抽出は見送り。[[日経ビジネス記事メモ]]に状況を記録した。
+- 2026-08-09: `/ingest` 再実行。`obsidian_vault/raw/`配下（`articles/` `notes/` `pdfs/` `personal/`、計469ファイル、`.gitkeep`除く）を全件再走査したが、前回までのログに記録済みの内容と一致し新規ファイルは無かった。処理対象なし。`仮想通貨_日経ビジネス20190930.pdf`の本文要約は引き続き未着手（レンダリングツール未導入のため次回課題）。
+- 2026-08-09: `/ingest` 再実行。新規フォルダ`obsidian_vault/raw/apple_memo/`（OneNoteエクスポート由来、168件）を検出。内容確認の結果、技術Tipsと実際のアカウント認証情報（パスワード・ソフトウェアライセンスキー・会員ID等）が混在していたため、ユーザーに処理方針を確認。「ファイル単位で判定」の指示を受け、以降のバッチで各ファイルを (1) 個人の認証情報が主体のもの→`obsidian_vault/private/apple_memo/`へ移動しwiki化しない、(2) 汎用的な技術知識が主体のもの→秘密情報を除去してwikiへ要約、(3) URLのみ・内容が薄いもの→ページ化しない、の3方針で仕分けて処理する。
+  - バッチ1（日付順1〜30件目）処理。
+  - private/へ移動（11件、要約なし）: `Linkstation.md`、`FC2 ID.md`、`PITAPA.md`、`Apple ID.md`（2013-05-30）、`GitHub.md`（2014-09-07）、`Quinta.md`、`PARALLELS.md`、`windows10.md`（2015-02-20、OS複数バージョンのプロダクトキー）、`日経メディカル.md`、`ふるさと納税ポータルサイト.md`、`metamoji.md`。
+  - wikiへ要約（14件）: iCloud同期・ライブラリ表示・ディスクサイズ確認・NasNavigator対処・Time Machine間隔変更→[[mac-tips|Mac Tips]]。Raspberry Piセットアップ（ログイン情報は転記せず）・軽量化Tips・CentOS7ドライバ→[[linux-tips|Linux / Ubuntu Tips]]。Windows10強制アップグレード・MBR修復・Update エラー対処（プロダクトキーは転記せず）・USB/ISO作成ツール・bcdedit→[[windows-tips|Windows Tips]]。SoftEther VPN→[[各種ツールメモ]]。
+  - ページ化なし（URLのみ・内容が薄い、5件）: `Linuxサーバの負荷や使用率を調査するコマンドと手順.md`、`WiFi MT7601.md`、`YouTube.md`、`人工知能は Deep Learning によって成されるのか？.md`、`Rufus 2.7 GPT用　USB作成ソフト.md`（「windows用」のみ）。
+  - バッチ2（続く27件目、`2016-03-13`〜`2017-10-30`分。前バッチで既にwiki化・スキップ済みの`Rufus`・`USBからISO作成`・`bcdedit`はスキップ）。
+  - private/へ移動（16件、要約なし）: `tansend sandisk.md`、`検索条件： 服部天神→伊丹空港...md`（個人の移動履歴）、`Google.md`（2016-06-08）、`借金.md`（個人の財務情報）、`Parallels 12 update.md`（注文情報・クレジットカード下4桁・複数ライセンスキー）、`MEGA.md`、`Office 2016.md`、`kindle.md`（2017-01-31）、`Nova lite.md`、`鎌倉シャツ.md`、`2段階.md`（Apple ID・住所）、`Club Panasonic.md`、`aol.md`、`阪急百貨店Wifi.md`（実際のWiFiパスワード）、`黒蜥蜴.md`（チケット購入情報）、`MIT Technology Review.md`（2017-10-30）。
+  - wikiへ要約（3件）: GPT/MBRの違い（gdiskコマンド）→[[linux-tips|Linux / Ubuntu Tips]]。動画から音声を抽出（Filmora/QuickTime）→[[mac-tips|Mac Tips]]。リーダーとマネジャーの違い・定時退社導入の考察→[[ライフハック・自己啓発メモ]]。
+  - ページ化なし（URLのみ・内容が薄い・個人的な娯楽ブックマーク、8件）: `丁寧な暮らし.md`、`IBMワトソンが実現する社会.md`、`Sia.md`、`神経細胞.md`、`you.md`、`iPadPro 10.5.md`、`iTunes音飛び対策.md`、`https--bita.jp-dml-category-ai.md`。
+  - **重要な発見**: `apple_memo/`の総ファイル数がバッチ処理中に168→223→241件と増加していることを確認。バックグラウンドで同期プロセス（Obsidian同期プラグイン等、`obsidian_vault/_debug_remotely_save/`が示唆）が稼働しており、raw配下に継続的に新規ファイルが追加されている模様。ユーザーに確認し「このまま継続」の指示を受けた。
+  - **重要な対応（セキュリティ）**: private/へ移動した`2013-01-01 FC2 ID.md`が、同期により`raw/apple_memo/`に同一内容で再出現していることを確認。個別ファイル移動では同期の度に機密情報を含むファイルがraw配下（git管理対象）に復元されてしまうため根本対策にならないと判断。ユーザーに確認の上、`obsidian_vault/raw/apple_memo/`フォルダ全体を`.gitignore`に追加し、`obsidian_vault/private/`と同様にgit管理外とした。これにより以降のバッチでは個別ファイルのprivate/への移動作業は不要となり、wikiへの要約判定のみ行う方針に変更。
+  - バッチ3（30件、`2012-10-12`〜`2018-04-01`分）処理。
+  - wikiへ要約（5件）: 無線LAN子機接続設定（iwconfig/wpa_supplicant、暗号化キーは伏字）・ディレクトリ再帰削除(`rm -rf`)→[[linux-tips|Linux / Ubuntu Tips]]。不可視ファイル表示切り替え→[[mac-tips|Mac Tips]]。AIの得意・不得意（Zunger氏見解、関連メモとして追加）→[[人工知能ブーム再燃の真実(2015年日経ビジネス連載)|人工知能ブーム再燃の真実]]。トークンエコノミーについて（平野友康氏投稿引用、関連メモとして追加）→[[日経ビジネス記事メモ]]。
+  - ページ化なし（個人の認証情報・財務情報・医療情報・旅程・ソフトウェアライセンスキー等、私的で再利用価値のない内容、25件）: `CBI.md`、`アニメ.md`、`IP.md`、`Ucom光.md`、`富山LAN.md`、`Kenpos.md`、`win7.md`、`新幹線.md`、`AO.md`、`Just.md`、`ひげそり.md`、`楽動スーツ.md`、`電池.md`、`渡辺クリニック.md`、`icloud.md`（2017-12-23）、`filesum.md`、`グリーン車.md`、`WiFi.md`（2018-01-06）、`Rspberry pi.md`、`Glary Utilities.md`、`PIN.md`、`Parallels Desktop 13 for Mac アップグレード版.md`、`paypal　アカウント作成.md`、`キーボード.md`、`Icloud.md`（2018-03-25）。これらはgitignore対象の`raw/apple_memo/`内に留まり、wikiへの転記は行っていない。
+  - バッチ4（30件、`2018-05-29`〜`2020-05-26`分）処理。
+  - wikiへ要約（5件）: ディスク容量圧迫フォルダの確認・ローカルスナップショット管理・ゴミ箱削除不可時の対処→[[mac-tips|Mac Tips]]。透過アンブレラーライティング・Nikon D750世代のAF不良対処→[[写真編集ツール|写真編集・高画質化ツール]]。Amazon検索コマンド追加分（titlerank・価格範囲指定）→[[各種ツールメモ]]。
+  - ページ化なし（個人の認証情報・ライセンスキー・旅行予約・買い物リスト・機器固有設定等、25件）: `Youtube.md`（2018-05-29）、`【カメラ】.md`、`医療通訳.md`、`日経ビジネスオンライン解約.md`、`ESET.md`、`Windows.md`（2018-09-04）、`カメラマン.md`、`System Mechanic Standard.md`、`JALダイナミックパッケージ.md`、`ストロボ設定.md`、`世にも奇妙な物語.md`、`紀伊國屋.md`、`色温度.md`、`C-Program Files...md`、`動画編集.md`、`ニコン.md`、`モンベル.md`（2019-11-14）、`マップカメラ.md`、`Adobe.md`、`モンベルのシュエルター用袋.md`、`App用パスワード.md`、`temp.md`、`映画.md`、`Apple US.md`、`koyo.md`。
+  - バッチ5（30件、`2020-05-31`〜`2021-08-24`分）処理。
+  - wikiへ要約（3件）: GPUスケジューリング有効化手順→[[windows-tips|Windows Tips]]。マイナポイント申請手順（ICOCA連携）→[[個人手続きメモ]]。GoodReaderからDropbox/iCloud経由のファイル移動→[[各種ツールメモ]]。
+  - ページ化なし（個人の認証情報・医療情報・成人向けコンテンツリンク・娯楽ブックマーク等、27件）: `Bitwarden.md`、`zoom.md`、`シェーバーの刃交換.md`、`acronis international GmbH.md`（空）、`Mac App用.md`、`yuika.md`（成人向けコンテンツ）、`世にも奇妙な物語　全話.md`、`Access テーブルを非表示にする方法.md`（リンクのみ）、`https--jstage...md`（論文リンクのみ）、`世にも奇妙な物語(時系列).md`、`outlook.md`、`Nord.md`（NordVPNアカウント情報）、`keepa.md`、`薬.md`（個人の実際の処方内容）、`Notes Mail.md`、`iPhone.md`（2021-01-19）、`WiFi TP-Link.md`、`iPhone Cleaner.md`（リンクのみ）、`インターネットバンキングを利用した納付方法.md`（リンクのみ）、`Billie Eilish - bad guy.md`（空）、`TW.md`、`NTT.md`（リンクのみ）、`Strengthscenter.md`、`PC 2022 3Q.md`、`甲陽.md`、`おやじ.md`（個人的な人物・成人向けコンテンツ関連リスト）、`rakuten.md`。
+  - バッチ6（30件、`2021-08-26`〜`2023-12-17`分）処理。
+  - wikiへ要約（5件）: NordVPN Meshnet設定→[[各種ツールメモ]]。MacのDNSキャッシュクリア→[[mac-tips|Mac Tips]]。ディスク使用量調査ツール(ncdu)→[[linux-tips|Linux / Ubuntu Tips]]。無限議論プロンプトの応用例（美容室の新規顧客獲得例）・医学情報をPubMed文献ベースで回答させる一文→[[生成AIプロンプト集]]。
+  - 重複のためページ化なし: `無限発話プロンプト.md`、`CMC GPT.md`（既存の[[CMCディスカッションプロンプト]]と同一系統の内容）。
+  - ページ化なし（個人の認証情報・医療情報・連絡先変更履歴・成人向けコンテンツ・住所等、23件）: `モデルナ.md`、`Dell　デル.md`、`bootrec.exe -fixmbr.md`（既存Tipsと重複）、`windows boot.md`（断片）、`Ali.md`、`電話番号登録変更.md`、`Kenpos.md`（2022-04-26）、`FC2.md`（成人向けコンテンツ）、`板野ユイカ.md`（成人向けコンテンツ）、`MacBook Air.md`、`DuckDuck Mail.md`（2022-08-26）、`JACCS.md`、`SBI新生銀行.md`、`シービージャパン...md`（空）、`G 710...md`（内容なし）、`パレットの標準化.md`（薄い個人ブックマーク）、`070−8474−1139.md`、`Softbank.md`、`iCloud.md`（2023-06-28）、`折り畳み傘界隈で話題沸騰！...md`（リンクのみ）、`Amazonの偽レビュー...md`（リンクのみ）、`内環地図.md`（個人の画像添付）、`716.md`（内容なし）。
+  - バッチ7（35件、`2024-01-17`〜`2025-05-07`分）処理。この期間はURLのみのブックマーク・個人の乗換案内検索結果（服部天神発の複数経路）・機微情報（GitHubトークン、DeepSeek等のアカウント情報）が大半を占めた。
+  - wikiへ要約（1件）: VBAコード生成プロンプトの型（Excel→Outlook会議招集メール自動作成）→[[生成AIプロンプト集]]。
+  - ページ化なし（URLのみ・個人の乗換案内検索結果・認証情報・機器固有情報・画像添付のみ等、34件）: `【安宅和人】未来が欲しいなら名刺で生きるな.md`、`NVIDIA 医療界.md`、`ブラウザに複数のプルダウンリスト...md`（内容が趣旨と無関係）、`Unique3D記事.md`、`DeepSeek sign_in.md`、`macOSファイル断捨離.md`（内容なし）、`kansai-td停電情報.md`、`年金受給.md`（2024-07-24）、`洗濯機比較依頼プロンプト.md`（回答本体なし）、`pasona zoom.md`、`0668451311.md`、`服部天神⇒天王寺.md`、`服部天神⇒岸辺.md`、`github token.md`（実際のGitHubトークンを含む）、`服部天神⇒安治川口.md`×3件、`88 traitements...médicaments.md`、`20241225だいしん.md`、`インフルエンザ流行レベルマップ.md`、`「超イヤな世界...」.md`、`DeepSeek用のID.md`、`Python PyOCR記事.md`、`Amazon Audible.md`（個人の読書リスト）、`新規メモ.md`（画像のみ）、`人気.md`（画像URLのみ）、`OCR.md`（2025-03-08、内容と無関係なリンク）、`Debian Linuxディスク情報.md`（機器固有）、`PDF書類.md`（内容なし）、`MCPって何？解説動画.md`、`MQEY2J-A.md`（iPhone型番のみ）、`万博チケットID...md`（リンクのみ）、`保存した写真.md`、`OCR.md`（2025-05-07、リンクのみ）。
+  - バッチ8（最終、36件、`2025-05-08`〜`2026-07-29`分）処理。`apple_memo/`の全件処理が完了。
+  - **重要な発見（セキュリティ、緊急度高）**: `2026-04-12 Claude API-KEY.md`に実際に有効そうなAnthropic APIキー（`sk-ant-api03-...`、`.zshrc`への `export ANTHROPIC_API_KEY=` 設定コマンド付き）が平文で記載されていた。日付は今回の会話基準日（2026-08-09）から約4ヶ月前と近く、失効済みの旧キーではなく現役の可能性がある。wikiには一切転記していないが、`raw/apple_memo/`は本バッチ内で`.gitignore`済みのためgit漏洩リスクはないものの、**ユーザーは当該キーが現在も有効か確認し、不要であれば失効（ローテーション）することを推奨**。同様に`2024-10-29 github token 2024-11-28まで有効.md`に実際のGitHub Personal Access Token（有効期限記載は2024-11-28で失効済みの可能性が高いが未確認）も含まれていた。
+  - wikiへ要約（2件）: AIに実装させることを前提とした設計書の書き方（設計方針・実装ルール・AI実装ガイド・レビュー観点の4項目統一、開発ガイドライン章の構成例）・Microsoft 365 Copilot「Edit with Copilot」→[[開発Tips|開発環境・自動化Tips]]。セッション引き継ぎプロンプト→[[生成AIプロンプト集]]。
+  - ページ化なし（URLのみ・個人の認証情報・画像添付のみ・機微な秘密情報等、34件）: `iPadの画面を自動的に暗くする.md`、`短編映画.md`（リンク切れ）、`拡大する「試す権利」.md`、`保存した写真.md`（2025-05-22）、`薬機法.md`（添付のみ）、`ローソン.md`、`赤外線.md`、`100周年のアース製薬.md`、`睡眠薬.md`（2025-06-23）、`NotebookLM記事+Windows10延命記事.md`、`iBss.md`、`Teams×Copilot議事録記事.md`、`年金受給60歳最強.md`、`Parallels26.md`、`10084.99.md`、`TIme Machine.md`、`Qqww1234.md`、`DroidDock記事.md`、`yt-dlp Deno記事.md`、`アリの記事.md`、`大阪から富山の座席位置.md`、`null-sensei X投稿.md`、`安宅和人X投稿.md`、`免許書き換え.md`、`講習開始.md`、`Claude API-KEY.md`（実際のAPIキーを含む、上記参照）、`08039146950.md`、`クリニックについて.md`、`PowerPoint プレゼンテーション.md`（添付のみ）、`2026年.md`（画像のみ）、`fable5-loop.zip.md`（非公式リポジトリへのリンクのため転記せず）、`20260717075445-0001.md`（添付のみ）、`住信SBIから新生銀行へ移す.md`（個人の財務情報）。
+  - **総括**: `obsidian_vault/raw/apple_memo/`（OneNoteエクスポート由来、最終的に241件を確認）の全件をファイル単位で判定し処理完了。技術Tips・汎用知識は[[mac-tips|Mac Tips]]・[[windows-tips|Windows Tips]]・[[linux-tips|Linux / Ubuntu Tips]]・[[各種ツールメモ]]・[[生成AIプロンプト集]]・[[開発Tips|開発環境・自動化Tips]]・[[写真編集ツール|写真編集・高画質化ツール]]・[[個人手続きメモ]]・[[ライフハック・自己啓発メモ]]・[[人工知能ブーム再燃の真実(2015年日経ビジネス連載)]]・[[日経ビジネス記事メモ]]へ要約統合。個人の認証情報・ライセンスキー・医療情報・財務情報・成人向けコンテンツ等はwikiへ一切転記せず、フォルダ全体を`.gitignore`で保護する対応とした。同期プロセスにより処理中もファイル数が変動したため、今後`raw/apple_memo/`に追加される新規ファイルがあれば次回`/ingest`で継続対応する。
+- 2026-08-09: `/ingest` 再実行。`obsidian_vault/raw/`配下を再走査。
+  - **重要な発見（データ消失、原因未特定）**: 前回バッチ終了後の再走査で、`apple_memo/`（241件）・`OneNote/`フォルダに加え、**既に過去の`/ingest`で処理済みだった中核フォルダの一部ファイルも消失**していることを確認した（`articles/日経ビジネス/`3件、`notes/薬/`19件、`notes/写真/`2件、`personal/`2件、`notes/Python/`・`notes/Tips/`の一部等、計114件）。Windowsのごみ箱・Vault内`.trash`・同期デバッグログ（`_debug_remotely_save/`）のいずれにも復旧の手がかりは見つからなかった。AI側でこれらのファイルを削除・移動した操作は行っていない（`raw/`は読み取り専用で扱っている）。ユーザーに報告し、「このまま続行」の指示を受けた。**これらの消失ファイルの内容は、すべて過去のバッチで既にwiki側に要約済みのため、知識の喪失はない**（一次情報のみ現状ローカルに存在しない状態）。`pdfs/`配下のPDF・画像ファイルは影響を受けていない（引き続き現存）。
+  - 新規/移動として検出された6件（`notes/Obsidian/`配下4件、`notes/Python/`配下2件）を確認した結果、いずれも既存ページ（[[obsidian|Obsidian]]、[[second-brain-vault構成|second_brainリポジトリのディレクトリ構成]]、[[pythonフォーマットチェッカー|black文法チェッカー（GUI）]]、[[linux-tips|Linux / Ubuntu Tips]]）と完全に同一内容の重複（フォルダ移動・改名によるものと推測）であり、新規ページ生成・追記は不要と判断した。
+  - 処理対象なし。次回`/ingest`実行時に、消失したフォルダが復元されているか、または新規ファイルが追加されているかを再確認する。
+- 2026-08-09: ユーザーより「不要なフォルダやファイルを削除・変更した。削除したファイルの情報はWIKIから削除すること」との指示を受け、wiki全体のクリーンアップを実施。削除範囲は「消失した全ファイル由来の内容（apple_memo/・OneNote/＋旧来の114件）」とユーザーに確認済み。
+  - **apple_memo由来の追記を全削除**: 今回のセッションでapple_memo/から追記した内容を[[mac-tips|Mac Tips]]・[[windows-tips|Windows Tips]]・[[linux-tips|Linux / Ubuntu Tips]]・[[各種ツールメモ]]・[[生成AIプロンプト集]]・[[開発Tips|開発環境・自動化Tips]]・[[ライフハック・自己啓発メモ]]・[[人工知能ブーム再燃の真実(2015年日経ビジネス連載)|人工知能ブーム再燃の真実]]・[[日経ビジネス記事メモ]]から削除し、各frontmatterのsource一覧も復元した。
+  - **薬剤メモ**: `notes/薬/`（19件、全削除済み）が唯一の情報源だったセクション（去痰薬、フォシーガ、妊娠禁忌、一包化不可・要注意薬剤、医療用後発医薬品の空スタブ）を削除。`pdfs/`の鮮明画像（現存）を情報源とするセクション（帯状疱疹、経口抗血小板薬、糖尿病治療薬アルゴリズム、透析患者、睡眠薬、便秘薬、心不全治療薬、BCAA、緑内障治療薬、インスリン製剤一覧、GLP-1受容体作動薬、降圧配合剤、アドレナリン受容体）は一次情報が現存するため保持した。
+  - **日経ビジネス記事メモ**: `articles/日経ビジネス/`3件（削除済み、いずれも本文未記入のスタブ）への参照をsourceから除去。本文はpdfs/由来（現存）のため保持。
+  - **その他、消失した非apple_memoファイルが単独の情報源だったセクションを削除**: [[Python学習リソース集]]（東大講義・千葉大学講義）、[[生成AIツール・リンク集]]（UX心理学コンセプト）、[[Python基礎文法・命名規則]]（datetime書式）、[[Python開発環境構築]]（Pythonのダウンロード）、[[Windows・IT環境Tips]]（業務フロー図・Kindle Unlimitedキャンペーン）、[[mac-tips|Mac Tips]]（バックアップアプリのメモ）、[[SharePoint運用Tips]]（ドキュメント管理の解説動画・スライド）、[[windows-tips|Windows Tips]]（起動しないエラー対処・Outlookデータファイルの場所）、[[Pocket救出リンク集]]（Pocketに保存していたデータ・Webサービス公開前のチェックリスト）。
+  - **ページ全体を削除**（全セクションの情報源が消失したため）: `写真編集ツール.md`（notes/写真/2件が全情報源）、`個人手続きメモ.md`（personal/2件が全情報源）、`pythonフォーマットチェッカー.md`（唯一の情報源`2024-02-18 文法チェッカー.md`が消失）、`second-brain-vault構成.md`（情報源2件とも消失）、`obsidian.md`・`セカンドブレイン.md`（唯一の情報源`2026-08-06-obsidian-second-brain-memo.md`・`notes/Obsidian/無題のファイル.md`が消失。この2件は元々git追跡済みファイルとして今回のセッション開始前から削除状態だった）。
+  - `wiki/index.md`から削除済みページへのリンク（写真編集ツール、second-brain-vault構成、個人手続きメモ、pythonフォーマットチェッカー、obsidian、セカンドブレイン）を除去。
+  - 他ページへの残存wikilink（例: 各所からの`[[obsidian|Obsidian]]`参照）はunresolved linkとして残る場合があるが、`/lint`が検出・報告する方針のため自動修正はしていない。
+- 2026-08-09: `/ingest` 再実行。`obsidian_vault/raw/`配下（343ファイル）を全件再走査。
+  - **`notes/薬/`の一部ファイルが再出現**: 前回セッションの同期による消失・その後のwikiクリーンアップで[[薬剤メモ]]から削除していた4件（去痰薬、フォシーガ、妊娠禁忌、一包化不可）が同期により再出現していることを確認。内容を再度要約し[[薬剤メモ]]に「去痰薬の使い分け」「SGLT2阻害薬のAG」「妊娠中の投与可否が変更された降圧薬」「一包化不可・要注意薬剤」の4節として復元した（緑内障治療薬は既存内容と一致のため変更なし）。
+  - **`notes/Obsidian/`に新規ファイルを検出**: `2026-08-09 Cloud CodeでObsidianのWikiを作成する.md`（新規、`/ingest`の処理フローを記述）に加え、以前削除した`2026-08-06-obsidian-second-brain-memo.md`（frontmatterに「テスト投入データ」と明記、ユーザーが意図的に削除）とほぼ同一内容のファイルが3件（`2026-08-06 obsidian-second-brain memo.md`、`2026-08-06 作成メモ.md`、`2026-08-07 obsidian-second-brain構成.md`）同期により再出現。ページ再生成の是非をユーザーに確認したところ「生成する」との回答を得たため、[[obsidian|Obsidian]]・[[セカンドブレイン]]・[[second-brain-vault構成|second_brainのディレクトリ構成]]の3ページを再生成した（`second-brain-vault構成`には新規ファイルのingestフロー説明も統合、フォルダ構成は現況に合わせて訂正）。`2026-08-06 作成メモ.md`は内容が薄いため引き続きページ化なし。
+  - 上記以外の全フォルダ（`articles/`、`notes/Android`〜`notes/高速検索`各種、`pdfs/`）はファイル数が過去バッチ処理完了時点以下であり、新規ファイルは検出されなかった（過去の同期消失による欠落分の一部が未回復のままか、既に処理済み内容の残存サブセットと判断）。`wiki/index.md`を更新済み。
 - 2026-08-09: セッション引き継ぎのため `wiki/session-handoff.md` を新規作成。obsidian-claude-guide.htmlの文字化け修正、README.mdのディレクトリ構成修正、ブランチ運用の整理、`/ingest`不具合対応、各種Q&A、`defuddle`導入見送り判断（デメリット優位）をまとめて記録した。

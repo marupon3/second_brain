@@ -8,6 +8,12 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 - 本Vaultは個人用の知識管理システムであり、複数ユーザーでの共有は想定しない。
 - 対象環境: Windows 11 / Python 3.11.9 / UTF-8。
 
+## 1.1 回答方針（必須）
+
+- 本プロジェクトでのやり取りでは、回答前に必ず`wiki/`（Obsidian Wiki）の関連ページを参照すること。
+- Wikiの内容を回答の基盤としつつ、通常の生成AIとしての知識・推論も併用し、不足やギャップを補うこと。
+- Wikiに情報がない場合でも、その旨を明示した上で通常の知識で回答してよい。
+
 ## 2. フォルダ構造
 
 `obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/projects/areas/resources/templates）をまとめた配下ディレクトリ。Obsidianのvault自体はリポジトリ直下（`second_brain/`）を開くため、`wiki/` `weekly/`とあわせて同一Vault内で扱われる。

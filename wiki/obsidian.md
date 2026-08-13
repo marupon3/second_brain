@@ -1,19 +1,17 @@
 ---
 title: Obsidian
-updated: 2026-08-06
-source: obsidian_vault/raw/notes/2026-08-06-obsidian-second-brain-memo.md
+updated: 2026-08-09
+source:
+  - obsidian_vault/raw/notes/Obsidian/2026-08-06 obsidian-second-brain memo.md
 ---
 
 # Obsidian
 
-## 概要
+ローカルファースト（データをローカルのMarkdownファイルとして保持する）を特徴とするノートアプリ。
 
-Obsidianは、ローカルファースト（データをローカルのMarkdownファイルとして保持する）を特徴とするノートアプリ。
-プラグインによりGraph View（ページ間のリンクをグラフとして可視化する機能）を備えており、知識同士のつながりを俯瞰しやすい。
+## 主な特徴
 
-本Vault（第二の脳）自体もObsidianでの閲覧・編集を前提としたMarkdown構成を採用しており、
-`wiki/`配下のページ間リンクはObsidian形式のwikilinkで記述される。
+- データはすべてローカルのMarkdownファイルとして保存され、外部サービスに依存しない
+- プラグインによりGraph View（ページ間のwikilinkをグラフとして可視化する機能）を備えており、知識同士のつながりを俯瞰しやすい
 
-## 関連ページ
-
-- [[セカンドブレイン]]
+関連: [[セカンドブレイン]]、[[second-brain-vault構成|second_brainのディレクトリ構成]]

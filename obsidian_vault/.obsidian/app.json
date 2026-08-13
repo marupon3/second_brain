@@ -1,0 +1,10 @@
+{
+  "userIgnoreFilters": [
+    "templates/"
+  ],
+  "newFileLocation": "folder",
+  "newFileFolderPath": "raw/notes",
+  "attachmentFolderPath": "raw/pdfs",
+  "showUnsupportedFiles": true,
+  "promptDelete": false
+}
