@@ -1,6 +1,6 @@
 ---
 title: Claude Code徹底ガイド
-updated: 2026-08-09
+updated: 2026-08-13
 source:
   - obsidian_vault/raw/notes/生成AI/2026-02-08 Claude.md
   - obsidian_vault/raw/notes/生成AI/2026-03-25 _Claude Code用Skills.md
@@ -10,6 +10,10 @@ source:
   - obsidian_vault/raw/notes/生成AI/2026-07-22 Clade Code + NotebookLM.md
   - obsidian_vault/raw/notes/生成AI/2026-02-19 _Claude Code公式.md
   - obsidian_vault/raw/notes/生成AI/2026-07-11 _Claude Code逆引き.md
+  - obsidian_vault/raw/notes/providerによる生成AI無料実行.md
+  - obsidian_vault/raw/notes/10のClaude + Obsidianリポジトリ.md
+  - obsidian_vault/raw/notes/Claude Skills 72選.md
+  - obsidian_vault/raw/notes/Graph enginering.md
 ---
 
 # Claude Code徹底ガイド
@@ -132,6 +136,46 @@ Remove-Item Env:\ANTHROPIC_AUTH_TOKEN -ErrorAction SilentlyContinue
 ## Claude Code + NotebookLM
 
 Google NotebookLMにMCP経由で接続すると、Claude Codeはトークンを消費せずに完全なドキュメンテーションを読み込める。
+
+## Claude Codeを無料/代替プロバイダーで動かすプロキシツール（free-claude-code）
+
+`ai-provider-gateway`（自作ゲートウェイ、上記参照）とは別の、OSSのローカルプロキシツール。Claude Codeは通常どおりAnthropic形式のリクエストを送るだけで、`free-claude-code`がそれを任意のプロバイダーに転送する。
+
+```
+uv tool install git+https://github.com/Alishahryar1/free-claude-code
+fcc-init  # 環境ファイルにAPIキーを入力
+```
+
+```
+ANTHROPIC_BASE_URL = http://localhost:8082
+ANTHROPIC_AUTH_TOKEN = freecc
+```
+
+CLI・VS Code拡張機能・JetBrainsいずれも設定変更不要。転送先の例: NVIDIA NIM（1分あたり40リクエスト無料）、OpenRouter、DeepSeek、Kimi、LM Studio/llama.cpp/Ollama（完全ローカル・オフライン）。Opus/Sonnet/Haikuをそれぞれ別のモデル・プロバイダーにマッピングできるため、高価なモデルの利用箇所を限定できる。
+
+## Claude + Obsidianで作る「自分で育つ第二の脳」
+
+Claude CodeとObsidianを組み合わせた知識管理パターンについてのメモ集。**本Vault（second_brain）自体がこのパターンの実践例**にあたる。
+
+- ソース（記事・PDF・メモ）を投げ込むだけでClaudeが内容を読み取り、人物・アイデアを抽出して相互リンク（wikilink）を張り、整理されたMarkdown Vaultに自動ファイルする、というコンセプト（Andrej Karpathyの「LLM Wiki」パターンがベース）。オープンソース・サブスクなし・データベースなし・ロックインなしで、プレーンなMarkdownとして所有できる。
+- 日常的に使う主なコマンド（6種）: ①ソース1件投入→リンク付きページ自動生成、②複数ソース並列処理、③Vaultへの質問応答（引用付き）、④会話の永久ノート化、⑤自律的なWeb調査→ファイリング、⑥Vaultのクリーンアップ（孤立ページ・死リンク・矛盾検出）。本Vaultの`/ingest` `/query` `/lint`にそれぞれ対応する構成。
+- 成長イメージ: 1日目は数ページの小さなグラフ、2週間後にリンクの網目ができ過去の知識を引用し始める、2ヶ月後にはGoogle検索の前に自分のVaultに聞くようになる。
+- 便利なTips: PARA方式での分類、Web Clipperでの記事自動取り込み、週1回のリント、Obsidian Gitでの自動バックアップ。
+- Obsidian創設者のkepano氏本人が公開しているSkillsも紹介されており、Markdown・Bases・JSON Canvas・バックリンク・プラグインなどObsidianの実際の慣習を尊重した実装として信頼度が高いとされる（`mattpocock/skills`のObsidian Vault Skillの派生版）。Claudeの`skills`フォルダに配置するだけで「このノートを要約して」等の指示から適切なスキルが自動起動する。
+
+## エージェントをグラフとして設計する（Node/Edge思考）
+
+直線的な「A→B→C→D」のプロンプトチェーンは退化したグラフに過ぎず、本当に強いエージェントシステムは**ノード（仕事の単位）**と**エッジ（データの依存関係、順番ではない）**で構成する、という設計論のメモ。
+
+- 各ノードに入出力の形をスキーマで定義した「契約」を持たせ、構造化データとして返す
+- `parallel()`で独立した仕事をファンアウトし、バリアで必要最小限だけファンイン
+- 基本形は「ダイヤモンド構造」（split → work → merge）
+- 条件分岐で実行時に動的ルーティング、エッジ上に検証ノード（敵対的検証・多視点検証）を置いて信頼性を上げる
+- ノードを隔離し1つの失敗が全体を止めないようにする／収束条件つきのサイクルを許容する
+- 簡単な仕事は安いモデル・判断が必要な部分は高性能モデルとノードごとにモデルを階層化し、トポロジーでコストと遅延を最適化する
+- 最終形はClaude自身にオーケストレーショングラフを描かせる「自己ルーティング」
+
+適用例として、セキュリティ監査・引用付き調査レポート・コード移植・差分の敵対的レビュー・定期的なエコシステム監視・未知のバグ探索が挙げられている。
 
 ## 参考リンク
 

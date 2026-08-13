@@ -1,11 +1,12 @@
 ---
 title: Gitコマンド Tips
-updated: 2026-08-09
+updated: 2026-08-13
 source:
   - obsidian_vault/raw/notes/Tips/2026-01-22 _git設定方法.md
   - obsidian_vault/raw/notes/Tips/2026-06-26 _ローカルからPUSHするgitコマンド.md
   - obsidian_vault/raw/notes/Python/2025-04-20 git設定.md
   - obsidian_vault/raw/notes/Python/2025-07-23 _gitから除外.md
+  - obsidian_vault/raw/notes/Githubのリポジトリ容量の削減.md
 ---
 
 # Gitコマンド Tips
@@ -52,3 +53,53 @@ git commit -m "venv"
 ```
 git rm --cached app/rebuild_manager.py
 ```
+
+## GitHubリポジトリの容量を確認・削減する
+
+複数リポジトリのディスク使用量は`gh`コマンドで一覧できる。
+
+```powershell
+gh repo list <ユーザー名> --limit 200 --json name,diskUsage |
+  ConvertFrom-Json |
+  ForEach-Object { "$($_.name): $($_.diskUsage) KB" }
+```
+
+容量削減は影響範囲が小さい順に3段階で検討する。
+
+1. **Git LFS導入（今後の肥大化防止）**: 大きなバイナリ（画像・PDF等）を今後もコミットし続ける場合に有効。既存の履歴は軽くならない。
+
+   ```powershell
+   git lfs install
+   git lfs track "*.png"
+   git lfs track "*.jpg"
+   git lfs track "*.jpeg"
+   git lfs track "*.pdf"
+   git add .gitattributes
+   git commit -m "Enable LFS for large files"
+   git push
+   ```
+
+2. **BFG Repo-Cleaner / git-filter-repoで履歴から巨大ファイルを削除（容量削減の本丸）**: 過去のコミット履歴自体から不要な大容量ファイルを除去する。実行後は`git push --force`が必要になるため、共同作業中のリポジトリでは事前調整が必須。
+
+   ```powershell
+   bfg --delete-files *.png
+   bfg --delete-files *.jpg
+   # 特定フォルダを丸ごと削除する場合
+   pip install git-filter-repo
+   git filter-repo --path assets --invert-paths
+   # BFG実行後
+   git reflog expire --expire=now --all
+   git gc --prune=now --aggressive
+   git push --force
+   ```
+
+3. **履歴ごと初期化（最終手段・容量をほぼゼロにする）**: 巨大ファイルが大量にある場合に最も確実だが、コミット履歴が完全に失われる。
+
+   ```powershell
+   git checkout --orphan latest_branch
+   git add -A
+   git commit -m "Initial clean commit"
+   git branch -D main
+   git branch -m main
+   git push -f origin main
+   ```

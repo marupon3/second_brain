@@ -1,6 +1,6 @@
 ---
 title: 生成AIツール・リンク集（2023-2024前半メモ）
-updated: 2026-08-09
+updated: 2026-08-13
 source:
   - obsidian_vault/raw/notes/生成AI/2023-07-09 勉強メモ（だいち）.md
   - obsidian_vault/raw/notes/生成AI/2023-07-13 Code Interpreter.md
@@ -41,6 +41,8 @@ source:
   - obsidian_vault/raw/notes/生成AI/2026-05-25 _youtube要約サイト.md
   - obsidian_vault/raw/notes/生成AI/2026-02-01 Claude Skills.md
   - obsidian_vault/raw/articles/WEBから/2025-03-21 Youtube文字起こし.md
+  - obsidian_vault/raw/notes/Gemini Notebookの新機能.md
+  - obsidian_vault/raw/articles/Googleが手話をテキストに変換するAIモデルをPixel 11に搭載.md
 ---
 
 # 生成AIツール・リンク集（2023-2024前半メモ）
@@ -198,6 +200,14 @@ Anthropic公式のベストプラクティスを日本語でまとめた非公�
 `2024-01-21 GPTプラグイン.md`（画像のみ）、`2023-08-13 X.md`（Xポストへのリンクのみ）、`2024-01-21 iCloud.md`（個人メモへのリンクのみ）、`2024-01-25 20240125.md`（Copilot関連Xポストへのリンクのみ）、`2024-04-13 入力用ユーザインターフェイス.md`（画像OCRの文字化けが激しく再構成不可）、`2024-11-24 perplexityの有能コマンド.md`（[[検索エンジン検索コマンド集]]と同一内容の重複）
 
 原文の「mistral.ai」メモには登録メールアドレスが記載されていたが、個人情報のため転記していない。`2025-08-02 論理的問題解決.md`は[[生成AIプロンプト集#3ステップ論理分析プロンプト|論理的回答]]と同一内容の重複。
+
+## Google AI Studioを使ったDeep Research代替フロー（2026年8月メモ）
+
+Google NotebookLM/AI StudioのDeep Research的な機能を使い、3ステップでランディングページを作る手順。①トピックを調査し最新トレンドを見つけるよう依頼、②狙うべきキーワードをランク付けさせる、③ページの設計図（ワイヤーフレーム）を書かせる。その設計図をGoogle AI Studioに渡すとランディングページ自体を構築してくれる、という流れ。
+
+## AI関連ニュースメモ
+
+- **Google DeepMindの手話→テキスト変換モデル「SL2T」**（2026年8月発表）: 50以上の手話・10万時間超のデータで学習した多言語手話翻訳モデル。2026年8月20日発売のPixel 11に搭載され、Gboard（文字入力）・Live Transcribe（文字起こし）で手話入力ができるようになる予定（まずアメリカ手話→英語のみ対応、追加料金なし）。従来、手話ごとに異なる文法・語彙や身体動作の高フレームレート追跡が技術的課題だったが、ストリーミング遅延の抑制・非手話入力へのハルシネーション防止・片手手話対応などの実用面を改善したとされる。
 
 ## 関連
 

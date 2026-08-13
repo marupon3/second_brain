@@ -1,14 +1,15 @@
 ---
-title: {{date}}
-updated: {{date}}
+created: <% tp.date.now("YYYY-MM-DD") %>
+source:
+  - 
 ---
 
-# {{date}}
+# 見出し
 
-## 人間メモ
+## 見出し2
 
-## AI生成
+### 見出し3
 
-## タスク
+ 本文
 
 - [ ] 
