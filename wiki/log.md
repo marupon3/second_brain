@@ -18,3 +18,4 @@ updated: 2026-08-06
   - 自動修正は行っていない。`wiki/overview.md`を`wiki/index.md`のトピック一覧に追加するかはユーザー判断とする。
 - 2026-08-06: フォルダ構成を変更。ユーザーが新たに情報を追加する `raw/` `daily/` `projects/` `areas/` `resources/` を `obsidian_vault/` 配下に移動（`wiki/` `weekly/` はリポジトリ直下のまま）。`CLAUDE.md`・各Skill定義・`scripts/setup.py`のパス参照を追随して更新した。
 - 2026-08-06: `templates/` フォルダを `obsidian_vault/templates/` に移動。`README.md`、`CLAUDE.md`、`.claude/skills/daily/SKILL.md` のパス参照を更新した。
+- 2026-08-09: セッション引き継ぎのため `wiki/session-handoff.md` を新規作成。obsidian-claude-guide.htmlの文字化け修正、README.mdのディレクトリ構成修正、ブランチ運用の整理、`/ingest`不具合対応、各種Q&A、`defuddle`導入見送り判断（デメリット優位）をまとめて記録した。
