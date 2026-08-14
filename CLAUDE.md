@@ -16,7 +16,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 2. フォルダ構造
 
-`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/projects/areas/resources/templates）をまとめた配下ディレクトリ。Obsidianのvault自体はリポジトリ直下（`second_brain/`）を開くため、`wiki/` `weekly/`とあわせて同一Vault内で扱われる。
+`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/projects/templates）をまとめた配下ディレクトリ。Obsidianのvault自体はリポジトリ直下（`second_brain/`）を開くため、`wiki/` `weekly/`とあわせて同一Vault内で扱われる。
 
 | フォルダ | 管理者 | 役割 |
 |---|---|---|
@@ -24,7 +24,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 | `wiki/` | AI | `obsidian_vault/raw/`から生成した要約・概念・エンティティページ。index.md/log.mdを含む |
 | `obsidian_vault/daily/` | 人間+AI | 日次ノート（セクション分離: 人間メモ/AI生成/タスク） |
 | `weekly/` | AI | 週次レビュー（`/weekly`で生成） |
-| `obsidian_vault/projects/` `obsidian_vault/areas/` `obsidian_vault/resources/` | 人間+AI | 補助的な整理用フォルダ |
+| `obsidian_vault/projects/` | 人間+AI | 補助的な整理用フォルダ |
 | `obsidian_vault/private/` | 人間のみ | パスワード等の非公開情報を含むローカル専用ノート。`.gitignore`で除外され、リモートには一切push・同期しない |
 | `obsidian_vault/templates/` | 人間+AI | Daily Note等の固定テンプレート |
 | `.claude/skills/` | - | カスタムSkills定義 |

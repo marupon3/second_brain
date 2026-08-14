@@ -99,7 +99,7 @@ second_brain/
 ├── obsidian_vault/        # ユーザーが新たに情報を追加するフォルダ
 │   ├── raw/                # 不変ソース（人間のみ編集）
 │   ├── daily/               # 日次ノート
-│   ├── projects/ areas/ resources/
+│   ├── projects/
 │   ├── private/             # ローカル専用（.gitignoreで除外、リモート非同期）
 │   └── templates/          # 固定テンプレート
 ├── wiki/                    # AI生成知識ベース
