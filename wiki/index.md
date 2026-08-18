@@ -1,6 +1,6 @@
 ---
 title: Index
-updated: 2026-08-09
+updated: 2026-08-18
 ---
 
 # Index
@@ -67,3 +67,4 @@ Vault全体のカタログページ。`/ingest` によりwikiページが生成�
 - [[セカンドブレイン]]
 - [[second-brain-vault構成|second_brainのディレクトリ構成]]
 - [[session-handoff|セッション引き継ぎメモ]]
+- [[グラフエンジニアリング]]

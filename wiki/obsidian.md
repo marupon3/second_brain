@@ -1,9 +1,10 @@
 ---
 title: Obsidian
-updated: 2026-08-13
+updated: 2026-08-15
 source:
   - obsidian_vault/raw/notes/Obsidian/2026-08-06 obsidian-second-brain memo.md
   - obsidian_vault/raw/notes/Obsidianの手入れ.md
+  - obsidian_vault/raw/notes/2026-08-13-Obsidian公式のAI説明書.md
 ---
 
 # Obsidian
@@ -23,4 +24,16 @@ source:
 2. **フラグ済みリストの確認**: フラグが付いたノート全部について本文・作成日・最終更新日を並べ、フラグの理由ごとにグループ化して確認する（1件ずつではなく理由単位でまとめて判断するため）。
 3. **削除後の壊れリンク確認**: Vault内で既に存在しないノートへの内部リンク・バックリンクを全て洗い出し、どのノートにどの壊れたリンクがあるかを一覧化する（直す・消すの判断は人間が行う）。
 
-関連: [[セカンドブレイン]]、[[second-brain-vault構成|second_brainのディレクトリ構成]]
+## 公式AI Skills（kepano/obsidian-skills）
+
+Obsidian開発元（kepano）が公開しているAIエージェント向けSkills集（[obsidian-skills](https://github.com/kepano/obsidian-skills)）のメモ。[[Claude_Code徹底ガイド]]で扱うCode向けSkillsとは別に、Obsidian本体・Vault操作に特化した公式Skillsとして以下がある。
+
+| Skill | 機能 |
+| --- | --- |
+| `obsidian-markdown` | wikilink・埋め込み・コールアウト・プロパティ等、Obsidian固有のMarkdown構文を正しく書く |
+| `defuddle` | Webページからクリーンな本文Markdownを抽出 |
+| `obsidian-bases` | Obsidian Bases形式（`.base`、DB風ビュー）の作成 |
+| `json-canvas` | Obsidian Canvas（`.canvas`）の作成 |
+| `obsidian-cli` | プラグイン・テーマ開発向けのVault操作CLI |
+
+関連: [[セカンドブレイン]]、[[second-brain-vault構成|second_brainのディレクトリ構成]]、[[Claude_Code徹底ガイド]]

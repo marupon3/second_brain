@@ -1,0 +1,255 @@
+---
+created: 2026-08-18
+source: https://x.com/hanakoxbt/status/2087167924410658912?s=20
+tags:
+---
+AIエージェントのグラフ構造は、複数のエージェントや処理ステップを「ノード（頂点）」と「エッジ（辺）」でつなぎ、複雑なワークフローを明示的に設計・制御するアーキテクチャです。
+
+前回の投稿で触れられていた「エージェントチーム → グラフ」の進化は、まさにこの考え方に基づきます。単一のループや直線的なチェーンではなく、分岐・並列・ループ・条件分岐を自由に扱えるようになります。
+
+1. 基本コンセプト：なぜ「グラフ」なのか？
+
+|   |   |   |   |
+|---|---|---|---|
+|構造|特徴|限界|適した場面|
+|単一エージェント（ループ）|1つのエージェントがツールを繰り返し使う|複雑タスクでコンテキスト溢れ、役割分担できない|単純なタスク|
+|直線チェーン|A → B → C の順番実行|並列不可、依存関係が固定|順番が明確な処理|
+|グラフ|ノード＋エッジで自由な形状|設計が複雑になる可能性|分岐・並列・再試行・協調が必要なシステム|
+
+グラフにすると以下が可能になります：
+
+- 並列実行（複数エージェントが同時に動く）
+- 条件分岐（結果によって次のノードが変わる）
+- ループ・再試行（失敗したら前に戻る）
+- 共有状態の管理（全ノードが同じデータを見られる）
+- 人間の介入ポイント（Human-in-the-loop）
+
+前回の投稿で触れられていた「並列で動くチームで意見が割れたときのtiebreak（決着）」も、グラフのエッジや集約ノード（Reducer）で明示的に設計できます。
+
+2. コア構成要素（LangGraphを例に）
+
+現在最も普及している実装の一つがLangGraph（LangChain製）です。以下の3要素でグラフを定義します。
+
+1. State（状態）  
+    グラフ全体で共有されるデータ構造。  
+    例：メッセージ履歴、中間結果、評価スコア、ツール呼び出し履歴など。  
+    各ノードが読み書きでき、Reducer（集約関数）で並列更新をマージできます。
+2. Nodes（ノード）  
+    実際の処理を行う関数。
+
+- LLM呼び出し（エージェント本体）
+- ツール実行
+- データ変換・評価・検証
+- 人間の承認待ち  
+    ノードは「状態を受け取り → 処理 → 更新された状態を返す」という形です。
+
+4. Edges（エッジ）  
+    次にどのノードに進むかを決める。
+
+- 固定エッジ：常にA → B
+- 条件付きエッジ：状態を見て「成功ならC、失敗ならD」と動的に分岐
+- 並列エッジ：1つのノードから複数ノードへ同時に分岐（fan-out）
+
+実行は「スーパーステップ」単位で進み、メッセージパッシング方式で状態が伝播します。
+
+3. 代表的なトポロジー（形状）パターン
+
+|   |   |   |
+|---|---|---|
+|パターン|構造のイメージ|特徴・用途|
+|Sequential（順次）|A → B → C|シンプルなパイプライン|
+|Parallel（並列）|A → (B, C, D) → E|独立タスクを同時実行し、後で集約|
+|Hierarchical（階層）|Supervisor → Worker群|オーケストレーターが専門エージェントに仕事を振る|
+|DAG（有向非巡回グラフ）|依存関係に基づく実行|複雑な依存関係があるワークフロー|
+|Network / Mesh|全エージェントが相互に通信可能|明確な階層がない協調タスク|
+|Loop / Cyclic|ノード間で循環|自己反省・再試行・改善ループ|
+|Supervisor + Workers|中央管理者が分岐・集約|最も実務で使われやすい|
+
+これらを組み合わせて「fan-out（分散）→ 処理 → reduce（集約）→ verify（検証）」といった形を作るのが典型的です。
+
+4. 知識グラフとの違い・関係
+
+「グラフ」という言葉が2つの意味で使われるので注意が必要です。
+
+- ワークフローグラフ（今回の主対象）  
+    エージェントの実行フローを制御するもの。LangGraphなどで実装。
+- 知識グラフ（Knowledge Graph）  
+    エンティティと関係性を格納するデータ構造（例：Neo4j）。  
+    Andrew Ng関連のコースでは「エージェントチームがデータを抽出して知識グラフを構築する」内容も扱われており、RAGの精度向上などに使われます。  
+    ワークフローグラフの中で知識グラフを操作するノードを置く、という組み合わせも一般的です。
+
+5. グラフ構造の利点と注意点
+
+利点
+
+- 制御フローが可視化・監査可能になる
+- 並列化で速度向上
+- 失敗時の再試行や人間介入を明示的に埋め込める
+- 役割分担が明確になり、単一エージェントのコンテキスト限界を超えやすい
+- 永続化（チェックポイント）により長時間実行や障害復旧が容易
+
+注意点
+
+- 設計が複雑になる（過剰設計を避ける）
+- 状態の肥大化に注意（必要な情報だけ共有）
+- 並列時の競合解決（tiebreak）をどう設計するかが重要
+- デバッグはログと可視化ツールが必須
+
+まとめ
+
+AIエージェントのグラフ構造とは、**「エージェントや処理をノード、遷移をエッジとして、状態を共有しながら動的に制御するオーケストレーション手法」**です。
+
+単一ループからチームへ、さらにグラフへと進化させることで、単純な「動くエージェント」から「信頼できるシステム」へと近づきます。前回の投稿で触れられていた「コースは形を教えるがtiebreakまでは与えない」という指摘は、まさにこの設計判断の部分を指しています。
+
+実装を始めるなら、まずLangGraphの公式ドキュメントで「State + Node + Edge」を試すのがおすすめです。必要であれば、具体的なコード例や特定のトポロジーの詳細も説明できます。
+
+
+
+以下に LangGraph の実践的なコード実装例を、簡単なものから段階的に紹介します。  
+すべて Python 3.10+ を想定しています。
+## 必要なインストール
+pip install -U langgraph langchain-openai langchain-core
+（OpenAI以外を使う場合は対応するパッケージに置き換えてください）
+## 1. 最小の例（State + Node + Edge）
+最も基本的な「状態を受け取り、加工して返す」グラフです。
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+### 1. State（共有状態）を定義
+class State(TypedDict):
+    text: str
+    count: int
+### 2. Node（処理関数）
+def node_a(state: State) -> dict:
+    print("Node A 実行中")
+    return {
+        "text": state["text"] + " → A",
+        "count": state["count"] + 1
+    }
+def node_b(state: State) -> dict:
+    print("Node B 実行中")
+    return {
+        "text": state["text"] + " → B",
+        "count": state["count"] + 1
+    }
+### 3. Graphを構築
+builder = StateGraph(State)
+builder.add_node("a", node_a)
+builder.add_node("b", node_b)
+builder.add_edge(START, "a")      # 開始 → a
+builder.add_edge("a", "b")        # a → b
+builder.add_edge("b", END)        # b → 終了
+graph = builder.compile()
+### 4. 実行
+result = graph.invoke({"text": "開始", "count": 0})
+print(result)
+### 出力例: {'text': '開始 → A → B', 'count': 2}
+
+## 2. 条件分岐付きグラフ（ループも可能）
+状態を見て次のノードを動的に決める例です。
+from typing import TypedDict, Literal, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+class State(TypedDict):
+    messages: Annotated[list[str], operator.add]  # リストは追加でマージ
+    step: int
+    
+def step1(state: State) -> dict:
+    print(f"Step1: {state['step']}")
+    return {"messages": ["Step1完了"], "step": state["step"] + 1}
+
+def step2(state: State) -> dict:
+    print(f"Step2: {state['step']}")
+    return {"messages": ["Step2完了"], "step": state["step"] + 1}
+
+def router(state: State) -> Literal["step2", "end"]:
+    """条件分岐のルーティング関数"""
+    if state["step"] < 3:
+    return "step2"
+    return "end"
+builder = StateGraph(State)
+builder.add_node("step1", step1)
+builder.add_node("step2", step2)
+builder.add_edge(START, "step1")
+builder.add_conditional_edges(
+    "step1",
+    router,
+    {
+        "step2": "step2",
+        "end": END
+    }
+)
+builder.add_edge("step2", "step1")  # ループさせる
+graph = builder.compile()
+result = graph.invoke({"messages": [], "step": 0})
+print(result["messages"])
+
+## 3. 実用的な ReAct エージェント例（ツール呼び出し付き）
+公式Quickstartに近い、ツールを使う基本エージェントです。
+from typing import Literal
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+from langchain_core.messages import HumanMessage, SystemMessage
+from langgraph.graph import StateGraph, START, END, MessagesState
+from langgraph.prebuilt import ToolNode
+
+# ツール定義
+
+@tool
+def add(a: float, b: float) -> float:
+    """2つの数値を足し算します"""
+    return a + b
+@tool
+def multiply(a: float, b: float) -> float:
+"""2つの数値を掛け算します"""
+    return a * b
+tools = [add, multiply]
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+model_with_tools = model.bind_tools(tools)
+# ノード1: LLMがツールを呼ぶか判断
+def llm_call(state: MessagesState):
+    response = model_with_tools.invoke(
+        [SystemMessage(content="あなたは計算を手伝うアシスタントです。必要に応じてツールを使ってください。")]
+        + state["messages"]
+    )
+    return {"messages": [response]}
+# ノード2: ツール実行
+tool_node = ToolNode(tools)
+
+# 条件分岐: ツール呼び出しがあるか？
+def should_continue(state: MessagesState) -> Literal["tools", END]:
+    last_message = state["messages"][-1]
+    if last_message.tool_calls:
+        return "tools"
+    return END
+# グラフ構築
+builder = StateGraph(MessagesState)
+builder.add_node("llm", llm_call)
+builder.add_node("tools", tool_node)
+builder.add_edge(START, "llm")
+builder.add_conditional_edges("llm", should_continue, ["tools", END])
+builder.add_edge("tools", "llm")  # ツール実行後は再びLLMへ
+agent = builder.compile()
+# 実行
+result = agent.invoke({
+    "messages": [HumanMessage(content="3と4を足して、その結果を2倍してください")]
+})
+for msg in result["messages"]:
+    msg.pretty_print()
+    
+### 4. より高レベルな書き方（prebuilt）
+
+シンプルにしたい場合は create_react_agent を使えます。
+from langgraph.prebuilt import create_react_agent
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+
+@tool
+def search(query: str) -> str:
+    """ウェブ検索（ダミー）"""
+    return f"検索結果: {query} に関する情報です。"
+model = ChatOpenAI(model="gpt-4o-mini")
+agent = create_react_agent(model, tools=[search])
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "東京の天気を教えて"}]
+})
+print(result["messages"][-1].content)

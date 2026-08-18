@@ -1,6 +1,6 @@
 ---
 title: Claude Code徹底ガイド
-updated: 2026-08-13
+updated: 2026-08-18
 source:
   - obsidian_vault/raw/notes/生成AI/2026-02-08 Claude.md
   - obsidian_vault/raw/notes/生成AI/2026-03-25 _Claude Code用Skills.md
@@ -14,6 +14,7 @@ source:
   - obsidian_vault/raw/notes/10のClaude + Obsidianリポジトリ.md
   - obsidian_vault/raw/notes/Claude Skills 72選.md
   - obsidian_vault/raw/notes/Graph enginering.md
+  - "obsidian_vault/raw/notes/claude Code/2026-08-18 Grok 4.6をそのまま呼び出せるプラグイン.md"
 ---
 
 # Claude Code徹底ガイド
@@ -153,6 +154,14 @@ ANTHROPIC_AUTH_TOKEN = freecc
 
 CLI・VS Code拡張機能・JetBrainsいずれも設定変更不要。転送先の例: NVIDIA NIM（1分あたり40リクエスト無料）、OpenRouter、DeepSeek、Kimi、LM Studio/llama.cpp/Ollama（完全ローカル・オフライン）。Opus/Sonnet/Haikuをそれぞれ別のモデル・プロバイダーにマッピングできるため、高価なモデルの利用箇所を限定できる。
 
+## Claude Code内からGrok 4.6を呼び出すプラグイン
+
+Claude CodeやCodexのハーネスはそのまま使い、中の頭脳（モデル）だけをGrok 4.6に差し替えて動かす無料・オープンソースのプラグインが公開された。
+
+- 必要条件はX PremiumまたはSuperGrokのアカウントのみ。OAuth連携だけで使える。
+- 作者本人が24時間使い込み「速い・的確・無駄がない」と評価。
+- 上記の`free-claude-code`（別プロバイダーへのプロキシ転送）とは異なり、ハーネス自体にモデル差し替えの仕組みを組み込むアプローチ。「単一モデル前提」のハーネス設計から一歩先に進んだ事例として言及されている。
+
 ## Claude + Obsidianで作る「自分で育つ第二の脳」
 
 Claude CodeとObsidianを組み合わせた知識管理パターンについてのメモ集。**本Vault（second_brain）自体がこのパターンの実践例**にあたる。
@@ -177,6 +186,8 @@ Claude CodeとObsidianを組み合わせた知識管理パターンについて�
 
 適用例として、セキュリティ監査・引用付き調査レポート・コード移植・差分の敵対的レビュー・定期的なエコシステム監視・未知のバグ探索が挙げられている。
 
+具体的なノード構成例・トポロジーパターン・LangGraphでの実装コードは→[[グラフエンジニアリング]]を参照。
+
 ## 参考リンク
 
 - Claude Code公式クイックスタート: <https://code.claude.com/docs/ja/quickstart>
@@ -186,3 +197,4 @@ Claude CodeとObsidianを組み合わせた知識管理パターンについて�
 
 - [[生成AIツール・リンク集]]
 - [[クラウド・システムTips]]
+- [[グラフエンジニアリング]]
