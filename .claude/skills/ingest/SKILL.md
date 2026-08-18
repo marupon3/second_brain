@@ -7,7 +7,7 @@ description: obsidian_vault/raw/の新規ファイル（記事・メモ・PDF等
 
 ## When to use
 
-- `obsidian_vault/raw/`（`articles/` `notes/` `pdfs/` `personal/`）に新しいソースが投入されたとき
+- `obsidian_vault/raw/`（`articles/` `notes/` `figures/` `personal/`）に新しいソースが投入されたとき
 - ユーザーが `/ingest` を実行したとき
 
 ## When not to use
@@ -16,7 +16,7 @@ description: obsidian_vault/raw/の新規ファイル（記事・メモ・PDF等
 
 ## Input
 
-- `obsidian_vault/raw/articles/` `obsidian_vault/raw/notes/` `obsidian_vault/raw/pdfs/` `obsidian_vault/raw/personal/` 配下の未処理ファイル
+- `obsidian_vault/raw/articles/` `obsidian_vault/raw/notes/` `obsidian_vault/raw/figures/` `obsidian_vault/raw/personal/` 配下の未処理ファイル
 
 ## Output
 

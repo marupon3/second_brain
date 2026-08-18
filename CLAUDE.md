@@ -20,7 +20,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 | フォルダ | 管理者 | 役割 |
 |---|---|---|
-| `obsidian_vault/raw/` | 人間のみ | 不変の原文・スクラップ。articles/notes/pdfs/personalに分類 |
+| `obsidian_vault/raw/` | 人間のみ | 不変の原文・スクラップ。articles/notes/figures/personalに分類 |
 | `wiki/` | AI | `obsidian_vault/raw/`から生成した要約・概念・エンティティページ。index.md/log.mdを含む |
 | `obsidian_vault/daily/` | 人間+AI | 日次ノート（セクション分離: 人間メモ/AI生成/タスク） |
 | `weekly/` | AI | 週次レビュー（`/weekly`で生成） |

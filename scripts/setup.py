@@ -23,7 +23,7 @@ from cli_common import ENCODING, configure_stdio_encoding, run_cli
 DIRECTORIES = [
     "obsidian_vault/raw/articles",
     "obsidian_vault/raw/notes",
-    "obsidian_vault/raw/pdfs",
+    "obsidian_vault/raw/figures",
     "obsidian_vault/raw/personal",
     "wiki",
     "obsidian_vault/daily",
