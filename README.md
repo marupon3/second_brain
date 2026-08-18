@@ -107,6 +107,6 @@ second_brain/
 └── scripts/                    # 環境チェック・セットアップ用スクリプト
 ```
 
-Obsidianはこの`second_brain/`フォルダ全体を1つのVaultとして開く。`obsidian_vault/`はその中で「人間が書き込む対象」を一段まとめたサブフォルダという位置づけ。
+Obsidianアプリで開くVaultルートは`second_brain/`全体ではなく**`obsidian_vault/`**（`.obsidian/`設定フォルダは`obsidian_vault/.obsidian/`にのみ存在）。`wiki/`・`weekly/`はリポジトリ直下にあり`obsidian_vault/`の外＝Vault外のため、Obsidianアプリからは見えずwikilinkも解決されない。両フォルダはClaude Code CLI（Skills）が直接読み書きするAI運用専用ディレクトリであり、Obsidianアプリでの閲覧は想定しない。
 
 詳細なディレクトリ設計・Skills仕様は本Vaultの設計元となった基本設計書を参照（本リポジトリには同梱していない）。

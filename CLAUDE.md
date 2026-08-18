@@ -16,7 +16,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 2. フォルダ構造
 
-`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/templates）をまとめた配下ディレクトリ。Obsidianのvault自体はリポジトリ直下（`second_brain/`）を開くため、`wiki/` `weekly/`とあわせて同一Vault内で扱われる。
+`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/templates）をまとめた配下ディレクトリであり、**ObsidianアプリのVaultルートそのもの**（`.obsidian/`設定フォルダは`obsidian_vault/.obsidian/`にのみ存在する）。`wiki/`・`weekly/`はリポジトリ直下にあり`obsidian_vault/`の外＝Vault外のため、Obsidianアプリ上では見えず、wikilinkも解決されない。両フォルダはClaude Code CLI（Skills）が直接読み書きする、AI運用専用のディレクトリという位置づけ。
 
 | フォルダ | 管理者 | 役割 |
 |---|---|---|
