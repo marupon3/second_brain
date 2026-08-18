@@ -15,12 +15,15 @@ obsidian_vault/private/
 obsidian_vault/raw/apple_memo/
 
 # Obsidian（ワークスペース固有の設定は個人環境依存のため除外）
-.obsidian/workspace*
-.obsidian/cache
+# 注意: VaultルートはリポジトリのトップレベルではなくOBSIDIAN_vault/配下（CLAUDE.md 2節）。
+# 「/」を含むパターンはgitignore仕様上.gitignoreのある階層（リポジトリ直下）からの相対パスと
+# みなされるため、obsidian_vault/を明記しないとobsidian_vault/.obsidian/配下にマッチしない。
+obsidian_vault/.obsidian/workspace*
+obsidian_vault/.obsidian/cache
 
 # Smart Connections（埋め込みインデックスは再生成可能なローカルキャッシュのため除外）
-.obsidian/plugins/smart-connections/
-.smart-env/
+obsidian_vault/.obsidian/plugins/smart-connections/
+obsidian_vault/.smart-env/
 
 # OS
 Thumbs.db
