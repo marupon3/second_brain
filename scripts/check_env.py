@@ -15,24 +15,33 @@ import argparse
 import shutil
 import subprocess
 import sys
+from dataclasses import dataclass
+
+from cli_common import configure_stdio_encoding, run_cli
 
 REQUIRED_PYTHON_VERSION = (3, 11, 9)
 
 
+@dataclass(frozen=True)
 class ToolCheck:
-    def __init__(self, name: str, command: list[str], required: bool, note: str = ""):
-        self.name = name
-        self.command = command
-        self.required = required
-        self.note = note
+    """確認対象のツール1件。`command`はバージョン確認用のコマンド列。"""
+
+    name: str
+    command: list[str]
+    required: bool
+
+
+def _format_version(version: tuple[int, ...]) -> str:
+    return ".".join(map(str, version))
 
 
 def check_python_version() -> tuple[bool, str]:
     actual = sys.version_info[:3]
+    actual_text = _format_version(actual)
     if actual == REQUIRED_PYTHON_VERSION:
-        return True, f"Python {'.'.join(map(str, actual))}"
-    expected = ".".join(map(str, REQUIRED_PYTHON_VERSION))
-    return False, f"Python {'.'.join(map(str, actual))}（要求バージョン: {expected} 厳密一致）"
+        return True, f"Python {actual_text}"
+    expected_text = _format_version(REQUIRED_PYTHON_VERSION)
+    return False, f"Python {actual_text}（要求バージョン: {expected_text} 厳密一致）"
 
 
 def check_tool(tool: ToolCheck) -> tuple[bool, str]:
@@ -56,12 +65,15 @@ def check_tool(tool: ToolCheck) -> tuple[bool, str]:
 
 
 def build_tool_checks() -> list[ToolCheck]:
-    # docs/requirements.md 6節 Q7 で確定した依存ツール一覧。
+    # 依存ツール一覧（README.md「前提環境」と対応）。
     return [
         ToolCheck("Git", ["git", "--version"], required=True),
-        ToolCheck("uv", ["uv", "--version"], required=True, note="主パッケージ管理ツール"),
-        ToolCheck("pip", [sys.executable, "-m", "pip", "--version"], required=True, note="フォールバック"),
-        ToolCheck("Node.js", ["node", "--version"], required=False, note="必要に応じて"),
+        # uv: 主パッケージ管理ツール
+        ToolCheck("uv", ["uv", "--version"], required=True),
+        # pip: uvが使えない場合のフォールバック
+        ToolCheck("pip", [sys.executable, "-m", "pip", "--version"], required=True),
+        # Node.js: 必要に応じて利用するため必須ではない
+        ToolCheck("Node.js", ["node", "--version"], required=False),
     ]
 
 
@@ -80,7 +92,10 @@ def run_checks() -> int:
             has_error = True
 
     if has_error:
-        print("必須ツールの不足、またはバージョン不一致があります。上記を解消してください。", file=sys.stderr)
+        print(
+            "必須ツールの不足、またはバージョン不一致があります。上記を解消してください。",
+            file=sys.stderr,
+        )
         return 1
     print("すべての必須ツールを確認できました。")
     return 0
@@ -93,15 +108,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.parse_args(argv)
 
-    try:
-        return run_checks()
-    except Exception as exc:  # noqa: BLE001 - CLIの最終防衛ライン
-        print(f"想定外のエラーが発生しました: {exc}", file=sys.stderr)
-        return 2
+    return run_cli(run_checks)
 
 
 if __name__ == "__main__":
-    if sys.stdout.encoding is None or sys.stdout.encoding.lower() != "utf-8":
-        sys.stdout.reconfigure(encoding="utf-8")
-        sys.stderr.reconfigure(encoding="utf-8")
+    configure_stdio_encoding()
     sys.exit(main())

@@ -1,6 +1,6 @@
 """Vaultディレクトリ構造生成コマンド。
 
-docs/basic-design.md 2節のディレクトリツリーに沿って、Vaultの構造を生成する。
+README.md「ディレクトリ構成の要点」のツリーに沿って、Vaultの構造を生成する。
 既存のファイル・ディレクトリは上書きしない（非破壊的操作のため確認プロンプトは不要）。
 
 終了コード:
@@ -15,8 +15,11 @@ import argparse
 import sys
 from pathlib import Path
 
-# docs/basic-design.md 2節（v1.1, weekly/追加済み。ユーザーが直接情報を追加する
-# raw/daily/templatesはobsidian_vault/配下に集約。projects/areas/resourcesは廃止済み）に対応。
+from cli_common import ENCODING, configure_stdio_encoding, run_cli
+
+# ユーザーが直接情報を追加するraw/daily/templatesはobsidian_vault/配下に集約する。
+# wiki/・weekly/はVault外に置くAI運用専用ディレクトリ（CLAUDE.md 2節）。
+# projects/areas/resourcesは廃止済み。
 DIRECTORIES = [
     "obsidian_vault/raw/articles",
     "obsidian_vault/raw/notes",
@@ -31,7 +34,7 @@ DIRECTORIES = [
     ".claude/skills/weekly",
     ".claude/skills/ingest",
     ".claude/skills/lint",
-    ".claude/skills/research",
+    ".claude/skills/query",
     "scripts",
 ]
 
@@ -57,7 +60,7 @@ def create_wiki_placeholders(root: Path) -> list[Path]:
     for rel, content in WIKI_PLACEHOLDERS.items():
         target = root / rel
         if not target.exists():
-            target.write_text(content, encoding="utf-8")
+            target.write_text(content, encoding=ENCODING)
             created.append(target)
     return created
 
@@ -84,10 +87,22 @@ def run_setup(target: Path) -> int:
     return 0
 
 
+def resolve_and_run_setup(raw_target: str) -> int:
+    """対象パスを解決してセットアップを実行し、ファイル操作エラーを終了コード1に落とす。"""
+    try:
+        return run_setup(Path(raw_target).resolve())
+    except OSError as exc:
+        print(f"ファイル操作でエラーが発生しました: {exc}", file=sys.stderr)
+        return 1
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="setup.py",
-        description="第二の脳（Second Brain）のVaultディレクトリ構造を生成する（非破壊的、既存ファイルは上書きしない）。",
+        description=(
+            "第二の脳（Second Brain）のVaultディレクトリ構造を生成する"
+            "（非破壊的、既存ファイルは上書きしない）。"
+        ),
     )
     parser.add_argument(
         "target",
@@ -97,19 +112,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    try:
-        target = Path(args.target).resolve()
-        return run_setup(target)
-    except OSError as exc:
-        print(f"ファイル操作でエラーが発生しました: {exc}", file=sys.stderr)
-        return 1
-    except Exception as exc:  # noqa: BLE001 - CLIの最終防衛ライン
-        print(f"想定外のエラーが発生しました: {exc}", file=sys.stderr)
-        return 2
+    return run_cli(lambda: resolve_and_run_setup(args.target))
 
 
 if __name__ == "__main__":
-    if sys.stdout.encoding is None or sys.stdout.encoding.lower() != "utf-8":
-        sys.stdout.reconfigure(encoding="utf-8")
-        sys.stderr.reconfigure(encoding="utf-8")
+    configure_stdio_encoding()
     sys.exit(main())

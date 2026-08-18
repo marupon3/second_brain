@@ -29,7 +29,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-ENCODING = "utf-8"
+from cli_common import READ_ENCODING, configure_stdio_encoding, write_text
 
 # OneNote/変換ツール由来のMarkdownエスケープ（アンダースコア・アスタリスク）
 _ESCAPE_PATTERN = re.compile(r"\\([_*])")
@@ -182,46 +182,54 @@ def extract_title_and_date_from_filename(path: Path) -> tuple[str, str | None]:
     return stem, None
 
 
-def parse_onenote_markdown(path: Path, raw_text: str) -> ConvertedNote:
-    lines = raw_text.splitlines()
-
-    fallback_title, filename_date = extract_title_and_date_from_filename(path)
-
-    # 先頭の空行を除去
-    idx = 0
+def _skip_blank_lines(lines: list[str], idx: int) -> int:
+    """`idx`から続く空行を読み飛ばし、次に内容のある行の位置を返す。"""
     while idx < len(lines) and lines[idx].strip() == "":
         idx += 1
+    return idx
 
-    title = fallback_title
-    date = filename_date
+
+def _extract_title(lines: list[str], idx: int, fallback_title: str) -> tuple[str, int]:
+    """先頭行からタイトルを取り出し、(タイトル, 次の走査位置)を返す。
+
+    1行目はタイトル行（ファイル名と重複するケースが多い）。ただし
+    「20240806」のように日付のみが1行目に単独で置かれ、実際のタイトルが
+    次の行に分かれているケースがあるため、その場合は次の行もタイトルとして拾う。
+    """
+    if not (idx < len(lines) and lines[idx].strip()):
+        return fallback_title, idx
+
+    first_line = lines[idx].strip()
+    m = _FILENAME_DATE_PATTERN.match(first_line)
+    if not m:
+        return unescape_markdown(first_line), idx + 1
+
+    _, _, _, rest = m.groups()
+    title = unescape_markdown(rest.strip())
+    idx += 1
+    if not title and idx < len(lines) and lines[idx].strip():
+        next_line = lines[idx].strip()
+        if not (
+            _DATE_LINE_PATTERN.match(next_line)
+            or _TIME_LINE_PATTERN.match(next_line)
+            or _FILENAME_DATE_PATTERN.match(next_line)
+        ):
+            title = unescape_markdown(next_line)
+            idx += 1
+    if not title:
+        title = unescape_markdown(first_line)
+    return title, idx
+
+
+def _extract_date_and_time(
+    lines: list[str], idx: int, date: str | None
+) -> tuple[str | None, str | None, int]:
+    """タイトルに続く数行から日付行・時刻行を拾う。
+
+    行から日付が見つかった場合は、引数で渡されたファイル名由来の日付より優先する。
+    戻り値は (日付, 時刻, 次の走査位置)。
+    """
     time_value: str | None = None
-
-    # 1行目がタイトル行（ファイル名と重複するケースが多い）。
-    # 「20240806」のように日付のみが1行目に単独で置かれ、実際のタイトルが
-    # 次の行に分かれているケースがあるため、その場合は次の行もタイトルとして拾う。
-    if idx < len(lines) and lines[idx].strip():
-        first_line = lines[idx].strip()
-        m = _FILENAME_DATE_PATTERN.match(first_line)
-        if m:
-            _, _, _, rest = m.groups()
-            title = unescape_markdown(rest.strip())
-            idx += 1
-            if not title and idx < len(lines) and lines[idx].strip():
-                next_line = lines[idx].strip()
-                if not (
-                    _DATE_LINE_PATTERN.match(next_line)
-                    or _TIME_LINE_PATTERN.match(next_line)
-                    or _FILENAME_DATE_PATTERN.match(next_line)
-                ):
-                    title = unescape_markdown(next_line)
-                    idx += 1
-            if not title:
-                title = unescape_markdown(first_line)
-        else:
-            title = unescape_markdown(first_line)
-            idx += 1
-
-    # 続く数行から日付・時刻行を拾う（見つかった場合はファイル名由来の日付より優先）
     while idx < len(lines):
         stripped = lines[idx].strip()
         if stripped == "":
@@ -239,17 +247,25 @@ def parse_onenote_markdown(path: Path, raw_text: str) -> ConvertedNote:
             idx += 1
             continue
         break
+    return date, time_value, idx
 
-    body_source_lines = lines[idx:]
 
-    # 末尾のOneNoteフッターを除去
-    while body_source_lines and (
-        body_source_lines[-1].strip() == ""
-        or _ONENOTE_FOOTER_PATTERN.match(body_source_lines[-1].strip())
+def _strip_onenote_footer(body_source_lines: list[str]) -> list[str]:
+    """末尾のOneNoteフッターと、それに続く空行を除去する。"""
+    trimmed = list(body_source_lines)
+    while trimmed and (
+        trimmed[-1].strip() == "" or _ONENOTE_FOOTER_PATTERN.match(trimmed[-1].strip())
     ):
-        body_source_lines.pop()
+        trimmed.pop()
+    return trimmed
 
-    # 見出し・箇条書き領域とコード領域を分離する
+
+def _split_prose_and_code(body_source_lines: list[str]) -> tuple[list[str], list[str]]:
+    """本文を見出し・箇条書き領域（prose）とコード領域に分離する。
+
+    コード領域は最初にimport/def/class等が現れた行以降の全てとし、
+    復元は`reconstruct_code_lines`に委ねるため生の行のまま返す。
+    """
     prose_lines: list[str] = []
     code_raw_lines: list[str] = []
     in_code = False
@@ -274,9 +290,14 @@ def parse_onenote_markdown(path: Path, raw_text: str) -> ConvertedNote:
     while prose_lines and prose_lines[-1] == "":
         prose_lines.pop()
 
-    body_lines: list[str] = []
-    body_lines.append(f"# {title}")
-    body_lines.append("")
+    return prose_lines, code_raw_lines
+
+
+def _build_body_lines(
+    title: str, prose_lines: list[str], code_raw_lines: list[str]
+) -> tuple[list[str], list[str]]:
+    """タイトル・本文・コードブロックを組み立てる。戻り値は (本文行, 警告)。"""
+    body_lines: list[str] = [f"# {title}", ""]
     if prose_lines:
         body_lines.extend(prose_lines)
         body_lines.append("")
@@ -291,6 +312,21 @@ def parse_onenote_markdown(path: Path, raw_text: str) -> ConvertedNote:
         body_lines.extend(code_lines)
         body_lines.append("```")
         body_lines.append("")
+
+    return body_lines, warnings
+
+
+def parse_onenote_markdown(path: Path, raw_text: str) -> ConvertedNote:
+    lines = raw_text.splitlines()
+    fallback_title, filename_date = extract_title_and_date_from_filename(path)
+
+    idx = _skip_blank_lines(lines, 0)
+    title, idx = _extract_title(lines, idx, fallback_title)
+    date, time_value, idx = _extract_date_and_time(lines, idx, filename_date)
+
+    body_source_lines = _strip_onenote_footer(lines[idx:])
+    prose_lines, code_raw_lines = _split_prose_and_code(body_source_lines)
+    body_lines, warnings = _build_body_lines(title, prose_lines, code_raw_lines)
 
     if date is None:
         warnings.append("日付を特定できませんでした（要確認・手動で補記してください）")
@@ -322,7 +358,7 @@ def output_filename(note: ConvertedNote, original: Path) -> str:
 
 
 def convert_file(path: Path) -> tuple[ConvertedNote, str, str]:
-    raw_text = path.read_text(encoding=ENCODING)
+    raw_text = path.read_text(encoding=READ_ENCODING)
     note = parse_onenote_markdown(path, raw_text)
     rendered = render_note(note)
     out_name = output_filename(note, path)
@@ -341,7 +377,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="OneNote変換済みMarkdownをobsidian_vault/raw/notes/形式に変換する"
     )
-    parser.add_argument("input", type=Path, help="OneNote変換済み.mdファイル、またはそれらを含むフォルダ")
+    parser.add_argument(
+        "input",
+        type=Path,
+        help="OneNote変換済み.mdファイル、またはそれらを含むフォルダ",
+    )
     parser.add_argument(
         "--output",
         type=Path,
@@ -394,12 +434,12 @@ def main() -> int:
             print(f"[SKIP] 既に存在するため上書きしません（--force で上書き可）: {out_path}")
             continue
 
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_text(rendered, encoding=ENCODING)
+        write_text(out_path, rendered)
         print(f"[OK] 書き込みました: {out_path}")
 
     return exit_code
 
 
 if __name__ == "__main__":
+    configure_stdio_encoding()
     raise SystemExit(main())
