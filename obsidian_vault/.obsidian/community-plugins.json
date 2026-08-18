@@ -1,4 +1,6 @@
 [
   "obsidian-importer",
-  "templater-obsidian"
+  "templater-obsidian",
+  "remotely-save",
+  "smart-connections"
 ]

@@ -15,7 +15,7 @@ obsidian_vault/private/
 obsidian_vault/raw/apple_memo/
 
 # Obsidian（ワークスペース固有の設定は個人環境依存のため除外）
-# 注意: VaultルートはリポジトリのトップレベルではなくOBSIDIAN_vault/配下（CLAUDE.md 2節）。
+# 注意: Vaultルートはリポジトリのトップレベルではなくobsidian_vault/配下（CLAUDE.md 2節）。
 # 「/」を含むパターンはgitignore仕様上.gitignoreのある階層（リポジトリ直下）からの相対パスと
 # みなされるため、obsidian_vault/を明記しないとobsidian_vault/.obsidian/配下にマッチしない。
 obsidian_vault/.obsidian/workspace*

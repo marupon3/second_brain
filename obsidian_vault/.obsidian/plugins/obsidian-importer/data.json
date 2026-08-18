@@ -1,4 +1,22 @@
 {
+  "secrets": {},
+  "outputLocations": {},
+  "outputSettings": {
+    "keep": {
+      "folder": "private/keep_memo",
+      "attachments": {
+        "mode": "folder",
+        "path": "raw/figures"
+      },
+      "duplicates": "update",
+      "saveSourceId": true
+    }
+  },
+  "onenoteAttachments": {},
+  "sourceFolders": {
+    "keep": "C:\\Users\\marupon\\Downloads"
+  },
+  "lastSourceFolder": "C:\\Users\\marupon\\Downloads",
   "importers": {
     "onenote": {
       "previouslyImportedIDs": [
@@ -117,6 +135,5 @@
         "0-274d588a0fadde091cdffd3705e3de11!1-B2DCE0C6E69FC906!sf14f8a362b9147989589afca2fe1793e"
       ]
     }
-  },
-  "secrets": {}
+  }
 }
