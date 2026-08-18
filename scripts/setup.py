@@ -1,6 +1,6 @@
 """Vaultディレクトリ構造生成コマンド。
 
-docs/basic-design.md 2節のディレクトリツリーに沿って、Vaultの構造を生成する。
+README.md「ディレクトリ構成の要点」のツリーに沿って、Vaultの構造を生成する。
 既存のファイル・ディレクトリは上書きしない（非破壊的操作のため確認プロンプトは不要）。
 
 終了コード:
@@ -17,8 +17,9 @@ from pathlib import Path
 
 from cli_common import ENCODING, configure_stdio_encoding, run_cli
 
-# docs/basic-design.md 2節（v1.1, weekly/追加済み。ユーザーが直接情報を追加する
-# raw/daily/templatesはobsidian_vault/配下に集約。projects/areas/resourcesは廃止済み）に対応。
+# ユーザーが直接情報を追加するraw/daily/templatesはobsidian_vault/配下に集約する。
+# wiki/・weekly/はVault外に置くAI運用専用ディレクトリ（CLAUDE.md 2節）。
+# projects/areas/resourcesは廃止済み。
 DIRECTORIES = [
     "obsidian_vault/raw/articles",
     "obsidian_vault/raw/notes",
@@ -33,7 +34,7 @@ DIRECTORIES = [
     ".claude/skills/weekly",
     ".claude/skills/ingest",
     ".claude/skills/lint",
-    ".claude/skills/research",
+    ".claude/skills/query",
     "scripts",
 ]
 

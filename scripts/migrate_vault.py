@@ -31,7 +31,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
-from cli_common import ENCODING, write_text
+from cli_common import READ_ENCODING, configure_stdio_encoding, write_text
 from convert_onenote_note import output_filename, parse_onenote_markdown, render_note
 
 # トップレベルフォルダ名 -> obsidian_vault/raw/ 配下のカテゴリ
@@ -178,7 +178,7 @@ def migrate_note(
 ) -> Outcome:
     """1件のノートを読み取り・変換し、必要なら書き込む。1件の失敗で全体を止めない。"""
     try:
-        raw_text = md_path.read_text(encoding=ENCODING)
+        raw_text = md_path.read_text(encoding=READ_ENCODING)
     except OSError as exc:
         print(f"[SKIP-IO] 読み取り不能のため除外: {md_path} ({exc})")
         return "skip"
@@ -302,4 +302,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    configure_stdio_encoding()
     raise SystemExit(main())

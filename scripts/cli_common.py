@@ -18,17 +18,31 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
+# 書き込み時のエンコーディング。Vault内のファイルは全てUTF-8（BOMなし）で保存する。
 ENCODING = "utf-8"
+
+# 読み込み時のエンコーディング。Windowsのツール（OneNoteエクスポート等）が出力した
+# ファイルはBOM付きUTF-8のことがあり、"utf-8"で読むとBOM（﻿）が先頭文字として
+# 残り、タイトル先頭に不可視文字が混入する。"utf-8-sig"はBOMがあれば取り除き、
+# 無い場合は"utf-8"と全く同じ結果になるため、読み込みには常にこちらを使う。
+READ_ENCODING = "utf-8-sig"
 
 
 def configure_stdio_encoding() -> None:
     """標準出力・標準エラーがUTF-8でなければ再設定する。
 
-    日本語のメッセージを出力するため、各コマンドのエントリポイントで最初に呼ぶ。
+    Windowsの既定コードページ（日本語環境ではcp932）のままだと、日本語を含む
+    メッセージが文字化けしたり`UnicodeEncodeError`で落ちたりする。日本語を出力する
+    各コマンドのエントリポイントで最初に呼ぶ。
     """
-    if sys.stdout.encoding is None or sys.stdout.encoding.lower() != ENCODING:
-        sys.stdout.reconfigure(encoding=ENCODING)
-        sys.stderr.reconfigure(encoding=ENCODING)
+    for stream in (sys.stdout, sys.stderr):
+        encoding = getattr(stream, "encoding", None)
+        if encoding is not None and encoding.lower() == ENCODING:
+            continue
+        # 差し替えられたストリーム（テスト等）はreconfigureを持たないことがある
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding=ENCODING)
 
 
 def run_cli(run: Callable[[], int]) -> int:

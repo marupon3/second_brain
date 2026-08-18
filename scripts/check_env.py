@@ -65,7 +65,7 @@ def check_tool(tool: ToolCheck) -> tuple[bool, str]:
 
 
 def build_tool_checks() -> list[ToolCheck]:
-    # docs/requirements.md 6節 Q7 で確定した依存ツール一覧。
+    # 依存ツール一覧（README.md「前提環境」と対応）。
     return [
         ToolCheck("Git", ["git", "--version"], required=True),
         # uv: 主パッケージ管理ツール

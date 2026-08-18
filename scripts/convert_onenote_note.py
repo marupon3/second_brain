@@ -29,7 +29,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from cli_common import ENCODING, write_text
+from cli_common import READ_ENCODING, configure_stdio_encoding, write_text
 
 # OneNote/変換ツール由来のMarkdownエスケープ（アンダースコア・アスタリスク）
 _ESCAPE_PATTERN = re.compile(r"\\([_*])")
@@ -358,7 +358,7 @@ def output_filename(note: ConvertedNote, original: Path) -> str:
 
 
 def convert_file(path: Path) -> tuple[ConvertedNote, str, str]:
-    raw_text = path.read_text(encoding=ENCODING)
+    raw_text = path.read_text(encoding=READ_ENCODING)
     note = parse_onenote_markdown(path, raw_text)
     rendered = render_note(note)
     out_name = output_filename(note, path)
@@ -441,4 +441,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    configure_stdio_encoding()
     raise SystemExit(main())
