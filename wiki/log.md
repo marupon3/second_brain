@@ -1,6 +1,6 @@
 ---
 title: Log
-updated: 2026-08-13
+updated: 2026-08-15
 ---
 
 # Log
@@ -179,4 +179,9 @@ updated: 2026-08-13
   - 他の全ファイルは本文照合の結果、既存wikiページ（[[windows-tips|Windows Tips]]・[[postgresql|PostgreSQL運用メモ]]等）に既に統合済みと判断し、処理対象から除外した。`wiki/index.md`への新規リンク追加は無し（すべて既存ページへの追記のため）。
 - 2026-08-09: セッション引き継ぎのため `wiki/session-handoff.md` を新規作成。obsidian-claude-guide.htmlの文字化け修正、README.mdのディレクトリ構成修正、ブランチ運用の整理、`/ingest`不具合対応、各種Q&A、`defuddle`導入見送り判断（デメリット優位）をまとめて記録した。
 - 2026-08-14: セキュリティ対応・Git運用トラブル対応。`raw/pdfs/`に写り込んでいたGoogle APIキー画像について、リポジトリがPrivateであることを確認、ユーザーがAPIキーを失効・再作成し、該当画像を現在のツリーから削除・push済み（過去コミット履歴には残存、完全削除は任意で保留）。ローカル・リモート双方からのpushによる`wiki/log.md`のマージコンフリクトを複数回にわたり解決（一時コンフリクトマーカー混入も修正済み）。`obsidian_vault/raw/`配下の大量削除を切り分け、`daily/`の意図的削除分と、既にwiki要約済みの`raw/`変更分をコミット。繰り返し発生していたファイル消失の原因候補として`remotely-save`同期プラグインを無効化。Chrome拡張「Obsidian Web Clipper」の保存先フォルダ移動方法と「Vault not found」エラーの原因（拡張機能のVault名設定不備）を案内、解決確認済み。`wiki/session-handoff.md`を更新し、Vaultルートの実態確認・`raw/notes/WEBから/`重複確認等を次回優先タスクとして記録した。
+- 2026-08-15: `/ingest` 実行。`obsidian_vault/raw/`配下を全件走査し、`wiki/log.md`未記録の新規ファイルとして`notes/2026-08-13-Obsidian公式のAI説明書.md`（前回2026-08-13バッチで処理漏れしていた1件）を検出・処理した。
+  - 対象・追記: kepano/obsidian-skillsリポジトリが公開する公式AI Skills一覧（obsidian-markdown・defuddle・obsidian-bases・json-canvas・obsidian-cli）を表形式で→[[obsidian|Obsidian]]に新セクション「公式AI Skills（kepano/obsidian-skills）」として追記。
+  - `raw/notes/`直下の他8件（provider生成AI無料実行・10のClaude+Obsidianリポジトリ・Gemini Notebookの新機能・Graph enginering・Githubのリポジトリ容量の削減・Claude Skills 72選・Obsidianの手入れ・`articles/`のGoogle手話AI）は前回2026-08-13バッチで処理済みと確認し対象外とした。
+  - `notes/`配下のサブフォルダ群（Android・Linux・Mac・Obsidian・PSQL・Python・Tips・WEBから・Windows・claude Code・図書館で借りた本・小児用量アプリ・書籍から・生成AI、計約340件）は前回までのバッチ内容と照合しファイル名・件数に変化なく、新規ファイルは検出されなかった。`raw/figures/`（旧`raw/pdfs/`から改名、画像16件）・`raw/pdfs/`（現在空）・`raw/personal/`（現在空）も同様に新規なし。
+  - `wiki/index.md`への新規リンク追加は無し（既存ページ[[obsidian|Obsidian]]への追記のため）。
 
