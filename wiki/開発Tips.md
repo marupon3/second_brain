@@ -1,6 +1,6 @@
 ---
 title: 開発環境・自動化Tips
-updated: 2026-08-09
+updated: 2026-08-18
 source:
   - obsidian_vault/raw/notes/Tips/2024-01-23 Sharepoint to local.md
   - obsidian_vault/raw/notes/Tips/2024-02-24 VBA, Excelで0埋め.md
@@ -11,6 +11,7 @@ source:
   - obsidian_vault/raw/notes/生成AI/2026-07-17 _ユーザインターフェイス.md
   - obsidian_vault/raw/notes/Python/2024-03-07 HTMLなしでWebページ作成.md
   - obsidian_vault/raw/notes/Python/2025-03-23 「Dockerって何？」.md
+  - obsidian_vault/raw/notes/2026-07-29-OSSレベルの設計.md
 ---
 
 # 開発環境・自動化Tips
@@ -93,6 +94,27 @@ pip install mkdocs
 ## Dockerの基礎を絵で理解する
 
 初心者向けにDockerの概念を図解した記事。<https://zenn.dev/suzuki_hoge/books/2021-04-docker-picture-60fbe950136be9c7ad85>
+
+## AIに実装させることを前提とした設計書の書き方
+
+一般的な設計書（要件定義→基本設計→詳細設計）は「人が読むため」で終わるが、生成AIに実装させることも目的にするなら「生成AIがそのまま実装できるレベル」を目標にした方が価値が高い。そのため各章の最後に必ず以下4項目を追加する。
+
+1. **設計方針**: なぜこの設計を採用したのかを説明（例:「Providerをプラグイン方式にすることで、新しいAIサービス追加時の修正箇所を最小限に抑える」）
+2. **実装ルール**: 実装時に守るルールを明文化（例:「Providerは必ずProviderBaseを継承すること」「APIキーをソースコードへ記述してはならない」）
+3. **AI実装ガイド**: 生成AIへコード生成を依頼する際の条件（例:「Python 3.11を使用」「PEP 8準拠」「型ヒント必須」「docstring必須」「単体テストを書ける構造」「グローバル変数禁止」「`from x import *`禁止」）
+4. **レビュー観点**
+
+さらに、アーキテクチャ設計の前に「第0章 開発ガイドライン」を置くと全体の一貫性が高まる。含める項目例:
+
+- **コーディング規約**: PEP 8準拠・型ヒント必須・docstring必須・UTF-8・行長100文字目安・f-string使用・`logging`使用（`print()`禁止）
+- **ディレクトリ規約**: `app/`にアプリケーションコード、`tests/`にテストコード、`docs/`に設計書
+- **クラス設計規約**: 1クラス1責務・継承よりコンポジション優先・抽象基底クラス（ABC）使用・`@dataclass`活用
+- **例外設計規約**: `except Exception:`の安易な使用禁止・独自例外クラス定義・利用者向けメッセージとログ出力の分離
+- **ログ規約**: INFO/WARNING/ERROR/CRITICALを用途ごとに使い分け
+- **Git運用規約**: `main`（リリース）/`develop`（開発）/`feature/*`（新機能）/`fix/*`（不具合修正）
+- **AIコード生成規約**: AIへ実装を依頼する際の共通ルール
+
+この構成なら設計書は単なる仕様書ではなく、人にも読みやすく生成AIがそのまま実装できる「実装仕様書」になり、設計・実装・テスト・レビューまで一貫した品質基準を維持できる。
 
 ## 内容未記入のためページ化しなかったもの
 
