@@ -67,4 +67,6 @@ Vault全体のカタログページ。`/ingest` によりwikiページが生成�
 - [[セカンドブレイン]]
 - [[second-brain-vault構成|second_brainのディレクトリ構成]]
 - [[session-handoff|セッション引き継ぎメモ]]
+- [[第二の脳の運用ナレッジ]]
+- [[session-archive|セッション作業アーカイブ]]
 - [[グラフエンジニアリング]]

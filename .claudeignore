@@ -1,0 +1,23 @@
+# Claude Codeのファイル探索・読み込み対象から除外する（.gitignoreとは別に、
+# トークン消費・無駄なインデックス処理を防ぐ目的で明示する。README.md「仮想環境（venv）
+# とuvの運用ルール」の通り、本プロジェクトの仮想環境フォルダ名は venv（ドット無し）で固定）。
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# IDE
+.idea/
+
+# Obsidian（再生成可能なローカルキャッシュ・個人環境依存の設定）
+.obsidian/workspace*
+.obsidian/cache
+.obsidian/plugins/smart-connections/
+.smart-env/
+
+# OS
+Thumbs.db
+.DS_Store

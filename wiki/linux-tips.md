@@ -6,7 +6,7 @@ source:
   - obsidian_vault/raw/notes/Linux/2025-12-14 Linuxファイルシステム図解.md
   - obsidian_vault/raw/notes/Windows/2025-02-11 ＿Linux xubuntuパーティション.md
   - obsidian_vault/raw/notes/Tips/2025-03-24 Linuxディレクトリ構造.md
-  - obsidian_vault/raw/pdfs/Exported image 20260807131801-0.png
+  - obsidian_vault/raw/figures/Exported image 20260807131801-0.png
 ---
 
 # Linux / Ubuntu Tips
@@ -49,7 +49,7 @@ sudo snap install libreoffce
 | `/usr` | 各ユーザーが共通して利用するプログラム |
 | `/var` | ログファイルなど動的に変化するファイル。Variableの略 |
 
-「Linuxファイルシステム図解」（2025-12-14）は本文未記入のノートだったが、`obsidian_vault/raw/pdfs/`に同内容の鮮明な図解画像が別途保存されていたため、上記の表はその画像を一次情報として作成した（`/proc`はカーネル情報にアクセスするための仮想ファイルシステム、`/run`はシステム実行中の一時ファイル格納先である点も含め内容を確認済み）。
+「Linuxファイルシステム図解」（2025-12-14）は本文未記入のノートだったが、`obsidian_vault/raw/figures/`に同内容の鮮明な図解画像が別途保存されていたため、上記の表はその画像を一次情報として作成した（`/proc`はカーネル情報にアクセスするための仮想ファイルシステム、`/run`はシステム実行中の一時ファイル格納先である点も含め内容を確認済み）。
 
 ## 関連ページ
 
