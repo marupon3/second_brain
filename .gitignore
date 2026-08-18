@@ -18,6 +18,10 @@ obsidian_vault/raw/apple_memo/
 .obsidian/workspace*
 .obsidian/cache
 
+# Smart Connections（埋め込みインデックスは再生成可能なローカルキャッシュのため除外）
+.obsidian/plugins/smart-connections/
+.smart-env/
+
 # OS
 Thumbs.db
 .DS_Store
