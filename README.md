@@ -120,6 +120,7 @@ copy .env.example .env
 | `obsidian_vault/raw/`がAIに編集された疑いがある | `git diff -- obsidian_vault/raw/`で内容を確認し、意図しない変更なら`git checkout -- <該当ファイル>`（コミット前）または`git revert`（コミット後）で復元する |
 | `/lint`がリンク切れ・矛盾を検出した | 自動修正は行わない設計のため、手動で修正するか、Claude Codeに個別に修正を指示する |
 | Skillsの応答が目安より大幅に遅い | `wiki/`のページ数を確認する。インデックスを持たずファイルシステムを直接走査する設計のため、ページ数の増加がそのまま処理時間に効く |
+| Claude Codeが実行したコマンドで`python3: command not found`（終了コード127） | このWindows環境のgit-bashには`python3`という名前のコマンドが無い。`python`または仮想環境の`venv\Scripts\python`を使う |
 
 処理時間の目安は、`/ingest`が1件あたり30〜90秒、`/query`が10〜30秒、`/lint`が数百ページ規模で1〜3分、`/daily`が10秒以内。
 
