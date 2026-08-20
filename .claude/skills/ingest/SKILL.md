@@ -7,7 +7,7 @@ description: obsidian_vault/raw/の新規ファイル（記事・メモ・PDF等
 
 ## When to use
 
-- `obsidian_vault/raw/`（`articles/` `notes/` `pdfs/` `personal/`）に新しいソースが投入されたとき
+- `obsidian_vault/raw/`（`articles/` `notes/` `figures/` `personal/`）に新しいソースが投入されたとき
 - ユーザーが `/ingest` を実行したとき
 
 ## When not to use
@@ -16,7 +16,7 @@ description: obsidian_vault/raw/の新規ファイル（記事・メモ・PDF等
 
 ## Input
 
-- `obsidian_vault/raw/articles/` `obsidian_vault/raw/notes/` `obsidian_vault/raw/pdfs/` `obsidian_vault/raw/personal/` 配下の未処理ファイル
+- `obsidian_vault/raw/articles/` `obsidian_vault/raw/notes/` `obsidian_vault/raw/figures/` `obsidian_vault/raw/personal/` 配下の未処理ファイル
 
 ## Output
 
@@ -27,12 +27,22 @@ description: obsidian_vault/raw/の新規ファイル（記事・メモ・PDF等
 ## 手順
 
 1. `obsidian_vault/raw/`配下を確認し、`wiki/log.md`にまだ記録の無い未処理ファイルを特定する。
-2. ファイル種別に応じて内容を読み取る。
+2. 未処理ファイルが**大量（目安: 20件超）**の場合は「大量バッチ処理時の並列化」の手順に従う。それ以外は以下を1件ずつ、またはまとめて実施する。
+3. ファイル種別に応じて内容を読み取る。
    - テキスト・Markdown・記事: 全文をそのまま解析対象とする。
    - PDF: **テキスト抽出のみ**を構造化対象とする。画像・図表はデフォルトで保持せず、必要に応じて説明文（キャプション相当）のみをテキストとして記載する。埋め込みリンクはURLをテキストとして抽出し、関連ページへの参照として記録する。
-3. 内容を要約・構造化し、`wiki/`にYAML frontmatter付きのMarkdownページとして新規作成、または関連する既存ページを更新する。ページ間の関連は必ずObsidian形式のwikilink（`[[ページ名]]`）で表現する。
-4. 生成・更新したページへのリンクを`wiki/index.md`に追記する。
-5. 実行結果（日時・対象ファイル・生成/更新したページ）を`wiki/log.md`に追記する。
+4. 内容を要約・構造化し、`wiki/`にYAML frontmatter付きのMarkdownページとして新規作成、または関連する既存ページを更新する。ページ間の関連は必ずObsidian形式のwikilink（`[[ページ名]]`）で表現する。
+5. 生成・更新したページへのリンクを`wiki/index.md`に追記する。
+6. 実行結果（日時・対象ファイル・生成/更新したページ）を`wiki/log.md`に追記する。
+
+## 大量バッチ処理時の並列化
+
+未処理ファイルが大量にある場合、全件を1つの会話コンテキストで逐次処理すると`raw/`の全文がコンテキストに溜まり続けトークン消費が膨らむ。ファイル単位のサブエージェントに分担させ、書き込みは集約ステップに一本化する。
+
+1. 未処理ファイルをいくつかのグループ（ファイル単位、または数件ずつのまとまり）に分ける。
+2. 各グループを個別のサブエージェントに割り当て、上記手順3〜4（読み取り・要約・`wiki/`ページの新規作成/更新）のみを実施させる。**`wiki/index.md`・`wiki/log.md`への書き込みはサブエージェントに行わせない**（複数のサブエージェントが同じファイルへ同時に書き込むと、互いの追記を上書きし合う競合が起きるため）。
+3. 全サブエージェントの完了後、オーケストレーター側（元のセッション）が各サブエージェントの結果を集約し、`wiki/index.md`へのリンク追記と`wiki/log.md`への実行結果記録をまとめて1回で行う。
+4. サブエージェントにも本SKILL.mdの制約（`raw/`は読み取り専用、日本語出力、UTF-8明示、絵文字不使用）を明示的に引き継ぐ。
 
 ## 制約
 
