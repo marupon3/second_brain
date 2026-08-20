@@ -1,28 +1,27 @@
-﻿# Python
+# Python
 venv/
 __pycache__/
 *.pyc
 .pytest_cache/
 .ruff_cache/
 
-# 迺ｰ蠅・､画焚・亥ｮ溷､縺ｯ邨ｶ蟇ｾ縺ｫ繧ｳ繝溘ャ繝医＠縺ｪ縺・ｼ・
+# 環境変数（実値は絶対にコミットしない）
 .env
 
-# 繝ｭ繝ｼ繧ｫ繝ｫ蟆ら畑縺ｮ髱槫・髢九ヮ繝ｼ繝茨ｼ医ヱ繧ｹ繝ｯ繝ｼ繝臥ｭ峨ｒ蜷ｫ繧縺溘ａ縲√Μ繝｢繝ｼ繝医↓縺ｯ荳蛻・性繧√↑縺・ｼ・
+# ローカル専用の非公開ノート（パスワード等を含むため、リモートには一切含めない）
 obsidian_vault/private/
 
-# OneNote繧ｨ繧ｯ繧ｹ繝昴・繝育罰譚･縺ｮ繝｡繝｢・域橿陦典ips縺ｨ螳滄圀縺ｮ隱崎ｨｼ諠・ｱ繝ｻ蛟倶ｺｺ諠・ｱ縺梧ｷｷ蝨ｨ縺吶ｋ縺溘ａ縲√Μ繝｢繝ｼ繝医↓縺ｯ荳蛻・性繧√↑縺・ｼ・
+# OneNoteエクスポート由来のメモ（技術Tipsと実際の認証情報・個人情報が混在するため、リモートには一切含めない）
 obsidian_vault/raw/apple_memo/
 
-# Obsidian・医Ρ繝ｼ繧ｯ繧ｹ繝壹・繧ｹ蝗ｺ譛峨・險ｭ螳壹・蛟倶ｺｺ迺ｰ蠅・ｾ晏ｭ倥・縺溘ａ髯､螟厄ｼ・
+# Obsidian（ワークスペース固有の設定は個人環境依存のため除外）
 obsidian_vault/.obsidian/workspace*
 obsidian_vault/.obsidian/cache
 
-# Smart Connections・亥沂繧∬ｾｼ縺ｿ繧､繝ｳ繝・ャ繧ｯ繧ｹ縺ｯ蜀咲函謌仙庄閭ｽ縺ｪ繝ｭ繝ｼ繧ｫ繝ｫ繧ｭ繝｣繝・す繝･縺ｮ縺溘ａ髯､螟厄ｼ・
+# Smart Connections（埋め込みインデックスは再生成可能なローカルキャッシュのため除外）
 obsidian_vault/.obsidian/plugins/smart-connections/
 .smart-env/
 
 # OS
 Thumbs.db
 .DS_Store
-
