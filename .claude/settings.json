@@ -1,4 +1,9 @@
 {
+  "permissions": {
+    "deny": [
+      "Read(./obsidian_vault/private/**)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
