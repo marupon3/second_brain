@@ -16,37 +16,29 @@ updated: 2026-08-21
 
 ## 次回セッション開始プロンプト（コピペ用）
 
-> `wiki/session-handoff.md`を読み込み、未完了タスクの最優先項目（`raw/`配下200件超の未コミットファイルの整理・`/ingest`実行）から作業を再開してください。作業開始時は「作業開始宣言」として、どのタスクを何分で終えるかを簡潔に報告してから着手してください。
+> `wiki/session-handoff.md`を読み込み、未解決事項の最優先項目から作業を再開してください。作業開始時は「作業開始宣言」として、どのタスクを何分で終えるかを簡潔に報告してから着手してください。
 
 ---
 
 ## 1. 未解決事項（優先順）
 
-1. **【最優先】ローカルPC側の大量未コミットファイルの整理**
-   - 状況: ユーザーのローカルPC（Windows）で`git status -s`を実行したところ、`obsidian_vault/daily/`のDaily Note 5件と、`obsidian_vault/raw/notes/`配下の200件超のノート（Claude Code・Python・PSQL・Linux・Windows・Tips等の既存サブフォルダ、および新規の`raw/clippings/`・`raw/notes/AI/`・`raw/notes/Library/`・`raw/notes/books/`・`raw/notes/drug/`）、`raw/figures/working_memory.jpg`、`raw/pdfs/`（旧フォルダ、要確認）、`wiki/ループエンジニアリング.md`がuntrackedのまま溜まっている。
-   - 次のアクション:
-     (a) `raw/pdfs/`がまだ存在する場合、前回セッションで`raw/figures/`へ統一済みのはずなので重複・残骸でないか確認する。
-     (b) `obsidian_vault/raw/`配下の新規ファイル群に対して`/ingest`を実行し、`wiki/`への構造化ページ生成を行う。
-     (c) `obsidian_vault/daily/`のDaily Note・`wiki/ループエンジニアリング.md`はraw以外なので、`/ingest`と別に内容を確認した上でgit commitする。
-     (d) 作業前に必ず`git fetch`＋`git status`でリモートとの差分を確認すること（本セッション冒頭のルール）。
-
-2. **Smart Connectionsの`daily/**`除外設定の見直し（任意）**
+1. **Smart Connectionsの`daily/**`除外設定の見直し（任意）**
    - 状況: Smart Connectionsは2026-08-21にインストール・動作確認済み（`raw/notes/生成AI/`のノートで関連ノートパネルが正常表示）。ただし「Manage excluded folders」に`daily/**`が含まれているため、Daily Note自体を開いた場合に関連ノートパネルが機能するかは未検証。
    - 次のアクション: 必要であれば`daily/**`を除外リストから外し、Daily Noteでも関連ノート表示が機能するか確認する（優先度は低い。ユーザーの使い方次第で不要な場合もある）。
 
-3. **`remotely-save`無効化後の経過観察（継続中）**
+2. **`remotely-save`無効化後の経過観察（継続中）**
    - 状況: `obsidian_vault/.obsidian/community-plugins.json`上で無効化を確認済み。新規の原因不明な消失は今のところなし。
    - 次のアクション: `raw/`配下のファイル数・内容の変化を引き続き注視する。
 
-4. **（緊急度低・任意）漏洩画像のgit履歴からの完全削除**
+3. **（緊急度低・任意）漏洩画像のgit履歴からの完全削除**
    - Google APIキーが写り込んだ画像がコミット`89989b9`に残存。キーは失効・再作成済み、リポジトリはPrivateのため緊急度は低い。完全削除には`git filter-repo`＋force pushが必要。
 
-5. **（緊急度低・任意）`apple_memo/`内で発見されたAPIキーの失効確認**
+4. **（緊急度低・任意）`apple_memo/`内で発見されたAPIキーの失効確認**
    - Anthropic APIキー・GitHubトークンについて、ユーザーに失効を推奨済みだが対応状況は未確認。リポジトリへの漏洩はなし（`.gitignore`済み）。
 
 ## 2. 次にやること
 
-- **タスク1**: ローカルPC側の未コミットファイル整理（上記1）。期待する出力は、`/ingest`によるwikiページ生成完了と、Daily Note等のコミット・push完了。
+特になし（上記1〜4はいずれも緊急度低・任意）。次に新しいソースを`obsidian_vault/raw/`へ投入したら`/ingest`を実行する。
 
 ## 3. 制約と前提条件
 
