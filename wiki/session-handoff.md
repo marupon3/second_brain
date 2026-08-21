@@ -1,6 +1,6 @@
 ---
 title: セッション引き継ぎメモ
-updated: 2026-08-18
+updated: 2026-08-21
 ---
 
 # セッション引き継ぎメモ
@@ -45,7 +45,7 @@ updated: 2026-08-18
 
 - 言語: 日本語優先（プロンプト・ノート・ファイル名・コミットメッセージすべて）
 - 環境: Windows 11 / Python 3.11.9 / UTF-8（`CLAUDE.md` 1節）
-- 作業ブランチ: `claude/smart-connections-vault-root-padj3n`（`origin`に追随済み）
+- 作業ブランチ: `claude/sync-local-to-github-zyskxk`（`origin`に追随済み）
 - ローカル（Windows PC、`C:\Users\marupon\PycharmProjects\second_brain`）とリモートセッションの双方から同じブランチへpushする運用。**作業開始前に必ず`git fetch`＋`git status`で差分を確認すること**（過去に双方pushでコンフリクトが複数回発生）。
 - `obsidian_vault/raw/`はAIが編集・削除してはならない（`CLAUDE.md` 4節、不変の原文ソース）
 - 破壊的操作（削除・大規模書き換え）は実行前に必ずユーザーへ確認する（`CLAUDE.md` 4節・6節）
