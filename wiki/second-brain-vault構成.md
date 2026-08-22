@@ -1,6 +1,6 @@
 ---
 title: second_brainのディレクトリ構成
-updated: 2026-08-18
+updated: 2026-08-22
 source:
   - obsidian_vault/raw/notes/Obsidian/2026-08-07 obsidian-second-brain構成.md
   - obsidian_vault/raw/notes/Obsidian/2026-08-09 Cloud CodeでObsidianのWikiを作成する.md
@@ -8,11 +8,17 @@ source:
 
 # second_brainのディレクトリ構成
 
-## フォルダ構成（2026-08-18時点）
+## フォルダ構成（2026-08-22時点）
 
 ```
 second_brain/
 ├── .claude/
+│   ├── hooks/         # PreToolUse Hooks: 破壊的操作・秘密情報書き込み防止
+│   │   ├── block-dangerous-git.sh     # git push --force / reset --hard / clean -f / checkout . / branch -D ブロック
+│   │   ├── block-raw-bash.sh          # raw/ 対象の rm / mv / sed -i 等ブロック
+│   │   ├── block-raw-edit.sh          # raw/ への Edit/Write/NotebookEdit ブロック
+│   │   └── block-secret-write.sh      # APIキー（Google/Anthropic/GitHub/AWS/OpenAI）パターン検知・ブロック
+│   ├── settings.json   # Hook登録・permissions設定
 │   └── skills/        # daily / ingest / lint / query / weekly
 ├── obsidian_vault/    # ObsidianアプリのVaultルート
 │   ├── .obsidian/
