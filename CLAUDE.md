@@ -38,11 +38,25 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 4. 禁止事項
 
-- **`obsidian_vault/raw/`配下のファイルはAIが編集・削除してはならない**。`obsidian_vault/raw/`は人間のみが書き込む不変ソースである。
-- 破壊的操作（ファイルの削除・大規模な書き換え）は、実行前に必ずユーザーに確認を取ること。無断で実行しない。
-- APIキー等の秘密情報をMarkdownファイルやコード中に直接書き込まない（`.env`または環境変数を使うこと）。
-- `obsidian_vault/private/`配下の内容を`wiki/`等のコミット対象ファイルに転記・引用しない（パスワード等の非公開情報が漏洩するため）。
+- **`obsidian_vault/raw/`配下のファイルはAIが編集・削除してはならない**（Hookで機構的に強制済み）。`obsidian_vault/raw/`は人間のみが書き込む不変ソースである。
+- 破壊的操作（ファイルの削除・大規模な書き換え・force push・`git reset --hard`等）は、実行前に必ずユーザーに確認を取ること。無断で実行しない（一部はHookで機構的に強制済み。4.1節参照）。
+- APIキー等の秘密情報をMarkdownファイルやコード中に直接書き込まない（`.env`または環境変数を使うこと。Hookで機構的に強制済み）。
+- `obsidian_vault/private/`配下の内容を`wiki/`等のコミット対象ファイルに転記・引用しない（パスワード等の非公開情報が漏洩するため。読み取り自体もHookで拒否済み）。
 - `/lint`が検出した問題を無断で自動修正しない（検出・報告のみとする方針。誤修正リスクを避けるため）。
+
+### 4.1 Hookによる機構的強制
+
+上記の一部は「お願い」ではなく`.claude/settings.json`のHook（`.claude/hooks/`）で機構的に強制している。ガイダンスとして書くだけでは100%守られる保証がないため、取り返しのつかない事故につながる操作はHookでブロックする方針。
+
+| Hook | 対象イベント | ブロックする内容 |
+|---|---|---|
+| `block-raw-edit.sh` | Edit/Write/NotebookEdit | `obsidian_vault/raw/`配下への書き込み |
+| `block-raw-bash.sh` | Bash | `obsidian_vault/raw/`配下を対象にした`rm`/`mv`/`sed -i`等の破壊的コマンド |
+| `block-secret-write.sh` | Edit/Write/NotebookEdit | Google/Anthropic/GitHub/AWS/OpenAI形式のAPIキーらしき文字列の書き込み |
+| `block-dangerous-git.sh` | Bash | `git push --force`・`git reset --hard`・`git clean -f`系・`git checkout/restore .`・`git branch -D`（パス問わずリポジトリ全体が対象） |
+| （`permissions.deny`） | Read | `obsidian_vault/private/**`の読み取り |
+
+Hookは検知パターンに一致した場合のみブロックする安全機構であり、正規の操作まで妨げない設計を優先している（誤検知の可能性はゼロではない。ブロックされた場合はユーザーに確認するか、代替手段を検討する）。
 
 ## 5. 優先するSkills
 

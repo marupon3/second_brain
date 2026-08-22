@@ -97,11 +97,24 @@ copy .env.example .env
 
 ### 変更の切り戻し
 
-`git reset --hard`のような破壊的コマンドは使わず、履歴を壊さない手順で戻す。
+`git reset --hard`のような破壊的コマンドは使わず、履歴を壊さない手順で戻す（`git push --force`・`git reset --hard`・`git clean -f`系・`git checkout/restore .`・`git branch -D`はClaude Code側からは`.claude/hooks/block-dangerous-git.sh`でブロックされる。詳細は「Hookによる保護」参照）。
 
 1. `git log`で問題発生前のコミットを特定する
 2. `git revert <コミットID>`で当該変更を打ち消す新しいコミットを作成する
 3. Obsidian側で開いているファイルがあれば再読み込みする
+
+### Hookによる保護
+
+`.claude/hooks/`にPreToolUse Hookを配置し、`.claude/settings.json`から登録している。ガイダンス（`CLAUDE.md`の記述）だけでは100%守られる保証がないため、取り返しのつかない操作は機構的にブロックする。
+
+| Hook | ブロックする内容 |
+|---|---|
+| `block-raw-edit.sh` | `obsidian_vault/raw/`配下へのEdit/Write/NotebookEdit |
+| `block-raw-bash.sh` | `obsidian_vault/raw/`配下を対象にした`rm`/`mv`/`sed -i`等 |
+| `block-secret-write.sh` | APIキーらしき文字列（Google/Anthropic/GitHub/AWS/OpenAI形式）の書き込み |
+| `block-dangerous-git.sh` | `git push --force`・`git reset --hard`・`git clean -f`系・`git checkout/restore .`・`git branch -D` |
+
+いずれもWindows環境に`jq`が無いことを前提に、Python 3（前提環境参照）でJSON入出力を行う実装になっている。`obsidian_vault/private/**`の読み取り拒否は`.claude/settings.json`の`permissions.deny`で別途設定している。
 
 ### バックアップとリストア
 
@@ -141,6 +154,7 @@ second_brain/
 ├── wiki/                    # AI生成知識ベース
 ├── weekly/                  # 週次レビュー
 ├── .claude/skills/            # カスタムSkills定義
+├── .claude/hooks/              # 破壊的操作・秘密情報書き込みを機構的にブロックするHook
 └── scripts/                    # 環境チェック・セットアップ用スクリプト
 ```
 

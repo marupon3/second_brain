@@ -1,6 +1,6 @@
 ---
 title: セッション作業アーカイブ
-updated: 2026-08-21
+updated: 2026-08-22
 ---
 
 # セッション作業アーカイブ
@@ -43,5 +43,11 @@ updated: 2026-08-21
 22. **Smart Connectionsの設定完了確認（2026-08-21、完了）**: ユーザー環境に未インストールだったSmart Connectionsをインストール・有効化。「Manage excluded folders」で`private/**`・`_debug_remotely_save/**`・`daily/**`・`templates/**`を除外設定済み（`.obsidian/`はMarkdownを含まないため除外リストの選択肢に出現せず、対応不要と判断）。Reset data実行後、`raw/notes/生成AI/`配下のノートで動作確認 → 関連ノートパネルに類似度スコア付きで関連ノートが正しく表示され、**正常動作を確認**。ただし`daily/**`が除外対象のため、Daily Note自体を開いた場合は関連ノートパネルが機能しない可能性が残る（未検証）。
 
 23. **ローカルPC側の大量未コミットファイルの整理・`/ingest`実行（2026-08-21、完了）**: ローカルPCに長期間untrackedのまま溜まっていた`obsidian_vault/raw/`配下176件・Daily Note・`wiki/ループエンジニアリング.md`をpush（コミット`daffd20`）。origin側と並行して進んでいたセッション引き継ぎ整理とdivergedしていたため`git pull`でマージ（コンフリクトなし、`10e84cf`）。`raw/pdfs/`に新規作成されていた画像5件を`raw/figures/`へ統一（`2dc2147`）。続けて`/ingest`を実行し、サブエージェントで48件を過去処理済みの重複（フォルダ名リネーム・旧apple_memo再出現）と確認、真に新規だった7件（Claude隠れ機能25選・Loop/Graph責任分離・Context Engineering層・エージェントメモリ設計・セカンドブレインのコンパイラアーキテクチャ・テキスト抽出プロンプト）をwikiへ反映した（`181b52c`）。検証の過程で、`wiki/log.md`が「反映済み」と記録していたのに実際のwikiページには存在しない記述（[[グラフエンジニアリング]]の実践5ステップ節、[[ライフハック・自己啓発メモ]]のリーダーとマネジャー、[[日経ビジネス記事メモ]]のトークンエコノミー）を発見・復元し、[[各種ツールメモ]]のfrontmatterに残っていたGitマージコンフリクトマーカーも解消した。
+
+24. **`.claude/hooks/`によるHook保護の拡充（2026-08-22、完了）**: 外部記事（CLAUDE.md設計指針・GitHub自動化ツールまとめ・Claudeスキル集）を材料に改善余地を検討する過程で、3件のHook/permissions強化を行った。
+    - `obsidian_vault/private/`の読み取りを`.claude/settings.json`の`permissions.deny`で拒否（`bb2df91`）。従来`.gitignore`によるコミット除外はあったが、Claude Codeによる読み取り自体を止める設定は無かった。
+    - `block-secret-write.sh`を追加（`0a7923a`）: Edit/Write/NotebookEditで書き込まれる内容にGoogle/Anthropic/GitHub/AWS/OpenAI形式のAPIキーらしきパターンを検知した場合にブロック。過去に`raw/`内の画像へGoogle APIキーが写り込みpush済みだった実インシデント（アーカイブ7参照）を踏まえた対応。
+    - `block-dangerous-git.sh`を追加: `git push --force`・`git reset --hard`・`git clean -f`系・`git checkout/restore .`・`git branch -D`を、対象パスを問わずリポジトリ全体でブロック。既存の`block-raw-bash.sh`は`obsidian_vault/raw/`を対象にした場合のみ破壊的コマンドをブロックする設計だったため、Git操作そのものを対象にした汎用的な保護を別Hookとして追加した。README.mdが既に案内していた「`git reset --hard`を使わず`git revert`で戻す」方針を機構的に裏付ける形になった。
+    - いずれもjqがWindows環境に無いため既存Hookと同様python3でJSON入出力する実装とし、実際のツール呼び出し（Write/Bash）でブロックされることを確認済み。`CLAUDE.md`4.1節・README.md「Hookによる保護」に一覧表を追記し、Hookで機構的に強制している範囲を文書化した。
 
 関連: [[session-handoff|セッション引き継ぎメモ]]、[[第二の脳の運用ナレッジ]]
