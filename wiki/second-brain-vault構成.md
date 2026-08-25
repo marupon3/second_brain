@@ -1,6 +1,6 @@
 ---
 title: second_brainのディレクトリ構成
-updated: 2026-08-22
+updated: 2026-08-25
 source:
   - obsidian_vault/raw/notes/Obsidian/2026-08-07 obsidian-second-brain構成.md
   - obsidian_vault/raw/notes/Obsidian/2026-08-09 Cloud CodeでObsidianのWikiを作成する.md
@@ -8,7 +8,7 @@ source:
 
 # second_brainのディレクトリ構成
 
-## フォルダ構成（2026-08-22時点）
+## フォルダ構成（2026-08-25時点）
 
 ```
 second_brain/
@@ -20,6 +20,7 @@ second_brain/
 │   │   └── block-secret-write.sh      # APIキー（Google/Anthropic/GitHub/AWS/OpenAI）パターン検知・ブロック
 │   ├── settings.json   # Hook登録・permissions設定
 │   └── skills/        # daily / ingest / lint / query / weekly
+├── docs/               # 要件定義書（requirements.md）・基本設計書（basic-design.md）
 ├── obsidian_vault/    # ObsidianアプリのVaultルート
 │   ├── .obsidian/
 │   ├── daily/
@@ -47,7 +48,7 @@ second_brain/
 
 ObsidianアプリのVaultルートは`obsidian_vault/`であり、リポジトリ直下ではない（`.obsidian/`が`obsidian_vault/`配下にのみ存在する）。そのため`wiki/`・`weekly/`はObsidianアプリからは見えず、wikilinkも解決されない。両フォルダはClaude Code CLI（Skills）が直接読み書きするAI運用専用ディレクトリという位置づけ。
 
-過去に存在した`docs/`・`obsidian_vault/areas/`・`obsidian_vault/resources/`は廃止済み（`projects/`は実体として作られたことがない）。
+`docs/`は要件定義書・基本設計書として2026-08-25に再導入した（旧`docs/operation-manual.md`は廃止済みで別物、詳細は[[session-archive|セッション作業アーカイブ]]参照）。過去に存在した`obsidian_vault/areas/`・`obsidian_vault/resources/`は廃止済み（`projects/`は実体として作られたことがない）。
 
 ## `/ingest`の処理フロー
 

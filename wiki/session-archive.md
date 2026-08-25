@@ -1,6 +1,6 @@
 ---
 title: セッション作業アーカイブ
-updated: 2026-08-22
+updated: 2026-08-25
 ---
 
 # セッション作業アーカイブ
@@ -49,5 +49,7 @@ updated: 2026-08-22
     - `block-secret-write.sh`を追加（`0a7923a`）: Edit/Write/NotebookEditで書き込まれる内容にGoogle/Anthropic/GitHub/AWS/OpenAI形式のAPIキーらしきパターンを検知した場合にブロック。過去に`raw/`内の画像へGoogle APIキーが写り込みpush済みだった実インシデント（アーカイブ7参照）を踏まえた対応。
     - `block-dangerous-git.sh`を追加: `git push --force`・`git reset --hard`・`git clean -f`系・`git checkout/restore .`・`git branch -D`を、対象パスを問わずリポジトリ全体でブロック。既存の`block-raw-bash.sh`は`obsidian_vault/raw/`を対象にした場合のみ破壊的コマンドをブロックする設計だったため、Git操作そのものを対象にした汎用的な保護を別Hookとして追加した。README.mdが既に案内していた「`git reset --hard`を使わず`git revert`で戻す」方針を機構的に裏付ける形になった。
     - いずれもjqがWindows環境に無いため既存Hookと同様python3でJSON入出力する実装とし、実際のツール呼び出し（Write/Bash）でブロックされることを確認済み。`CLAUDE.md`4.1節・README.md「Hookによる保護」に一覧表を追記し、Hookで機構的に強制している範囲を文書化した。
+
+25. **`docs/`の要件定義書・基本設計書を新規作成（2026-08-25、完了）**: `docs/requirements.md`（機能要件7項目・非機能要件5項目）・`docs/basic-design.md`（フォルダ責務設計・Skills処理フロー・記憶階層設計・Hookアーキテクチャ・設計判断の根拠）を作成した。既存のCLAUDE.md・README.md・各SKILL.md・`.claude/hooks/`の実装内容を一次情報として整理したもので、新たな仕様追加ではない。旧`docs/operation-manual.md`（2026-08-18廃止、実用部分は`README.md`へ統合済み）とは別物。`README.md`の「基本設計書は本リポジトリには同梱していない」という記述が実態と食い違っていたため訂正し、`README.md`・`CLAUDE.md`のディレクトリ一覧・[[second-brain-vault構成|second_brainのディレクトリ構成]]に`docs/`を追加した。
 
 関連: [[session-handoff|セッション引き継ぎメモ]]、[[第二の脳の運用ナレッジ]]

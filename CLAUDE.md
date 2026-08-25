@@ -27,6 +27,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 | `obsidian_vault/private/` | 人間のみ | パスワード等の非公開情報を含むローカル専用ノート。`.gitignore`で除外され、リモートには一切push・同期しない |
 | `obsidian_vault/templates/` | 人間+AI | Daily Note等の固定テンプレート |
 | `.claude/skills/` | - | カスタムSkills定義 |
+| `docs/` | 人間+AI | 要件定義書・基本設計書 |
 | `scripts/` | - | Python 3.11.9によるセットアップ・環境チェック用ユーティリティ |
 
 ## 3. 書き方ルール

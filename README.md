@@ -146,6 +146,7 @@ Skillsの実行履歴は`wiki/log.md`に追記される。スクリプトは標�
 ```
 second_brain/
 ├── CLAUDE.md              # AI運用マニュアル
+├── docs/                   # 要件定義書・基本設計書
 ├── obsidian_vault/        # ユーザーが新たに情報を追加するフォルダ
 │   ├── raw/                # 不変ソース（人間のみ編集）
 │   ├── daily/               # 日次ノート
@@ -160,4 +161,4 @@ second_brain/
 
 Obsidianアプリで開くVaultルートは`second_brain/`全体ではなく**`obsidian_vault/`**（`.obsidian/`設定フォルダは`obsidian_vault/.obsidian/`にのみ存在）。`wiki/`・`weekly/`はリポジトリ直下にあり`obsidian_vault/`の外＝Vault外のため、Obsidianアプリからは見えずwikilinkも解決されない。両フォルダはClaude Code CLI（Skills）が直接読み書きするAI運用専用ディレクトリであり、Obsidianアプリでの閲覧は想定しない。
 
-詳細なディレクトリ設計・Skills仕様は本Vaultの設計元となった基本設計書を参照（本リポジトリには同梱していない）。
+詳細なディレクトリ設計・Skills仕様は[`docs/requirements.md`](docs/requirements.md)（要件定義書）・[`docs/basic-design.md`](docs/basic-design.md)（基本設計書）を参照。

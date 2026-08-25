@@ -1,6 +1,6 @@
 ---
 title: Log
-updated: 2026-08-21
+updated: 2026-08-25
 ---
 
 # Log
@@ -240,4 +240,5 @@ updated: 2026-08-21
   - **対象・生成/追記（真に新規、7件）**: `notes/claude Code/2026-08-20-25-Hidden Claude Features Most People Completely Miss.md`（Claude全般の隠れた25機能）→[[Claude_Code徹底ガイド]]に新節。`notes/claude Code/2026-08-20-Loop Engineering vs Graph Engineering_...md`（ループ＝実行継続の制御／グラフ＝実行経路の制御という責任分離の整理）・`notes/claude Code/2026-08-21-LOOP + GRAPH + CONTEXT ENGINEERING.md`（300エージェント規模のスワーム運用を例にしたContext Engineering層の追加、暴走防止ガード・グラフのスキーマ設計原則）→[[グラフエンジニアリング]]に新節2つ。`notes/claude Code/2026-08-20-エージェントメモリの正しい分割法...md`（Working/Long Term Memoryのチートシート、[[working_memory.jpg]]参照）・`notes/AI/2026-08-21-Agent Memory.md`（メモリレス推論の課題・メモリ種別の分類・E2Eアーキテクチャ・Mem0/OpenClaw等のOSS動向・実験例、スクリーンショット5枚参照）→[[エージェントメモリ設計]]を新規作成。`notes/claude Code/2026-08-21-Scond brain Compiler.md`（Karpathyの「LLM Wiki」を保存型/コンパイル型の対比で再整理、運用プロンプト4種・時間経過での効果・正直な限界）→[[セカンドブレインはストレージではなくコンパイラ]]を新規作成。`notes/AI/2026-08-21-Xからテキスト抽出するプロンプト.md`→[[生成AIプロンプト集]]に新節。
   - `notes/claude Code/2026-08-18-次のセッションへの橋渡し.md`は空行1つの追加のみ（実質的な内容変更なし）のためページ化なし。
   - `wiki/index.md`に[[エージェントメモリ設計]]・[[セカンドブレインはストレージではなくコンパイラ]]へのリンクを追加した。
+- 2026-08-25: `docs/`を要件定義書・基本設計書として再導入。`docs/requirements.md`（機能・非機能要件）・`docs/basic-design.md`（フォルダ責務・Skills処理フロー・Hookアーキテクチャ・記憶階層設計）を新規作成した。旧`docs/operation-manual.md`（2026-08-18に廃止、実用部分は`README.md`へ統合済み）とは別物であり再現ではない。`README.md`の「本リポジトリには同梱していない」という記述を実態に合わせて更新し、`README.md`・`CLAUDE.md`のディレクトリ一覧・[[second-brain-vault構成|second_brainのディレクトリ構成]]に`docs/`を追加した。
 
