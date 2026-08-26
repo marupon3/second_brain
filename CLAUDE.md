@@ -65,7 +65,7 @@ Hookは検知パターンに一致した場合のみブロックする安全機�
 
 - `/ingest` : `obsidian_vault/raw/`の新規ファイルを読み、`wiki/`に構造化ページを生成する
 - `/daily` : 今日のDaily Noteを生成・更新する
-- `/weekly` : 週次のWeekly Reviewを`weekly/`に生成・更新する
+- `/weekly` : 週次のWeekly Reviewを`weekly/`に生成・更新する（実行日を含む週から遡って直近N週分をバックフィル対象とし、未実行だった週も含めて生成する）
 - `/lint` : リンク切れ・矛盾・孤立ページ・陳腐化した記述を検出し報告する
 - `/query` : Vault全体を対象に質問応答する
 
