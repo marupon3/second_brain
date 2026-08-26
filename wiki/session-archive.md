@@ -58,4 +58,10 @@ updated: 2026-08-26
     - 既存`weekly/`ファイルとの衝突はoverwrite/skipをユーザーに都度確認する方式を採用（存在しない週は確認不要）。追記（append）方式は、`weekly-review.md`テンプレートが4セクション固定の単一文書であり同一セクション見出しが繰り返される構造になるため不採用と判断した。
     - `.claude/skills/weekly/SKILL.md`を全面改訂し、`CLAUDE.md`5節・`docs/requirements.md`4.4節・`docs/basic-design.md`3.3節に反映した。
 
+27. **Hookが導入以来Windows環境で一度も機能していなかった不具合を発見・修正（2026-08-26、完了）**: ローカルPCで`/ingest`実行時のログを確認したところ、`.claude/hooks/`配下の全4Hookが毎回`python3: command not found`で失敗していたことが判明した。原因は全Hookスクリプトが`python3`をハードコードしており、Windows環境（git-bash）には`python3`という名前のコマンドが存在しない（`python`のみ）ため。README.mdの障害パターン表には既にこの一般的な症状が記載されていたが、Hook本体側の対応が漏れていた。
+    - Claude CodeのPreToolUse Hookは、Hookスクリプト自体がエラー終了した場合「non-blocking」（ブロックせず操作を通す）として扱う仕様のため、**2026-08-22のHook導入以降、ローカルのWindows環境では`raw/`編集禁止・秘密情報検知・危険Gitコマンドブロックのいずれも一度も実効性を持っていなかった**。今回確認したログの範囲では実害（誤った`raw/`編集・秘密情報の書き込み）は見当たらなかったが、保護が無効化されたまま気づかれていなかったこと自体が重大なインシデントである。
+    - 全4Hook（`block-raw-edit.sh` `block-secret-write.sh` `block-raw-bash.sh` `block-dangerous-git.sh`）に、`python3`が見つからない場合は`python`にフォールバックする処理を追加した。修正後、Linux環境（python3あり）と、PATHを操作して`python3`を完全に見えなくしたシミュレーション環境（pythonのみ）の両方で、4Hookすべてが意図通りブロック動作することをテストで確認した。
+    - `README.md`「Hookによる保護」に、フォールバック仕様と「Hookエラー時はnon-blockingで保護も機能しない」旨の注意書きを追記した。
+    - **教訓**: Hookのような機構的強制の仕組みは、実装しただけでは不十分で、対象環境（今回はWindows）で実際に動作確認するまでは「機能している」と判断してはならない。今後Hookを追加・変更した際は、可能な限り対象環境に近い条件（コマンド名の有無等）でのテストを行う。
+
 関連: [[session-handoff|セッション引き継ぎメモ]]、[[第二の脳の運用ナレッジ]]

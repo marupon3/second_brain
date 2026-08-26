@@ -6,9 +6,19 @@
 set -euo pipefail
 
 input=$(cat)
-# jqはWindows環境に標準で入っていないため、CLAUDE.md 1節で前提としているpython3で
-# JSON入出力を行う（python3必須なのは他のフック・scripts/配下の各スクリプトと同じ）。
-printf '%s' "$input" | python3 -c "
+# jqはWindows環境に標準で入っていないため、CLAUDE.md 1節で前提としているPythonで
+# JSON入出力を行う。Windows環境では`python3`という名前のコマンドが無いことが多く
+# `python`のみ存在するため、両方を試して見つかった方を使う（見つからなければHookは
+# 機能しないが、Hook自体のエラーで正規の操作まで止めないよう安全側に倒す）。
+if command -v python3 >/dev/null 2>&1; then
+  PY=python3
+elif command -v python >/dev/null 2>&1; then
+  PY=python
+else
+  exit 0
+fi
+
+printf '%s' "$input" | "$PY" -c "
 import json
 import re
 import sys

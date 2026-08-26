@@ -260,4 +260,8 @@ updated: 2026-08-26
   - `.claude/skills/weekly/SKILL.md`の手順1を「実行日を含む週を基準に直近N週」から「実行日を含む週（今週）を除外し、その1つ前の完了週を起点に直近N週」に修正。実行日の曜日に関わらず今週は常に対象週リストに含めない。
   - 理由: 週の途中で要約すると、後日その週の残り日数分のデータが追加された際に内容が古くなり、不完全な内容が「完成した週次レビュー」として残ってしまうため。
   - `docs/requirements.md`4.4節・`docs/basic-design.md`3.3節に反映。
+- 2026-08-26: **重大な不具合を発見・修正**。ローカルPCで`/ingest`を実行した際のログを確認したところ、`.claude/hooks/`配下の全4Hookが`PreToolUse:Bash hook error ... python3: command not found`で毎回失敗していた。原因は全Hookが`python3`をハードコードしていたこと。README.mdの障害パターン表に既に「このWindows環境のgit-bashにはpython3という名前のコマンドが無い」と記載されていたにもかかわらず、Hook本体は対応していなかった。
+  - Claude CodeのPreToolUse Hookはスクリプト実行エラー時「non-blocking」（ブロックせず素通し）として扱われるため、**Hook導入（2026-08-22）以降、ローカルのWindows環境ではraw/編集禁止・秘密情報検知・危険Gitコマンドブロックのいずれも一度も機能していなかった**ことが判明した。実害（raw/の誤編集や秘密情報の書き込み）は今回のログ上では確認されなかったが、保護が無効化された状態が続いていたこと自体が重大。
+  - 全4Hook（`block-raw-edit.sh` `block-secret-write.sh` `block-raw-bash.sh` `block-dangerous-git.sh`）を修正し、`python3`が無い場合は`python`にフォールバックする処理を追加した。修正後、Linux環境（python3あり）と`python3`を完全に隠したシミュレーション環境（pythonのみ）の両方で、4Hookすべてが意図通りブロック動作することを確認した。
+  - `README.md`「Hookによる保護」に、フォールバック仕様と「Hookエラー時はnon-blockingで保護も機能しない」という注意書きを追記した。
 

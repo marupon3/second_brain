@@ -7,9 +7,19 @@
 set -euo pipefail
 
 input=$(cat)
-# jqはWindows環境に標準で入っていないため、CLAUDE.md 1節で前提としているpython3で
-# JSON入出力を行う（python3必須なのは下のshlex処理・scripts/配下の各スクリプトと同じ）。
-command=$(printf '%s' "$input" | python3 -c "
+# jqはWindows環境に標準で入っていないため、CLAUDE.md 1節で前提としているPythonで
+# JSON入出力を行う。Windows環境では`python3`という名前のコマンドが無いことが多く
+# `python`のみ存在するため、両方を試して見つかった方を使う（見つからなければHookは
+# 機能しないが、Hook自体のエラーで正規の操作まで止めないよう安全側に倒す）。
+if command -v python3 >/dev/null 2>&1; then
+  PY=python3
+elif command -v python >/dev/null 2>&1; then
+  PY=python
+else
+  exit 0
+fi
+
+command=$(printf '%s' "$input" | "$PY" -c "
 import json, sys
 try:
     data = json.load(sys.stdin)
@@ -23,7 +33,7 @@ if [[ -z "$command" ]]; then
   exit 0
 fi
 
-blocked=$(python3 - "$command" <<'PYEOF'
+blocked=$("$PY" - "$command" <<'PYEOF'
 import shlex
 import sys
 
@@ -81,7 +91,7 @@ PYEOF
 )
 
 if [[ "$blocked" == "blocked" ]]; then
-  python3 -c "
+  "$PY" -c "
 import json
 reason = 'CLAUDE.mdの禁止事項により、obsidian_vault/raw/配下のファイルはAIが編集・削除できません（不変の原文ソースのため人間のみが書き込みます）。内容を反映したい場合は、/ingestでwiki/へ要約するか、変更が必要な理由をユーザーに確認してください。'
 print(json.dumps({'hookSpecificOutput': {'hookEventName': 'PreToolUse', 'permissionDecision': 'deny', 'permissionDecisionReason': reason}}, ensure_ascii=False))
