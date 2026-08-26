@@ -281,4 +281,7 @@ updated: 2026-08-26
   - Claude CodeのPreToolUse Hookはスクリプト実行エラー時「non-blocking」（ブロックせず素通し）として扱われるため、**Hook導入（2026-08-22）以降、ローカルのWindows環境ではraw/編集禁止・秘密情報検知・危険Gitコマンドブロックのいずれも一度も機能していなかった**ことが判明した。実害（raw/の誤編集や秘密情報の書き込み）は今回のログ上では確認されなかったが、保護が無効化された状態が続いていたこと自体が重大。
   - 全4Hook（`block-raw-edit.sh` `block-secret-write.sh` `block-raw-bash.sh` `block-dangerous-git.sh`）を修正し、`python3`が無い場合は`python`にフォールバックする処理を追加した。修正後、Linux環境（python3あり）と`python3`を完全に隠したシミュレーション環境（pythonのみ）の両方で、4Hookすべてが意図通りブロック動作することを確認した。
   - `README.md`「Hookによる保護」に、フォールバック仕様と「Hookエラー時はnon-blockingで保護も機能しない」という注意書きを追記した。
+- 2026-08-26: `obsidian_vault/templates/daily-note.md`の不整合を修正。ユーザーから「`/daily`実行時の挙動」を聞かれた際に発覚した問題で、`.claude/skills/daily/SKILL.md`の手順4〜6は「## 人間メモ」「## AI生成」「## タスク」の3セクション存在を前提にしているが、実際のテンプレートには「見出し」「見出し2」「見出し3」という汎用プレースホルダしか無く、Templater想定の`<% tp.date.now(...) %>`構文が混在していた（Obsidian一般用テンプレートの流用と推測、`/daily`専用に作られたものではなかった）。
+  - Git履歴に残っていた過去の実例（`obsidian_vault/daily/2026-08-06.md`、コミット`2346387`時点）を発掘し、実際に`/daily`が正しく動作していた頃のfrontmatter・見出し構成を確認した上でテンプレートを再構成した。
+  - 新テンプレートは`title: {{date}}` `updated: {{date}}`のfrontmatterと、「# {{date}}」「## 人間メモ」「## AI生成」「## タスク」の見出し構成。プレースホルダ記法は他テンプレート（`weekly-review.md`）と統一した。
 
