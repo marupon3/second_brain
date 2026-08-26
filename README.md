@@ -114,7 +114,9 @@ copy .env.example .env
 | `block-secret-write.sh` | APIキーらしき文字列（Google/Anthropic/GitHub/AWS/OpenAI形式）の書き込み |
 | `block-dangerous-git.sh` | `git push --force`・`git reset --hard`・`git clean -f`系・`git checkout/restore .`・`git branch -D` |
 
-いずれもWindows環境に`jq`が無いことを前提に、Python 3（前提環境参照）でJSON入出力を行う実装になっている。`obsidian_vault/private/**`の読み取り拒否は`.claude/settings.json`の`permissions.deny`で別途設定している。
+いずれもWindows環境に`jq`が無いことを前提に、Python（前提環境参照）でJSON入出力を行う実装になっている。実行コマンド名は`python3`を優先し、無ければ`python`にフォールバックする（Windows環境では`python3`という名前のコマンドが存在しないことが多いため）。`obsidian_vault/private/**`の読み取り拒否は`.claude/settings.json`の`permissions.deny`で別途設定している。
+
+**注意**: Hookスクリプト自体がエラーで終了した場合、Claude CodeのPreToolUse Hookは「non-blocking」（ブロックせず素通し）として扱う。つまりHookが動かないこと自体は正規の操作を止めないが、同時に保護も機能しない。`python3`/`python`のどちらも見つからない環境では全Hookが無効化されるため、`check_env.py`でPythonの導入を確認しておくこと。
 
 ### バックアップとリストア
 
