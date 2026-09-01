@@ -16,7 +16,7 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 2. フォルダ構造
 
-`obsidian_vault/` は、ユーザーが新たに情報を追加するフォルダ（raw/daily/templates）をまとめた配下ディレクトリであり、**ObsidianアプリのVaultルートそのもの**（`.obsidian/`設定フォルダは`obsidian_vault/.obsidian/`にのみ存在する）。`wiki/`・`weekly/`はリポジトリ直下にあり`obsidian_vault/`の外＝Vault外のため、Obsidianアプリ上では見えず、wikilinkも解決されない。両フォルダはClaude Code CLI（Skills）が直接読み書きする、AI運用専用のディレクトリという位置づけ。
+`obsidian_vault/`が**ObsidianアプリのVaultルート**。`wiki/`・`weekly/`はVault外に置くAI運用専用ディレクトリで、Obsidianアプリからは見えずwikilinkも解決されない。根拠・経緯は`docs/basic-design.md`1節を参照。
 
 | フォルダ | 管理者 | 役割 |
 |---|---|---|
@@ -39,25 +39,15 @@ Claude Codeがこのリポジトリで作業する際に、セッション開始
 
 ## 4. 禁止事項
 
-- **`obsidian_vault/raw/`配下のファイルはAIが編集・削除してはならない**（Hookで機構的に強制済み）。`obsidian_vault/raw/`は人間のみが書き込む不変ソースである。
-- 破壊的操作（ファイルの削除・大規模な書き換え・force push・`git reset --hard`等）は、実行前に必ずユーザーに確認を取ること。無断で実行しない（一部はHookで機構的に強制済み。4.1節参照）。
-- APIキー等の秘密情報をMarkdownファイルやコード中に直接書き込まない（`.env`または環境変数を使うこと。Hookで機構的に強制済み）。
-- `obsidian_vault/private/`配下の内容を`wiki/`等のコミット対象ファイルに転記・引用しない（パスワード等の非公開情報が漏洩するため。読み取り自体もHookで拒否済み）。
-- `/lint`が検出した問題を無断で自動修正しない（検出・報告のみとする方針。誤修正リスクを避けるため）。
+- **`obsidian_vault/raw/`配下のファイルはAIが編集・削除してはならない**（Hook強制）。`raw/`は人間のみが書き込む不変ソースである。
+- 破壊的操作（ファイルの削除・大規模な書き換え・force push・`git reset --hard`等）は、実行前に必ずユーザーに確認を取ること（一部はHook強制。4.1節参照）。
+- APIキー等の秘密情報をMarkdownファイルやコード中に直接書き込まない（`.env`または環境変数を使う。Hook強制）。
+- `obsidian_vault/private/`配下の内容を`wiki/`等のコミット対象ファイルに転記・引用しない（読み取り自体もHook拒否）。
+- `/lint`が検出した問題を無断で自動修正しない（検出・報告のみ。誤修正リスクを避けるため）。
 
 ### 4.1 Hookによる機構的強制
 
-上記の一部は「お願い」ではなく`.claude/settings.json`のHook（`.claude/hooks/`）で機構的に強制している。ガイダンスとして書くだけでは100%守られる保証がないため、取り返しのつかない事故につながる操作はHookでブロックする方針。
-
-| Hook | 対象イベント | ブロックする内容 |
-|---|---|---|
-| `block-raw-edit.sh` | Edit/Write/NotebookEdit | `obsidian_vault/raw/`配下への書き込み |
-| `block-raw-bash.sh` | Bash | `obsidian_vault/raw/`配下を対象にした`rm`/`mv`/`sed -i`等の破壊的コマンド |
-| `block-secret-write.sh` | Edit/Write/NotebookEdit | Google/Anthropic/GitHub/AWS/OpenAI形式のAPIキーらしき文字列の書き込み |
-| `block-dangerous-git.sh` | Bash | `git push --force`・`git reset --hard`・`git clean -f`系・`git checkout/restore .`・`git branch -D`（パス問わずリポジトリ全体が対象） |
-| （`permissions.deny`） | Read | `obsidian_vault/private/**`の読み取り |
-
-Hookは検知パターンに一致した場合のみブロックする安全機構であり、正規の操作まで妨げない設計を優先している（誤検知の可能性はゼロではない。ブロックされた場合はユーザーに確認するか、代替手段を検討する）。
+上記のうち`raw/`編集・秘密情報書き込み・破壊的Gitコマンド・`private/`読み取りの4項目は、ガイダンスだけでは100%守られる保証がないため`.claude/hooks/`（`block-raw-edit.sh` `block-raw-bash.sh` `block-secret-write.sh` `block-dangerous-git.sh`）と`permissions.deny`で機構的にブロックされている。検知パターン一致時のみ働く安全機構のため、正規の操作がブロックされた場合はユーザーに確認するか代替手段を検討する。対象イベント・検証ロジックの詳細は`docs/basic-design.md`5節を参照。
 
 ## 5. 優先するSkills
 
@@ -102,16 +92,9 @@ Vaultは書き足すだけでは信頼できなくなる。「取り消せるこ
 
 ### 6.2 削除の手順
 
-削除は「いつか消える」ではなく明示的な操作として扱う。**実行前に必ずユーザーの承認を得る**（4節の破壊的操作の確認ルール）。
+削除は「いつか消える」ではなく明示的な操作として扱う。**実行前に必ずユーザーの承認を得る**（4節）。手順: 対象特定（`git grep`等。重複記載に注意）→ 派生記述（要約・関連ページの言及）の洗い出し → ユーザー承認 → 削除実行（取り消し線等で痕跡を残さない。履歴はGitコミットで辿る）→ 必要なら経緯を`session-archive.md`または`log.md`に記録 → `index.md`からのリンク除去と`log.md`記録。経緯記録が必要な条件は`docs/requirements.md`4.8節を参照。
 
-1. 対象の事実がどのページに書かれているかを`git grep`等で洗い出す。同じ事実が複数ページに重複している場合があるため、1箇所直して終わりにしない。
-2. その事実から派生した記述（要約・結論・関連ページからの言及）も併せて洗い出す。**土台が消えたのに派生物だけ残さない。**
-3. 削除内容と影響範囲をユーザーに提示し、承認を得る。
-4. 削除する。取り消し線や「かつては〜だった」という形で本文に残さない（履歴はGitコミットで辿れる）。
-5. 経緯を残す必要がある場合に限り、`wiki/session-archive.md`または`wiki/log.md`に「いつ・何を・なぜ削除したか」を記録する。
-6. `wiki/index.md`からリンクを削除し、`wiki/log.md`に記録する（3節のルール）。
-
-非公開情報が混入していた場合は、削除ではなく`obsidian_vault/private/`への退避を検討する（`.gitignore`済みでリモートに同期されない）。ただし**既にコミット済みの内容は現在のツリーから消してもGit履歴に残る**ため、秘密情報であればユーザーに履歴の書き換えの要否を確認する。
+非公開情報が混入していた場合は、削除ではなく`obsidian_vault/private/`への退避を検討する（`.gitignore`済みでリモート非同期）。既にコミット済みの内容は削除してもGit履歴に残るため、秘密情報であれば履歴書き換えの要否をユーザーに確認する。
 
 ### 6.3 陳腐化への対処
 
