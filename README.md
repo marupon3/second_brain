@@ -116,7 +116,7 @@ copy .env.example .env
 
 いずれもWindows環境に`jq`が無いことを前提に、Python（前提環境参照）でJSON入出力を行う実装になっている。実行コマンド名は`python3`を優先し、無ければ`python`にフォールバックする（Windows環境では`python3`という名前のコマンドが存在しないことが多いため）。`obsidian_vault/private/**`の読み取り拒否は`.claude/settings.json`の`permissions.deny`で別途設定している。
 
-**注意**: Hookスクリプト自体がエラーで終了した場合、Claude CodeのPreToolUse Hookは「non-blocking」（ブロックせず素通し）として扱う。つまりHookが動かないこと自体は正規の操作を止めないが、同時に保護も機能しない。`python3`/`python`のどちらも見つからない環境では全Hookが無効化されるため、`check_env.py`でPythonの導入を確認しておくこと。
+**注意**: Hookスクリプト自体がエラーで終了した場合、Claude CodeのPreToolUse Hookは「non-blocking」（ブロックせず素通し）として扱う。つまりHookが動かないこと自体は正規の操作を止めないが、同時に保護も機能しない。`python3`/`python`のどちらも見つからない環境では全Hookが無効化されるため、`check_env.py`でPythonの導入を確認しておくこと。環境移行後などにHookが実際に機能しているか不安な場合は`python scripts/verify_hooks.py`で確認できる（パターンマッチの正しさではなく、Hookという仕組みが発火するかどうかのヘルスチェック）。
 
 ### バックアップとリストア
 
@@ -136,6 +136,7 @@ copy .env.example .env
 | `/lint`がリンク切れ・矛盾を検出した | 自動修正は行わない設計のため、手動で修正するか、Claude Codeに個別に修正を指示する |
 | Skillsの応答が目安より大幅に遅い | `wiki/`のページ数を確認する。インデックスを持たずファイルシステムを直接走査する設計のため、ページ数の増加がそのまま処理時間に効く |
 | Claude Codeが実行したコマンドで`python3: command not found`（終了コード127） | このWindows環境のgit-bashには`python3`という名前のコマンドが無い。`python`または仮想環境の`venv\Scripts\python`を使う |
+| Hookが本当に機能しているか不安（環境移行後・Python更新後等） | `python scripts/verify_hooks.py`を実行する。全項目`[OK]`なら機構は正常。`[NG]`が出た場合はpython3/pythonがPATHに存在するか確認する |
 
 処理時間の目安は、`/ingest`が1件あたり30〜90秒、`/query`が10〜30秒、`/lint`が数百ページ規模で1〜3分、`/daily`が10秒以内。
 

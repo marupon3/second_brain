@@ -210,7 +210,7 @@ Hookは検知パターン一致時のみブロックする設計とし、誤検�
 
 ### 7.1 `scripts/`の位置づけ
 
-`scripts/`配下（`check_env.py` `setup.py` `migrate_vault.py` `convert_onenote_note.py` `cli_common.py`）は、**セットアップ・移行時に人間が直接`python scripts/<ファイル名>.py`で実行する内部ユーティリティ**であり、サブコマンド体系・`--help`・統一された終了コード規約を持つ汎用CLIツールとしては設計していない。
+`scripts/`配下（`check_env.py` `setup.py` `migrate_vault.py` `convert_onenote_note.py` `verify_hooks.py` `cli_common.py`）は、**セットアップ・移行時に人間が直接`python scripts/<ファイル名>.py`で実行する内部ユーティリティ**であり、サブコマンド体系・`--help`・統一された終了コード規約を持つ汎用CLIツールとしては設計していない。`verify_hooks.py`はHookの動作確認（5.1節・requirements.md 6節）専用で、環境移行時等に随時実行する。
 
 - 各スクリプトは単一目的（環境チェック／構造生成／Vault移行等）に特化し、それぞれが個別のエントリポイントを持つ（`argparse`によるサブコマンド分岐は行わない）。
 - 引数仕様はスクリプトごとに異なり、`setup.py`のように対象パスを位置引数で受け取るもの、`check_env.py`のように無引数で実行するものが混在する。各スクリプトの引数はdocstring・README.mdの利用例を正とする。
