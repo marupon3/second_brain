@@ -88,8 +88,34 @@ copy .env.example .env
 - `/ingest` : `obsidian_vault/raw/`の新規ファイルを`wiki/`に構造化
 - `/daily` : Daily Noteを生成・更新
 - `/weekly` : Weekly Reviewを生成・更新
-- `/lint` : リンク切れ・矛盾・孤立ページを検出（自動修正は行わない）
+- `/lint` : リンク切れ・矛盾・孤立ページ・規約違反を検出（自動修正は行わない）
 - `/query` : Vault全体を対象に質問応答
+- `/dream` : `/lint`が記録した違反から、規約への昇格を提案する（適用には承認が必要）
+
+## 学習ループ
+
+`/lint`が検出した違反を`/dream`が規約へ昇格し、次回以降の`/ingest`がその規約を守った状態から
+始まる、という1本のループを持つ。規約は`memory/conventions.md`に置かれ、生成系のSkillが
+実行のたびに読む。
+
+```
+/ingest /daily /weekly  ->  /lint  ->  /dream  ->  人間が承認  ->  次回の生成が賢くなる
+```
+
+合否判定の経路にLLMを置かないため、違反の検出と再発回数の集計は決定的なスクリプトが担当する。
+
+```
+python scripts/lint_vault.py              # 規約違反を検出（検出のみ・修正しない）
+python scripts/lint_vault.py --record     # 検出 + memory/violations.jsonl へ記録
+python scripts/dream_memory.py            # 違反の再発回数を集計（読み取り専用）
+python scripts/dream_memory.py --archive  # 規約へ昇格し終えた記録を退避する
+```
+
+これらの判定ロジック本体（`find_wiki_issues.py` `check_index_coverage.py`
+`check_frontmatter.py` `check_skill_manifest.py` `summarize_violations.py`）は、
+[GrowLoop](https://github.com/marupon3/GrowLoop)でテスト駆動生成・検証された純粋関数であり、
+**手で編集しない**。仕様を変えたい場合はGrowLoop側のタスク定義を直して再生成する
+（詳細はGrowLoopの`integrations/second_brain/README.md`）。
 
 ## ディレクトリ構成の要点
 
@@ -104,7 +130,8 @@ second_brain/
 ├── weekly/                  # 週次レビュー
 ├── templates/                # 固定テンプレート
 ├── .claude/skills/            # カスタムSkills定義
-└── scripts/                    # 環境チェック・セットアップ用スクリプト
+├── memory/                     # Skillsが実行のたびに読む規約と学習履歴
+└── scripts/                    # 環境チェック・セットアップ・Vault検査用スクリプト
 ```
 
 Obsidianはこの`second_brain/`フォルダ全体を1つのVaultとして開く。`obsidian_vault/`はその中で「人間が書き込む対象」を一段まとめたサブフォルダという位置づけ。

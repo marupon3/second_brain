@@ -16,10 +16,17 @@ description: 週次のWeekly Reviewをweekly/に生成・更新する。直近7�
 ## Input
 
 - `obsidian_vault/daily/` 配下の直近7日分のノート
+- `memory/conventions.md` `memory/lessons.md`（生成物が守るべき規約。「メモリ」節を参照）
 
 ## Output
 
 - `weekly/YYYY-Www.md`（例: `weekly/2026-W32.md`、ISO週番号）
+
+## メモリ
+
+手順に入る前に、必ず`memory/conventions.md`と`memory/lessons.md`を読む。ここに書かれた
+規約は、生成物が満たすべき機械的に検証できる条件を定めたもので、守られているかどうかは
+`/lint`（`scripts/lint_vault.py`）が決定的に判定する。
 
 ## 手順
 
@@ -33,6 +40,10 @@ description: 週次のWeekly Reviewをweekly/に生成・更新する。直近7�
 
 - `obsidian_vault/daily/`配下のノートを編集しない（読み取りのみ）。
 - `obsidian_vault/raw/`配下のファイルを編集しない。
+- `memory/conventions.md`の規約に反するページを生成しない。特に`title`と`updated`を含む
+  frontmatter（`FRONTMATTER_MISSING_KEY` `FRONTMATTER_BAD_DATE`）と、実在ページへの
+  wikilink（`BROKEN_LINK`）を必ず満たす。
+- `memory/`配下のファイルをこのSkillから書き換えない（規約の更新は`/dream`と人間の承認を経る）。
 - スケジュール実行は行わない。手動コマンド実行のみをトリガーとする（`docs/requirements.md` 6節Q2）。
 - 出力は日本語で書く。
 - ファイル入出力時はエンコーディングを UTF-8 で明示する。

@@ -17,12 +17,23 @@ description: obsidian_vault/raw/の新規ファイル（記事・メモ・PDF等
 ## Input
 
 - `obsidian_vault/raw/articles/` `obsidian_vault/raw/notes/` `obsidian_vault/raw/pdfs/` `obsidian_vault/raw/personal/` 配下の未処理ファイル
+- `memory/conventions.md` `memory/lessons.md`（生成物が守るべき規約。「メモリ」節を参照）
 
 ## Output
 
 - `wiki/` 配下の新規ページ、または既存ページの更新
 - `wiki/index.md`（生成・更新したページへのリンク追記）
 - `wiki/log.md`（実行結果の記録）
+
+## メモリ
+
+手順に入る前に、必ず`memory/conventions.md`と`memory/lessons.md`を読む。ここに書かれた
+規約は`CLAUDE.md`の運用方針とは別に、**生成物が満たすべき機械的に検証できる条件**を
+定めたもので、守られているかどうかは`/lint`（`scripts/lint_vault.py`）が決定的に判定する。
+
+規約は仕様やテンプレートには書かれていないことがある。「どこにも書かれていないから
+不要」と判断せず、`memory/conventions.md`に載っていれば従うこと。違反すると`/lint`が
+違反コード付きで検出し、再発を繰り返せば`/dream`が規約として再提示することになる。
 
 ## 手順
 
@@ -37,6 +48,11 @@ description: obsidian_vault/raw/の新規ファイル（記事・メモ・PDF等
 ## 制約
 
 - `obsidian_vault/raw/`配下のファイルは読み取りのみとし、一切編集・削除しない（`docs/requirements.md` F-03、`CLAUDE.md`禁止事項）。
+- `memory/conventions.md`の規約に反するページを生成しない。特に`wiki/`へページを作った
+  場合は、`wiki/index.md`への追記（`INDEX_MISSING`）、`title`と`updated`を含む
+  frontmatter（`FRONTMATTER_MISSING_KEY` `FRONTMATTER_BAD_DATE`）、実在ページへの
+  wikilink（`BROKEN_LINK`）を必ず満たす。
+- `memory/`配下のファイルをこのSkillから書き換えない（規約の更新は`/dream`と人間の承認を経る）。
 - PDFの画像・図表本体をwiki側に保持する機能は今回のスコープに含めない（将来拡張）。
 - 千ページ超の大規模Vaultでは処理対象を絞ることを検討する（性能目安: 1件あたり30〜90秒、`docs/requirements.md` 6節Q4）。
 - 出力は日本語で書く。

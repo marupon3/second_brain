@@ -17,10 +17,18 @@ description: 今日のDaily Noteをobsidian_vault/daily/に生成・更新する
 
 - `obsidian_vault/daily/` 配下の当日ノート（存在する場合）
 - `templates/daily-note.md`（新規作成時のテンプレート）
+- `memory/conventions.md` `memory/lessons.md`（生成物が守るべき規約。「メモリ」節を参照）
 
 ## Output
 
 - `obsidian_vault/daily/YYYY-MM-DD.md`
+
+## メモリ
+
+手順に入る前に、必ず`memory/conventions.md`と`memory/lessons.md`を読む。ここに書かれた
+規約は、生成物が満たすべき機械的に検証できる条件を定めたもので、守られているかどうかは
+`/lint`（`scripts/lint_vault.py`）が決定的に判定する。テンプレートに書かれていなくても、
+`memory/conventions.md`に載っていれば従うこと。
 
 ## 手順
 
@@ -35,6 +43,10 @@ description: 今日のDaily Noteをobsidian_vault/daily/に生成・更新する
 
 - 「## 人間メモ」セクションを上書き・削除しない。
 - `obsidian_vault/raw/`配下のファイルを編集しない。
+- `memory/conventions.md`の規約に反するノートを生成しない。特に`title`と`updated`を含む
+  frontmatter（`FRONTMATTER_MISSING_KEY` `FRONTMATTER_BAD_DATE`）と、実在ページへの
+  wikilink（`BROKEN_LINK`）を必ず満たす。
+- `memory/`配下のファイルをこのSkillから書き換えない（規約の更新は`/dream`と人間の承認を経る）。
 - 出力は日本語で書く。
 - ファイル入出力時はエンコーディングを UTF-8 で明示する。
 - コンソール出力以外で絵文字を使わない。

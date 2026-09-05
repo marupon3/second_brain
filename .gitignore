@@ -16,6 +16,12 @@ obsidian_vault/private/
 .obsidian/workspace*
 .obsidian/cache
 
+# 学習ループの実行時生成物（再生成可能なため除外する。
+# 学習の結果そのものである memory/conventions.md・lessons.md・index.md は版管理する）
+memory/violations.jsonl
+memory/violations-consumed.jsonl
+memory/proposals/
+
 # OS
 Thumbs.db
 .DS_Store
